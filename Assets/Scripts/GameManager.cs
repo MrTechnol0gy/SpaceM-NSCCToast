@@ -11,18 +11,15 @@ public class GameManager : MonoBehaviour
 
 
     public Component gameTimer;
-    public GameObject player;
+    public static Player player;
+    public static Component uiManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        gameTimer = GetComponent<GameTimer>();
+        player = Player.get;
+        gameTimer = GameTimer.get; // practice using statics and gets instead of using references
+        uiManager = UIManager.get;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -4,6 +4,7 @@ using System.Collections;
 [System.Serializable]
 public class PlayerFlightControl : MonoBehaviour
 {
+	public static PlayerFlightControl get;
 
 	//"Objects", "For the main ship Game Object and weapons"));
 	public GameObject actual_model; //"Ship GameObject", "Point this to the Game Object that actually contains the mesh for the ship. Generally, this is the first child of the empty container object this controller is placed in."
@@ -50,7 +51,10 @@ public class PlayerFlightControl : MonoBehaviour
 	bool roll_exists = true;
 	
 	//---------------------------------------------------------------------------------
-	
+	void Awake()
+	{
+		get = this;
+	}
 	void Start() {
 	
 		mousePos = new Vector2(0,0);	
