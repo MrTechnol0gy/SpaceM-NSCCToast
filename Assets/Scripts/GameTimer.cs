@@ -4,16 +4,24 @@ using UnityEngine;
 
 public class GameTimer : MonoBehaviour
 {
-    public int GameTime;
+    [Header("GameTime")]
+    [SerializeField] int totalMissionTime;
+    private static int currentGameTime;
     private float lastTimeCountedDownTime;
 
+    public static GameTimer get;
+
+    void Awake()
+    {
+        get = this;
+    }
     void Update()
     {
         //If one second has elapsed since the last time we counted down the game time.
         if (TimeElapsedSince(lastTimeCountedDownTime, 1)) 
         {
             //Count down the game time.
-            GameTime--;
+            currentGameTime--;
             //Register the last time we counted down time for the next time elapsed loop.
             lastTimeCountedDownTime = Time.time;
         }

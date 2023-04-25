@@ -518,6 +518,7 @@ GameObject:
   - component: {fileID: 2913974629310598003}
   - component: {fileID: 6735432615777936214}
   - component: {fileID: 3542940778971740087}
+  - component: {fileID: 5636046190363231256}
   m_Layer: 2
   m_Name: ShipContainer
   m_TagString: Player
@@ -601,6 +602,18 @@ MonoBehaviour:
   pitch: 0
   afterburner_Active: 0
   slow_Active: 0
+--- !u!114 &5636046190363231256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6776586672345207669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 482550816e9d4394495e77874ffe1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7275256954459733027
 GameObject:
   m_ObjectHideFlags: 0
