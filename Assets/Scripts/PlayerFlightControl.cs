@@ -49,6 +49,7 @@ public class PlayerFlightControl : MonoBehaviour
 	
 	bool thrust_exists = true;
 	bool roll_exists = true;
+	public bool PlayerIsBoinkedAbove = false;
 	
 	//---------------------------------------------------------------------------------
 	void Awake()
@@ -79,7 +80,6 @@ public class PlayerFlightControl : MonoBehaviour
 		
 	}
 	
-	
 	void FixedUpdate () {
 		
 		if (actual_model == null) {
@@ -92,6 +92,11 @@ public class PlayerFlightControl : MonoBehaviour
 		
 		//Clamping the pitch and yaw values, and taking in the roll input.
 		pitch = Mathf.Clamp(distFromVertical, -screen_clamp - DZ, screen_clamp  + DZ) * pitchYaw_strength;
+		//If player is boinked above ignore the real pitch and just set pitch to 45 degrees away from boinked object
+		if (PlayerIsBoinkedAbove)
+		{
+			pitch = 45;
+		}
 		yaw = Mathf.Clamp(distFromHorizontal, -screen_clamp - DZ, screen_clamp  + DZ) * pitchYaw_strength;
 		if (roll_exists)
 			roll = (Input.GetAxis("Roll") * -rollSpeedModifier);
@@ -126,8 +131,12 @@ public class PlayerFlightControl : MonoBehaviour
 			(pitch * turnspeed * Time.deltaTime),
 			(yaw * turnspeed * Time.deltaTime),
 			(roll * turnspeed *  (rollSpeedModifier / 2) * Time.deltaTime));
-		
-		GetComponent<Rigidbody>().velocity = transform.forward * currentMag; //Apply speed
+		Vector3 directionalVelocity = transform.forward;
+		if (PlayerIsBoinkedAbove)
+		{
+   			directionalVelocity = Vector3.Lerp(directionalVelocity, -transform.up, 0.125f).normalized;
+		}
+		GetComponent<Rigidbody>().velocity = directionalVelocity * currentMag; //Apply speed
 		
 		if (use_banking)
 			updateBanking(); //Calculate banking.
@@ -188,14 +197,14 @@ public class PlayerFlightControl : MonoBehaviour
 	}
 
 	
-	void Update() {
-	
+	void Update() 
+	{	
 		//Please remove this and replace it with a shooting system that works for your game, if you need one.
 		if (Input.GetMouseButtonDown(0)) {
 			fireShot();
 		}
-
-	
+		//Checks if the player has collided with anything 'above' the ship and moves it away to prevent sticking
+		PlayerIsBoinkedAbove = (Physics.Raycast(transform.position, transform.up, 1.5f, GameManager.get.environmentLayerMask, QueryTriggerInteraction.Ignore));
 	}
 	
 	

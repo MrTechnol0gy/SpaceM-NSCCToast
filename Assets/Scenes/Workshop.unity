@@ -31369,6 +31369,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fee377ba23a0495469ee952c6ea498ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  environmentLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
   spawnPoint: {fileID: 0}
   gameTimer: {fileID: 0}
 --- !u!4 &1773982866
