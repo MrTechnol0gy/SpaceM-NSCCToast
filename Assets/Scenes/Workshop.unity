@@ -538,7 +538,7 @@ MonoBehaviour:
   camera_elevation: 4
   follow_tightness: 5
   rotation_tightness: 10
-  afterburner_Shake_Amount: 2
+  afterburner_Shake_Amount: 1
   yawMultiplier: 0.005
   shake_on_afterburn: 1
 --- !u!114 &330585550
@@ -13963,6 +13963,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3542940778971740087, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
+        type: 3}
+      propertyPath: bank_angle_clamp
+      value: 85
       objectReference: {fileID: 0}
     - target: {fileID: 6776586672345207669, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
         type: 3}

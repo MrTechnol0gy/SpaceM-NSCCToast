@@ -457,8 +457,8 @@ InputManager:
     m_Name: Thrust
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: +
-    positiveButton: '-'
+    negativeButton: s
+    positiveButton: w
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000
@@ -473,8 +473,8 @@ InputManager:
     m_Name: Roll
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: 6
-    positiveButton: 4
+    negativeButton: q
+    positiveButton: e
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000
