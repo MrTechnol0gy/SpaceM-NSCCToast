@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class DemoUI : MonoBehaviour {
-
+/*
 	bool cursorlock = true;
 
 	// Use this for initialization
@@ -13,21 +13,12 @@ public class DemoUI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void LateUpdate () {
-	
-		/*
+			
 		//Uncomment for Unity 5 to get rid of the warnings.
 		if (cursorlock)
 			Cursor.lockState = CursorLockMode.Locked;
 		else
-			Cursor.lockState = CursorLockMode.None;
-		*/
-		
-		//Delete this statement for Unity 5.
-		if (cursorlock)
-			Screen.lockCursor = true;
-		else
-			Screen.lockCursor = false;		
-		
+			Cursor.lockState = CursorLockMode.None;		
 		
 		if (Input.GetKeyDown(KeyCode.Escape))
 			cursorlock = !cursorlock;
@@ -90,5 +81,5 @@ public class DemoUI : MonoBehaviour {
 	}
 	
 
-	
+	*/
 }
