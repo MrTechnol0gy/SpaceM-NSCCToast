@@ -10,23 +10,17 @@ public class GameManager : MonoBehaviour
     [Header("Player Spawn")]
     [SerializeField] public GameObject spawnPoint;
 
+    [Header("Mission Information")]
+    [SerializeField] public int totalMissionTime = 20;           // as minutes
+    [SerializeField] public int totalIntelNeeded = 10;           // intel to complete mission (placeholder for future expansion)
 
-
-
-    public Component gameTimer;
-    public static Player player;
-    public static Component uiManager;
     void Awake()
     {
         get = this;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        player = Player.get;
-        gameTimer = GameTimer.get; // practice using statics and gets instead of using references
-        uiManager = UIManager.get;
+        UIManager.SetIntelTotalRequired(totalIntelNeeded);
     }
-
 }

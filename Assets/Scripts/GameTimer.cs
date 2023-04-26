@@ -4,9 +4,7 @@ using UnityEngine;
 using System;
 
 public class GameTimer : MonoBehaviour
-{
-    [Header("GameTime")]
-    [SerializeField] int totalMissionTime; // as minutes
+{   
     private static int currentGameTime;
     private float lastTimeCountedDownTime;
     TimeSpan time;
@@ -17,7 +15,11 @@ public class GameTimer : MonoBehaviour
     void Awake()
     {
         get = this;
-        currentGameTime = totalMissionTime * 60;    // converts totalMissionTime into seconds
+    }
+
+    void Start()
+    {
+        currentGameTime = GameManager.get.totalMissionTime * 60;    // converts totalMissionTime into seconds
     }
     void Update()
     {
