@@ -1,19 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GameTimer : MonoBehaviour
-{
-    [Header("GameTime")]
-    [SerializeField] int totalMissionTime;
+{   
     private static int currentGameTime;
     private float lastTimeCountedDownTime;
+    TimeSpan time;
+    private string formattedTime;
 
     public static GameTimer get;
 
     void Awake()
     {
         get = this;
+    }
+
+    void Start()
+    {
+        currentGameTime = GameManager.get.totalMissionTime * 60;    // converts totalMissionTime into seconds
     }
     void Update()
     {
@@ -24,6 +30,11 @@ public class GameTimer : MonoBehaviour
             currentGameTime--;
             //Register the last time we counted down time for the next time elapsed loop.
             lastTimeCountedDownTime = Time.time;
+            time = TimeSpan.FromSeconds(currentGameTime);
+            // converts game time into a minutes/seconds format
+            formattedTime = string.Format("{0} : {1} ",(int)time.TotalMinutes, time.Seconds);
+            //Send the new time to the UIManager for display            
+            UIManager.SetTime(formattedTime);
         }
     }
 

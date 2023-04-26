@@ -4,7 +4,7 @@ using System.Collections;
 [System.Serializable]
 public class PlayerFlightControl : MonoBehaviour
 {
-	public static PlayerFlightControl get;
+	public static PlayerFlightControl get; // Can also be used to set ;)
 
 	//"Objects", "For the main ship Game Object and weapons"));
 	public GameObject actual_model; //"Ship GameObject", "Point this to the Game Object that actually contains the mesh for the ship. Generally, this is the first child of the empty container object this controller is placed in."
@@ -50,11 +50,13 @@ public class PlayerFlightControl : MonoBehaviour
 	bool thrust_exists = true;
 	bool roll_exists = true;
 	public bool PlayerIsBoinkedAbove = false;
+	public bool tractorBeamActive = false;			// Whether the tractor beam is currently in use
+
 	
 	//---------------------------------------------------------------------------------
 	void Awake()
 	{
-		get = this;
+		get = this;		
 	}
 	void Start() {
 	
@@ -139,8 +141,10 @@ public class PlayerFlightControl : MonoBehaviour
 		GetComponent<Rigidbody>().velocity = directionalVelocity * currentMag; //Apply speed
 		
 		if (use_banking)
+		{
 			updateBanking(); //Calculate banking.
-		
+		}
+		UIManager.SetSpeed(Mathf.RoundToInt(currentMag));	//convert speed from float to int to pass to the UIManager for display on the GUI		
 	}		
 		
 		
@@ -205,6 +209,19 @@ public class PlayerFlightControl : MonoBehaviour
 		}
 		//Checks if the player has collided with anything 'above' the ship and moves it away to prevent sticking
 		PlayerIsBoinkedAbove = (Physics.Raycast(transform.position, transform.up, 1.5f, GameManager.get.environmentLayerMask, QueryTriggerInteraction.Ignore));
+		// tractor beam controls
+		if (Input.GetKeyDown(KeyCode.Space) && Player.get.pickupablesInRange.Count != 0)
+		{
+			tractorBeamActive = true;
+		}
+		if (tractorBeamActive)
+		{
+			UIManager.SetTractorBeamActive(true);
+		}
+		else
+		{
+			UIManager.SetTractorBeamActive(false);
+		}
 	}
 	
 	
