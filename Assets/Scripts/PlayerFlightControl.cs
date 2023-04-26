@@ -139,8 +139,10 @@ public class PlayerFlightControl : MonoBehaviour
 		GetComponent<Rigidbody>().velocity = directionalVelocity * currentMag; //Apply speed
 		
 		if (use_banking)
+		{
 			updateBanking(); //Calculate banking.
-		
+		}
+		UIManager.SetSpeed(Mathf.RoundToInt(currentMag));	//convert speed from float to int to pass to the UIManager for display on the GUI		
 	}		
 		
 		
