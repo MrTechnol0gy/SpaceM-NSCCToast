@@ -519,7 +519,7 @@ GameObject:
   - component: {fileID: 6735432615777936214}
   - component: {fileID: 3542940778971740087}
   - component: {fileID: 5636046190363231256}
-  - component: {fileID: 6893577614636494123}
+  - component: {fileID: 2024955577509038236}
   m_Layer: 2
   m_Name: ShipContainer
   m_TagString: Player
@@ -604,6 +604,7 @@ MonoBehaviour:
   afterburner_Active: 0
   slow_Active: 0
   PlayerIsBoinkedAbove: 0
+  tractorBeamActive: 0
 --- !u!114 &5636046190363231256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -620,7 +621,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   pickupablesInRange: []
---- !u!135 &6893577614636494123
+  TractorSpeed: 1
+  InteractionRange: 20
+  intelCollected: 0
+--- !u!135 &2024955577509038236
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
