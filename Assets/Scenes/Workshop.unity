@@ -18300,6 +18300,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f21ea19f3c86dd647bdf20742dc03c15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  distanceThreshold: 4
 --- !u!1 &747591311
 GameObject:
   m_ObjectHideFlags: 0
@@ -23186,7 +23187,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh28958
+  m_Name: pb_Mesh28976
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -36200,7 +36201,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-206420
+  m_Name: pb_Mesh28724
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -36367,6 +36368,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 86139818254302673, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
+        type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 86139818254302673, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1292152705337156208, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
         type: 3}
       propertyPath: m_LocalRotation.w
@@ -36466,6 +36477,11 @@ PrefabInstance:
         type: 3}
       propertyPath: thrust_transition_speed
       value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636046190363231256, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
+        type: 3}
+      propertyPath: InteractionRange
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6776586672345207669, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
         type: 3}

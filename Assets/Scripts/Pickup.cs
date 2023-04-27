@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class Pickup : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [Header("Pickup Configuration")]
+    [SerializeField] float distanceThreshold = 2f;
+    private void OnTriggerStay(Collider other)
+    {        
+        if (other.CompareTag("Player"))
+        {           
+            float distanceToCharacter = Vector3.Distance(transform.position, Player.get.transform.position);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+            if (distanceToCharacter <= distanceThreshold)
+            {
+                Player.get.CollectIntel();
+                gameObject.SetActive(false);
+            }
+        }
     }
 }
