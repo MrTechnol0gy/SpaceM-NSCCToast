@@ -22,11 +22,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         UIManager.SetIntelCurrentAmount(intelCollected);
-        // interactionSphere = GetComponentInChildren<SphereCollider>();
-        // interactionSphere.radius = InteractionRange;
-        // Vector3 colliderCenter = interactionSphere.transform.localPosition;
-        // colliderCenter.z = InteractionRange * 1.25f;
-        // interactionSphere.transform.localPosition = colliderCenter;
     }
 
     void Update()
@@ -34,9 +29,33 @@ public class Player : MonoBehaviour
         if (PlayerFlightControl.get.tractorBeamActive && pickupablesInRange.Count > 0)
         {
             Vector3 targetPos = transform.position;
-            pickupablesInRange[0].transform.position = Vector3.Lerp(pickupablesInRange[0].transform.position, targetPos, TractorSpeed * Time.deltaTime);
+            float closestDistance = Mathf.Infinity;
+            int closestIndex = 0;
 
-            if (Vector3.Distance(pickupablesInRange[0].transform.position, targetPos) < 5f)
+            // pickupablesInRange[0].transform.position = Vector3.Lerp(pickupablesInRange[0].transform.position, targetPos, TractorSpeed * Time.deltaTime);
+
+            // if (Vector3.Distance(pickupablesInRange[0].transform.position, targetPos) < 5f)
+            // {
+            //     PlayerFlightControl.get.tractorBeamActive = false;
+            // }
+            
+            // Loop through all pickupables in range and find the closest one
+            for (int i = 0; i < pickupablesInRange.Count; i++)
+            {
+                float distance = Vector3.Distance(pickupablesInRange[i].transform.position, transform.position);
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestIndex = i;
+                }
+            }
+
+            // Lerp only the closest pickupable towards the player
+            pickupablesInRange[closestIndex].transform.position = Vector3.Lerp(
+                pickupablesInRange[closestIndex].transform.position, targetPos, TractorSpeed * Time.deltaTime);
+
+            // Deactivate the tractor beam when the closest pickupable is close enough to the player
+            if (closestDistance < 5f)
             {
                 PlayerFlightControl.get.tractorBeamActive = false;
             }
