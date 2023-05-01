@@ -5,13 +5,20 @@ using UnityEngine.AI;
 
 public class PickUpManager : MonoBehaviour
 {
-    List<NavMeshAgent> pickups = new List<NavMeshAgent>();
+    public static PickUpManager get;
+    // List of pickupable objects in the scene
+    public List<NavMeshAgent> pickups = new List<NavMeshAgent>();
     List<NavMeshAgent> unplacedPickups = new List<NavMeshAgent>();
 
     [Header("Pickup Prefabs")]
     [SerializeField] GameObject pickupPrefab;
     [SerializeField] float pickupSpawnHeightFloor = 0.5f;
     [SerializeField] float pickupSpawnHeightCeiling = 25f;
+
+    void Awake()
+    {
+        get = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -74,7 +81,8 @@ public class PickUpManager : MonoBehaviour
                     Debug.Log("Valid position found: " + hit.position);
 
                     // Set the agent's position to the random position
-                    pickups[i].Warp(hit.position);
+                    pickups[i].Warp(hit.position + (Vector3.up * pickups[i].baseOffset));
+                    pickups[i].transform.SetParent(transform);
                     placed = true;
 
                     // Remove the agent from the list of unplaced agents

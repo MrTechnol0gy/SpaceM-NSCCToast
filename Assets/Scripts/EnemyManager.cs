@@ -70,6 +70,7 @@ public class EnemyManager : MonoBehaviour
 
                     // Set the agent's position to the random position
                     agents[i].Warp(hit.position);
+                    agents[i].transform.SetParent(transform);
                     placed = true;
 
                     // Remove the agent from the list of unplaced agents
