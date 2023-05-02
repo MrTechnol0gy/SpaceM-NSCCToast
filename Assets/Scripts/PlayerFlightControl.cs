@@ -50,7 +50,19 @@ public class PlayerFlightControl : MonoBehaviour
 	bool thrust_exists = true;
 	bool roll_exists = true;
 	public bool PlayerIsBoinkedAbove = false;
-	public bool tractorBeamActive = false;			// Whether the tractor beam is currently in use
+	private bool _tractorBeamActive = false;			// Whether the tractor beam is currently in use
+	public bool tractorBeamActive
+	{
+		//When getting return the private variable _tractorBeamActive;
+		get => _tractorBeamActive;
+		set
+		{
+			//When setting, set _tractorBeamActive to the new value and then update the UI with the new information
+            _tractorBeamActive = value;
+			Debug.Log("Tractor beam is " + _tractorBeamActive);
+            UIManager.SetTractorBeamActive(_tractorBeamActive);
+		}
+	}
 
 	
 	//---------------------------------------------------------------------------------
@@ -213,15 +225,7 @@ public class PlayerFlightControl : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Space) && Player.get.pickupablesInRange.Count != 0)
 		{
 			tractorBeamActive = true;
-		}
-		if (tractorBeamActive)
-		{
-			UIManager.SetTractorBeamActive(true);
-		}
-		else
-		{
-			UIManager.SetTractorBeamActive(false);
-		}
+		}		
 	}
 	
 	

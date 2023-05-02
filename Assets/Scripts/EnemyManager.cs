@@ -5,8 +5,10 @@ using UnityEngine.AI;
 
 public class EnemyManager : MonoBehaviour
 {
+    public static List<NavMeshAgent> all = new List<NavMeshAgent>();
     List<NavMeshAgent> agents = new List<NavMeshAgent>();
     List<NavMeshAgent> unplacedAgents = new List<NavMeshAgent>();
+
 
     [Header("Enemy Prefabs")]
     [SerializeField] GameObject enemyForceProbe;
@@ -94,6 +96,22 @@ public class EnemyManager : MonoBehaviour
             {
                 break;
             }
+        }
+    }
+    private void OnEnable() 
+    {
+        all.Add(this);
+    }
+
+    private void OnDisable() 
+    {
+        all.Remove(this);
+    }
+
+    public void DoAllEnemies()
+    {
+        for (int i = 0; i < Enemy.all.Count; i++) {
+            Enemy.all[i].DoSomething();
         }
     }
 }
