@@ -98,20 +98,20 @@ public class EnemyManager : MonoBehaviour
             }
         }
     }
-    private void OnEnable() 
-    {
-        all.Add(this);
-    }
+    // private void OnEnable() 
+    // {
+    //     all.Add(this);
+    // }
 
-    private void OnDisable() 
-    {
-        all.Remove(this);
-    }
+    // private void OnDisable() 
+    // {
+    //     all.Remove(this);
+    // }
 
-    public void DoAllEnemies()
-    {
-        for (int i = 0; i < Enemy.all.Count; i++) {
-            Enemy.all[i].DoSomething();
-        }
-    }
+    // public void DoAllEnemies()
+    // {
+    //     for (int i = 0; i < Enemy.all.Count; i++) {
+    //         Enemy.all[i].DoSomething();
+    //     }
+    // }
 }

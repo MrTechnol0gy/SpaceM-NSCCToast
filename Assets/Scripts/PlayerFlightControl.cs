@@ -222,7 +222,7 @@ public class PlayerFlightControl : MonoBehaviour
 		//Checks if the player has collided with anything 'above' the ship and moves it away to prevent sticking
 		PlayerIsBoinkedAbove = (Physics.Raycast(transform.position, transform.up, 1.5f, GameManager.get.environmentLayerMask, QueryTriggerInteraction.Ignore));
 		// tractor beam controls
-		if (Input.GetKeyDown(KeyCode.Space) && Player.get.pickupablesInRange.Count != 0)
+		if (Input.GetKeyDown(KeyCode.Space) && Player.get.pickupablesInRange.Count > 0)
 		{
 			tractorBeamActive = true;
 		}		

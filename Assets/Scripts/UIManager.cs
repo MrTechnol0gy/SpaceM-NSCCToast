@@ -8,20 +8,34 @@ public class UIManager : MonoBehaviour
     public static UIManager get;
     UIDocument uiDocument;          // reference to the UIDocument
     private VisualElement root;     // reference to the root visual element
-    public Label missionTimerLabel, speedLabel, intelTotalRequiredLabel, intelCurrentAmountLabel; //references the Labels from the UIDocument
-    public Toggle tractorBeamToggle;      // references the Toggles from the UIDocument
+    public Label missionTimerLabel, speedLabel, intelTotalRequiredLabel, intelCurrentAmountLabel; //references the ingame UI Labels from the UIDocument
+    public Label winText, loseText;         // references the win/lose UI Labels from the UIDocument
+    public Toggle tractorBeamToggle;        // references the Toggles from the UIDocument
+    public Button retryButton, quitButton;  // references buttons from the win/lose screen
+    private bool ingameOverlay = true;
+    private bool winLoseScreen = false;
 
     void Awake()
     {
         get = this;
         uiDocument = GetComponent<UIDocument>();    // Get the reference to the UIDocument. This script should be in the same gameobject for this to work.
         root = uiDocument.rootVisualElement;        // Get a reference to the root visual element.
+        //overlay = uiDocument.VisualElement.Overlay; // ???
         missionTimerLabel = root.Query<Label>("MissionTimer");
         speedLabel = root.Query<Label>("Speed");
         tractorBeamToggle = root.Query<Toggle>("TractorBeam");
         intelTotalRequiredLabel = root.Query<Label>("IntelTotalAmount");
         intelCurrentAmountLabel = root.Query<Label>("IntelCurrentAmount");
-    }    
+        winText = root.Query<Label>("WinText");
+        loseText = root.Query<Label>("LoseText");
+        retryButton = root.Query<Button>("Retry");
+        quitButton = root.Query<Button>("Quit");
+    }
+
+    void Start()
+    {
+        //ExtensionMethods.SetDisplayBasedOnBool(overlay, ingameOverlay);
+    }
 
     public static void SetSpeed(int speed)
     {

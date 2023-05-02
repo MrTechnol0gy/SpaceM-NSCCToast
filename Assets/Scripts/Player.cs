@@ -52,6 +52,8 @@ public class Player : MonoBehaviour
                 PlayerFlightControl.get.tractorBeamActive = false;
             }
         }
+
+        //Debug.Log("Pickupables in range: " + pickupablesInRange.Count);
     }
 
     private void OnTriggerEnter(Collider other)
