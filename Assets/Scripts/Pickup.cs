@@ -14,8 +14,7 @@ public class Pickup : MonoBehaviour
 
             if (distanceToCharacter <= distanceThreshold)
             {
-                Player.get.CollectIntel();
-                // PickUpManager.get.RemovePickupable(this);
+                GameManager.get.CollectIntel();
                 gameObject.SetActive(false);
             }
         }

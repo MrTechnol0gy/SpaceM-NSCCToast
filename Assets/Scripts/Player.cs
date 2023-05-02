@@ -11,7 +11,6 @@ public class Player : MonoBehaviour
     [Header("Player Stats")]
     [SerializeField] float TractorSpeed = 1f;       // the speed at which a tractored object will be drawn towards the player
     [SerializeField] float InteractionRange = 20f;  // the range of the interaction sphere collider
-    public int intelCollected = 0;                  // the amount of intel pickups collected
 
     private SphereCollider interactionSphere;
     void Awake()
@@ -21,7 +20,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        UIManager.SetIntelCurrentAmount(intelCollected);
+
     }
 
     void Update()
@@ -31,13 +30,6 @@ public class Player : MonoBehaviour
             Vector3 targetPos = transform.position;
             float closestDistance = Mathf.Infinity;
             int closestIndex = 0;
-
-            // pickupablesInRange[0].transform.position = Vector3.Lerp(pickupablesInRange[0].transform.position, targetPos, TractorSpeed * Time.deltaTime);
-
-            // if (Vector3.Distance(pickupablesInRange[0].transform.position, targetPos) < 5f)
-            // {
-            //     PlayerFlightControl.get.tractorBeamActive = false;
-            // }
             
             // Loop through all pickupables in range and find the closest one
             for (int i = 0; i < pickupablesInRange.Count; i++)
@@ -78,11 +70,5 @@ public class Player : MonoBehaviour
         // If the code got to that point we can do the stuff we want to do to our pickupable
         // Here I'll remove it from the list if the list contain it.
         if (pickupablesInRange.Contains(other.gameObject)) pickupablesInRange.Remove(other.gameObject);
-    }
-
-    public void CollectIntel()
-    {
-        intelCollected++;
-        UIManager.SetIntelCurrentAmount(intelCollected);
     }
 }

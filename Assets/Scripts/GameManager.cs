@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] public int amountOfEnemies = 10;                  // number of enemies to be found in the level
     [SerializeField] public float spawnRadius = 100f;                  // spawn radius (should be replaced to match level radius)
 
+    // private variables
+    private int intelCollected = 0;                                    // the amount of intel pickups collected
     void Awake()
     {
         get = this;
@@ -25,5 +27,12 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         UIManager.SetIntelTotalRequired(totalIntelNeeded);
+        UIManager.SetIntelCurrentAmount(intelCollected);
+    }
+
+    public void CollectIntel()
+    {
+        intelCollected++;
+        UIManager.SetIntelCurrentAmount(intelCollected);
     }
 }
