@@ -32,10 +32,16 @@ public class GameTimer : MonoBehaviour
             lastTimeCountedDownTime = Time.time;
             time = TimeSpan.FromSeconds(currentGameTime);
             // converts game time into a minutes/seconds format
-            formattedTime = string.Format("{0} : {1} ",(int)time.TotalMinutes, time.Seconds);
-            //Send the new time to the UIManager for display            
+            formattedTime = string.Format("{00} : {01} ",(int)time.TotalMinutes, time.Seconds);
+            //Send the new time to the UIManager for display
             UIManager.SetTime(formattedTime);
+            GameManager.get.GameOverTimeCheck(currentGameTime);
         }
+    }
+
+    public void DecreaseTime(int amount)
+    {
+        currentGameTime -= amount;
     }
 
 // This method can be used to test if a certain time has elapsed since we registered an event time. 
