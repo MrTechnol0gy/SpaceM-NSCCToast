@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 //It is common to create a class to contain all of your
 //extension methods. This class must be static.
@@ -20,5 +21,19 @@ public static class ExtensionMethods
             return true;
         else
             return false;
+    }
+
+    public static bool IntervalElapsedSince(this float thisTime, float interval) => !(thisTime + interval > Time.time);
+
+    public static void SetDisplayBasedOnBool(this VisualElement vs, bool b)
+    {
+        vs.style.display =
+            b ? new StyleEnum<DisplayStyle>(DisplayStyle.Flex) : new StyleEnum<DisplayStyle>(DisplayStyle.None);
+    }
+    public static void SetDisplayAndOpacityBasedOnBool(this VisualElement vs, bool b)
+    {
+        vs.style.display =
+            b ? new StyleEnum<DisplayStyle>(DisplayStyle.Flex) : new StyleEnum<DisplayStyle>(DisplayStyle.None);
+        vs.style.opacity = b ? 1 : 0;
     }
 }

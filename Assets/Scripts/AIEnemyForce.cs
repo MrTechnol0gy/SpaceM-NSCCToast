@@ -15,6 +15,8 @@ public class AIEnemyForce : MonoBehaviour
     private bool wallHit = false;
     private bool canShoot = true;
     private float TimeStartedState;             // timer to know when we started a state
+    private float lastTimeDidPatrolMove;        // holder for patrol timers
+    private float lastTimeDidEnemyCheck;        // holder for search check timers
     public LayerMask wallLayer;
     [SerializeField] Collider playerCollider;    
 
@@ -71,8 +73,7 @@ public class AIEnemyForce : MonoBehaviour
                 break;
             case States.patrolling:
                 Debug.Log("I am patrolling.");
-                GetComponent<Renderer>().material.color = Color.blue;
-                StartCoroutine(Patrol());                               //begins a patrol
+                GetComponent<Renderer>().material.color = Color.blue;                
                 break;
             case States.chasing:
                 Debug.Log("I am chasing.");
@@ -102,6 +103,18 @@ public class AIEnemyForce : MonoBehaviour
                 }
                 break;
             case States.patrolling:
+                 if (lastTimeDidPatrolMove + patrolDelay < Time.time)
+                {
+                    lastTimeDidPatrolMove = Time.time;
+                    // Get a random point on the NavMesh
+                    Vector3 randomDirection = Random.insideUnitSphere * patrolRadius;
+                    NavMesh.SamplePosition(transform.position + randomDirection, out NavMeshHit hit, patrolRadius,
+                        NavMesh.AllAreas);
+
+                    // Set the agent's destination to the random point on the NavMesh
+                    enemy.SetDestination(hit.position);
+                }
+
                 // If the player is within detection range, start chasing
                 if (PlayerWithinDetectionRange()) 
                 {
@@ -163,8 +176,6 @@ public class AIEnemyForce : MonoBehaviour
                 enemy.isStopped = false;
                 break;
             case States.patrolling:
-                //Debug.Log("Patrolling ended.");
-                StopCoroutine(Patrol());                            // stops the patrol coroutine
                 break;
             case States.chasing:
                 break;
@@ -193,22 +204,6 @@ public class AIEnemyForce : MonoBehaviour
     // This method can be used to test if a certain time has elapsed since we registered an event time. 
     public bool TimeElapsedSince(float timeEventHappened, float testingTimeElapsed) => !(timeEventHappened + testingTimeElapsed > Time.time);
 
-    IEnumerator Patrol()
-    {
-        while (_currentState == States.patrolling)
-        {
-            // Get a random point on the NavMesh
-            Vector3 randomDirection = Random.insideUnitSphere * patrolRadius;
-            NavMeshHit hit;
-            NavMesh.SamplePosition(transform.position + randomDirection, out hit, patrolRadius, NavMesh.AllAreas);
-
-            // Set the agent's destination to the random point on the NavMesh
-            enemy.SetDestination(hit.position);
-
-            // Wait for the specified delay before moving again
-            yield return new WaitForSeconds(patrolDelay);
-        }
-    }
     // method to check if the player is within detection range
     private bool PlayerWithinDetectionRange()
     {
@@ -269,10 +264,14 @@ public class AIEnemyForce : MonoBehaviour
     }
     private void MoveTowardsPlayer()
     {
-        if (PlayerWithinDetectionRange() && IsTargetVisible())
+        if (lastTimeDidEnemyCheck.IntervalElapsedSince(0.33f))
         {
-            Debug.Log("Moving towards the player.");
-            enemy.SetDestination(Player.get.transform.position);
+            lastTimeDidEnemyCheck = Time.time;
+            if (PlayerWithinDetectionRange() && IsTargetVisible())
+            {
+                Debug.Log("Moving towards the player.");
+                enemy.SetDestination(Player.get.transform.position);
+            }
         }
     }
 
@@ -303,4 +302,25 @@ public class AIEnemyForce : MonoBehaviour
 
             canShoot = true;
     }
+    // I use Handles.Label to show a label with the current state above the player. Can use it for more debug info as well.
+    // I wrap it around a #if UNITY_EDITOR to make sure it doesn't make its way into the build, unity doesn't like using UnityEditor methods in builds.
+    #if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        //If we're not playing don't draw gizmos.
+        if (!Application.isPlaying) return;
+        
+        //Setting the position for our debug label and the color.
+        Vector3 debugPos = transform.position;
+        debugPos.y += 2; 
+        GUI.color = Color.black;
+        UnityEditor.Handles.Label(debugPos,$"{currentState}");
+        
+        //Let's also do an extra debug if we're stopped to say how long until we're going up.
+        debugPos.y += 1; 
+        if (currentState == States.patrolling) {
+            UnityEditor.Handles.Label(debugPos,$"{patrolDelay - (Time.time - lastTimeDidPatrolMove)} till patrolling to a new location.");
+        }
+    }
+    #endif
 }
