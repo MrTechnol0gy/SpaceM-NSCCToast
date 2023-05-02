@@ -31760,11 +31760,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   spawnPoint: {fileID: 0}
-  totalMissionTime: 20
+  totalMissionTime: 1
   totalIntelNeeded: 10
   amountOfPickUps: 30
   amountOfEnemies: 20
   spawnRadius: 1000
+  gameoverVictorious: 0
+  gameoverDefeat: 0
 --- !u!4 &1773982866
 Transform:
   m_ObjectHideFlags: 0

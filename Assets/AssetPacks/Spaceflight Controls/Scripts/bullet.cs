@@ -18,12 +18,19 @@ public class bullet : MonoBehaviour {
 	}
 	
 	
-	void OnCollisionEnter(Collision col) {
-	
-		GameObject.Instantiate(explo, col.contacts[0].point, Quaternion.identity);
-	
+	void OnCollisionEnter(Collision col) 
+	{
+		// Check if the bullet has hit the player
+		if (col.gameObject.tag == "Player") 
+		{
+			GameTimer.get.DecreaseTime(5);
+			Debug.Log("Bullet hit the player!");
+		} 
+		else 
+		{
+			// Code to handle hitting other objects goes here
+			GameObject.Instantiate(explo, col.contacts[0].point, Quaternion.identity);
+		}
 		Destroy(gameObject);
 	}
-	
-	
 }

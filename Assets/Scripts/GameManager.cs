@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
 
     // private variables
     private int intelCollected = 0;                                    // the amount of intel pickups collected
+    public bool gameoverVictorious = false;
+    public bool gameoverDefeat = false;
     void Awake()
     {
         get = this;
@@ -34,5 +36,35 @@ public class GameManager : MonoBehaviour
     {
         intelCollected++;
         UIManager.SetIntelCurrentAmount(intelCollected);
+        GameOverIntelCheck();
+    }
+
+    public void GameOverIntelCheck()
+    {
+        if (intelCollected == totalIntelNeeded)
+        {
+            gameoverVictorious = true;
+            UIManager.get.HideOverlayScreen();
+            UIManager.get.ShowWinLoseScreen();
+        }
+    }
+    public void GameOverTimeCheck(int timegiven)
+    {
+        if (timegiven <= 0)
+        {
+            gameoverDefeat = true;
+            UIManager.get.HideOverlayScreen();
+            UIManager.get.ShowWinLoseScreen();
+        }
+    }
+
+    public void StartTime()
+    {
+        Time.timeScale = 1f;
+    }
+
+    public void StopTime()
+    {
+        Time.timeScale = 0f;
     }
 }
