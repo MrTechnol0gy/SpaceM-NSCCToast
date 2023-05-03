@@ -18,6 +18,7 @@ public class PickUpManager : MonoBehaviour
 
     void Awake()
     {
+        allPickups.Clear();
         get = this;
     }
 
@@ -86,8 +87,6 @@ public class PickUpManager : MonoBehaviour
                     pickups[i].transform.SetParent(transform);
                     placed = true;
 
-                    // Add the newly created Agent to the list of All agents
-                    allPickups.Add(pickups[i]);
                     // Remove the agent from the list of unplaced agents
                     unplacedPickups.Remove(pickups[i]);
                 }

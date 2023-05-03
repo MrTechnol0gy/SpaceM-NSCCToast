@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class AIEnemyForce : MonoBehaviour
 {
@@ -193,7 +195,15 @@ public class AIEnemyForce : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");   //gets the player gameobject        
         playerCollider = player.GetComponent<Collider>();      // assigns player collider to agent        
 
+        Radar.instance.CreateTarget(transform,false);
+        // Add the newly created Agent to the list of All agents
+        EnemyManager.allEnemies.Add(enemy);
         OnStartedState(currentState);
+    }
+
+    private void OnDestroy() {
+        if(EnemyManager.allEnemies.Contains(enemy)) EnemyManager.allEnemies.Remove(enemy);
+        Radar.instance.RemoveTarget(transform);
     }
 
     void Update()

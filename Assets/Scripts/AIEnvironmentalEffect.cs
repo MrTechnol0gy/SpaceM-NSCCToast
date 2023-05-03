@@ -7,6 +7,7 @@ public class AIEnvironmentalEffect : MonoBehaviour
 {
     public NavMeshAgent environmentEffect;
     private GameObject player;
+    private Renderer renderer;
     private Vector3 playerPOS;
     private Vector3 oldPlayerPOS;
     public Vector3 enemyPOS;
@@ -50,22 +51,23 @@ public class AIEnvironmentalEffect : MonoBehaviour
         }
     }
     // OnStartedState is for things that should happen when a state first begins
-    public void OnStartedState(States state) 
+    public void OnStartedState(States state)
     {
+        if (renderer == null) return;
         switch (state) 
         {
             case States.stopped:
                 Debug.Log("I am stopped.");
-                GetComponent<Renderer>().material.color = Color.black;
+                renderer.material.color = Color.black;
                 environmentEffect.isStopped = true;
                 break;
             case States.patrolling:
                 Debug.Log("I am patrolling.");
-                GetComponent<Renderer>().material.color = Color.blue;                
+                renderer.material.color = Color.blue;                
                 break;
             case States.inactive:
                 Debug.Log("I am inactive.");
-                GetComponent<Renderer>().material.color = Color.yellow;
+                renderer.material.color = Color.yellow;
                 break;
         }
     }
@@ -115,8 +117,9 @@ public class AIEnvironmentalEffect : MonoBehaviour
     
     void Start()
     {
+        renderer = GetComponent<Renderer>();
         enemyPOS = this.transform.position;                    //gets starting position; utilized in setting spawnpoint on initialization
-        player = GameObject.FindGameObjectWithTag("Player");   //gets the player gameobject        
+        player = PlayerFlightControl.get.gameObject;   //gets the player gameobject        
         playerCollider = player.GetComponent<Collider>();      // assigns player collider to agent        
 
         OnStartedState(currentState);

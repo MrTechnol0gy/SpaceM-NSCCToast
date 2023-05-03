@@ -14,8 +14,8 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] GameObject enemyForceProbe;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
+        allEnemies.Clear();
         SpawnAgents();
     }
 
@@ -74,9 +74,6 @@ public class EnemyManager : MonoBehaviour
                     agents[i].Warp(hit.position);
                     agents[i].transform.SetParent(transform);
                     placed = true;
-
-                    // Add the newly created Agent to the list of All agents
-                    allEnemies.Add(agents[i]);
 
                     // Remove the agent from the list of unplaced agents
                     unplacedAgents.Remove(agents[i]);

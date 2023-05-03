@@ -41,6 +41,10 @@ public class UIManager : MonoBehaviour
         ShowOverlayScreen();
     }
 
+    public bool isShowingMenu() {
+        if (winloseScreen.style.display.value == DisplayStyle.None) return false;
+        return true;
+    }
     [ContextMenu("ShowWinLose")]
     public void ShowWinLoseScreen() 
     {
@@ -67,8 +71,8 @@ public class UIManager : MonoBehaviour
     }
     [ContextMenu("ShowOverlay")]
     public void ShowOverlayScreen() {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = false;
+        // Cursor.lockState = CursorLockMode.None;
+        // Cursor.visible = false;
         overlay.SetDisplayBasedOnBool(true);
     }
 
@@ -104,6 +108,7 @@ public class UIManager : MonoBehaviour
     public void DoRetryStuff()
     {
         Debug.Log("Clicked Retry.");
+        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
     }
 
     public void QuitApplication()

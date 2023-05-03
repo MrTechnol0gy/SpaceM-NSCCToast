@@ -328,6 +328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f21ea19f3c86dd647bdf20742dc03c15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 2261120565951505122}
   distanceThreshold: 4
 --- !u!195 &2261120565951505122
 NavMeshAgent:

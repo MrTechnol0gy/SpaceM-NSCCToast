@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     }
 
     void Update()
-    {        
+    {
         if (PlayerFlightControl.get.tractorBeamActive && pickupablesInRange.Count > 0)
         {
             Vector3 targetPos = transform.position;
@@ -51,6 +51,12 @@ public class Player : MonoBehaviour
             {
                 PlayerFlightControl.get.tractorBeamActive = false;
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && UIManager.get.isShowingMenu())
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
 
         //Debug.Log("Pickupables in range: " + pickupablesInRange.Count);

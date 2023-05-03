@@ -32,7 +32,7 @@ public class GameTimer : MonoBehaviour
             lastTimeCountedDownTime = Time.time;
             time = TimeSpan.FromSeconds(currentGameTime);
             // converts game time into a minutes/seconds format
-            formattedTime = string.Format("{00} : {01} ",(int)time.TotalMinutes, time.Seconds);
+            formattedTime = string.Format("{0:00} : {1:00} ",(int)time.TotalMinutes, time.Seconds);
             //Send the new time to the UIManager for display
             UIManager.SetTime(formattedTime);
             GameManager.get.GameOverTimeCheck(currentGameTime);
