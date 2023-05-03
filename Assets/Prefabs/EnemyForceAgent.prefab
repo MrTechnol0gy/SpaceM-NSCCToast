@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3025208869302671502}
   - component: {fileID: 5590061301477191972}
   - component: {fileID: 1496781945237421551}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: EnemyForceAgent
   m_TagString: Untagged
   m_Icon: {fileID: 0}

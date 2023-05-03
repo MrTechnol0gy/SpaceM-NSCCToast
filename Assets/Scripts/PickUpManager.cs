@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class PickUpManager : MonoBehaviour
 {
     public static PickUpManager get;
+    public static List<NavMeshAgent> allPickups = new List<NavMeshAgent>();
     // List of pickupable objects in the scene
     public List<NavMeshAgent> pickups = new List<NavMeshAgent>();
     List<NavMeshAgent> unplacedPickups = new List<NavMeshAgent>();
@@ -85,6 +86,8 @@ public class PickUpManager : MonoBehaviour
                     pickups[i].transform.SetParent(transform);
                     placed = true;
 
+                    // Add the newly created Agent to the list of All agents
+                    allPickups.Add(pickups[i]);
                     // Remove the agent from the list of unplaced agents
                     unplacedPickups.Remove(pickups[i]);
                 }

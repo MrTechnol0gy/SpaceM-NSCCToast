@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyManager : MonoBehaviour
 {
-    public static List<NavMeshAgent> all = new List<NavMeshAgent>();
+    public static List<NavMeshAgent> allEnemies = new List<NavMeshAgent>();
     List<NavMeshAgent> agents = new List<NavMeshAgent>();
     List<NavMeshAgent> unplacedAgents = new List<NavMeshAgent>();
 
@@ -75,6 +75,9 @@ public class EnemyManager : MonoBehaviour
                     agents[i].transform.SetParent(transform);
                     placed = true;
 
+                    // Add the newly created Agent to the list of All agents
+                    allEnemies.Add(agents[i]);
+
                     // Remove the agent from the list of unplaced agents
                     unplacedAgents.Remove(agents[i]);
                 }
@@ -110,8 +113,13 @@ public class EnemyManager : MonoBehaviour
 
     // public void DoAllEnemies()
     // {
-    //     for (int i = 0; i < Enemy.all.Count; i++) {
-    //         Enemy.all[i].DoSomething();
+    //     for (int i = 0; i < EnemyManager.all.Count; i++) {
+    //         EnemyManager.all[i].DoSomething();
     //     }
     // }
+
+    public List<NavMeshAgent> GetListOfAll()
+    {
+        return allEnemies;
+    }
 }
