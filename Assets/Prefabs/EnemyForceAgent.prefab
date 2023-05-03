@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 2687501931358593831}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1133343838630512257}
@@ -8646,16 +8646,16 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   playerCollider: {fileID: 0}
-  stoppedTime: 5
-  searchTime: 5
-  patrolDelay: 6
-  patrolRadius: 250
-  detectionRange: 75
-  attackRange: 30
+  stoppedTime: 3
+  searchTime: 10
+  patrolDelay: 3
+  patrolRadius: 300
+  detectionRange: 80
+  attackRange: 50
   rotationSpeed: 5
   bulletPrefab: {fileID: 100000, guid: 66405a5a840355b489214db60c64d3b5, type: 3}
-  bulletSpeed: 20
-  shootingInterval: 3
+  bulletSpeed: 30
+  shootingInterval: 2.5
 --- !u!195 &1496781945237421551
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -8666,7 +8666,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 4
+  m_Speed: 8
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120

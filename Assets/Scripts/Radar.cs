@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 public class Radar : MonoBehaviour
 {
-    public Transform playerObj,enemyObj;
+    public Transform playerObj;
     public Texture2D playerSprite,enemySprite,pickupSprite;
 
     public float size = 200;

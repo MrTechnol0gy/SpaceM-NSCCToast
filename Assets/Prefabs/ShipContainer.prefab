@@ -345,12 +345,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerObj: {fileID: 2913974629310598003}
-  enemyObj: {fileID: 0}
   playerSprite: {fileID: 1169890249420208065, guid: 998a22c6449042c49af43c94f55b53c8,
     type: 3}
   enemySprite: {fileID: 2800000, guid: d4f4647229a9f47a3b8739dad2c59db5, type: 3}
+  pickupSprite: {fileID: 0}
+  size: 200
   uiDocument: {fileID: 2873949769932669293}
-  multiplyAmount: 1
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  multiplyAmount: 0.85
 --- !u!114 &2873949769932669293
 MonoBehaviour:
   m_ObjectHideFlags: 0
