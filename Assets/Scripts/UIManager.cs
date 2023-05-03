@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Cursor = UnityEngine.Cursor;
 
 public class UIManager : MonoBehaviour
 {
@@ -30,7 +31,9 @@ public class UIManager : MonoBehaviour
         winText = root.Query<Label>("WinText");
         loseText = root.Query<Label>("LoseText");
         retryButton = root.Query<Button>("Retry");
+        retryButton.clickable = new Clickable(DoRetryStuff);
         quitButton = root.Query<Button>("Quit");
+        quitButton.clickable = new Clickable(QuitApplication);
     }
 
     void Start()
@@ -41,6 +44,8 @@ public class UIManager : MonoBehaviour
     [ContextMenu("ShowWinLose")]
     public void ShowWinLoseScreen() 
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         winloseScreen.SetDisplayBasedOnBool(true);
         if (GameManager.get.gameoverVictorious)
         {
@@ -57,9 +62,13 @@ public class UIManager : MonoBehaviour
     [ContextMenu("HideWinLose")]
     public void HideWinLoseScreen() {
         winloseScreen.SetDisplayBasedOnBool(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
     [ContextMenu("ShowOverlay")]
     public void ShowOverlayScreen() {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = false;
         overlay.SetDisplayBasedOnBool(true);
     }
 
@@ -90,5 +99,16 @@ public class UIManager : MonoBehaviour
     public static void SetIntelCurrentAmount(int amount)
     {
         get.intelCurrentAmountLabel.text = $"Intel: {amount}";
+    }
+
+    public void DoRetryStuff()
+    {
+        Debug.Log("Clicked Retry.");
+    }
+
+    public void QuitApplication()
+    {
+        Debug.Log("Clicked Quit.");
+        Application.Quit();
     }
 }
