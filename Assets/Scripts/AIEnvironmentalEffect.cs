@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.VFX;
 
 public class AIEnvironmentalEffect : MonoBehaviour
 {
@@ -10,18 +11,20 @@ public class AIEnvironmentalEffect : MonoBehaviour
     private Renderer renderer;
     private Vector3 playerPOS;
     private Vector3 oldPlayerPOS;
-    public Vector3 enemyPOS;
+    private VisualEffect visualEffect;
     private float TimeStartedState;             // timer to know when we started a state
+    private float durationOfLife;               // var to hold duration of VFX
     private float lastTimeDidPatrolMove;        // holder for patrol timers
     private float lastTimeDidEnemyCheck;        // holder for search check timers
     public LayerMask wallLayer;
-    [SerializeField] Collider playerCollider;    
+    [SerializeField] Collider playerCollider;
 
     [Header("Environment Effect Stats")]
     [SerializeField] float stoppedTime = 5f;        // how long the AI should remain in a stopped condition   
+    [SerializeField] float inactiveTime = 15f;      // how long the AI should remain in an inactive state
     [SerializeField] float patrolDelay = 10f;       // how long the AI will wait before choosing a new patrol path
     [SerializeField] float patrolRadius = 50f;      // how large a sphere the AI will use to select a new patrol point from   
-    [SerializeField] float rotationSpeed = 5f;      // how fast the AI can rotate    
+    [SerializeField] float rotationSpeed = 5f;      // how fast the AI can rotate
     
     public enum States
     {
@@ -58,16 +61,15 @@ public class AIEnvironmentalEffect : MonoBehaviour
         {
             case States.stopped:
                 Debug.Log("I am stopped.");
-                renderer.material.color = Color.black;
                 environmentEffect.isStopped = true;
+                visualEffect.gameObject.SetActive(true);
                 break;
             case States.patrolling:
                 Debug.Log("I am patrolling.");
-                renderer.material.color = Color.blue;                
                 break;
             case States.inactive:
                 Debug.Log("I am inactive.");
-                renderer.material.color = Color.yellow;
+                visualEffect.gameObject.SetActive(false);
                 break;
         }
     }
@@ -77,31 +79,51 @@ public class AIEnvironmentalEffect : MonoBehaviour
         switch (state) 
         {
             case States.stopped:
+                // keeps the effect in place while it establishes it's presence
                 if (TimeElapsedSince(TimeStartedState, stoppedTime))
                 {
                     currentState = States.patrolling;
                 }
                 break;
             case States.patrolling:
-                 if (lastTimeDidPatrolMove + patrolDelay < Time.time)
+                // if effect is reaching the end of it's lifespan, changes state to inactive
+                if (TimeElapsedSince(TimeStartedState - stoppedTime, durationOfLife))
+                {
+                    currentState = States.inactive;
+                }
+                // if effect is still active, perform a new patrol move
+                else if (lastTimeDidPatrolMove + patrolDelay < Time.time)
                 {
                     lastTimeDidPatrolMove = Time.time;
-                    // Get a random point on the NavMesh
-                    Vector3 randomDirection = Random.insideUnitSphere * patrolRadius;
-                    NavMesh.SamplePosition(transform.position + randomDirection, out NavMeshHit hit, patrolRadius,
-                        NavMesh.AllAreas);
+                    // randomly decides if the effect will move towards the player or a random point on the map
+                    int randomNumber = Random.Range(1, 11);
+                    if (randomNumber < 6)
+                    {
+                        // Get a random point on the NavMesh
+                        Vector3 randomDirection = Random.insideUnitSphere * patrolRadius;
+                        NavMesh.SamplePosition(transform.position + randomDirection, out NavMeshHit hit, patrolRadius,
+                            NavMesh.AllAreas);
 
-                    // Set the agent's destination to the random point on the NavMesh
-                    environmentEffect.SetDestination(hit.position);
+                        // Set the agent's destination to the random point on the NavMesh
+                        environmentEffect.SetDestination(hit.position);
+                    }
+                    else
+                    {
+                        MoveTowardsPlayer();
+                    }
+                    
                 }
                 break;
             case States.inactive:
-               
+                if (TimeElapsedSince(TimeStartedState, inactiveTime))
+                {
+                    currentState = States.stopped;
+                }
                 break; 
         }
     }
     // OnEndedState is for things that should end or change when a state ends; for cleanup
-    public void OnEndedState(States state) 
+    public void OnEndedState(States state)
     {
         switch (state) 
         {
@@ -118,9 +140,10 @@ public class AIEnvironmentalEffect : MonoBehaviour
     void Start()
     {
         renderer = GetComponent<Renderer>();
-        enemyPOS = this.transform.position;                    //gets starting position; utilized in setting spawnpoint on initialization
-        player = PlayerFlightControl.get.gameObject;   //gets the player gameobject        
-        playerCollider = player.GetComponent<Collider>();      // assigns player collider to agent        
+        visualEffect = GetComponent<VisualEffect>();
+        durationOfLife = visualEffect.GetFloat("Duration");     // gets the duration of the vfx
+        player = PlayerFlightControl.get.gameObject;            //gets the player gameobject
+        playerCollider = player.GetComponent<Collider>();       // assigns player collider to agent
 
         OnStartedState(currentState);
     }
