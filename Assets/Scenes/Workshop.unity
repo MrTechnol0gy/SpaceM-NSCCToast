@@ -10007,7 +10007,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 2084007006}
-  control: {fileID: 1781577902}
+  control: {fileID: 1781577907}
   follow_distance: 35
   camera_elevation: 4
   follow_tightness: 5
@@ -70660,9 +70660,9 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1781577902 stripped
+--- !u!114 &1781577907 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3542940778971740087, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
+  m_CorrespondingSourceObject: {fileID: 9119471313545275962, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
     type: 3}
   m_PrefabInstance: {fileID: 8384545121269315294}
   m_PrefabAsset: {fileID: 0}
@@ -85541,7 +85541,7 @@ PrefabInstance:
     - target: {fileID: 3542940778971740087, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
         type: 3}
       propertyPath: speed
-      value: 0
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3542940778971740087, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
         type: 3}
@@ -85556,12 +85556,17 @@ PrefabInstance:
     - target: {fileID: 3542940778971740087, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
         type: 3}
       propertyPath: afterburner_speed
-      value: 30
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 3542940778971740087, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
         type: 3}
       propertyPath: thrust_transition_speed
       value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636046190363231256, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
+        type: 3}
+      propertyPath: maxSpeed
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5636046190363231256, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
         type: 3}

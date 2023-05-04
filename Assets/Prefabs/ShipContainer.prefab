@@ -588,8 +588,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2913974629310598003}
   - component: {fileID: 6735432615777936214}
-  - component: {fileID: 3542940778971740087}
   - component: {fileID: 5636046190363231256}
+  - component: {fileID: 9119471313545275962}
   - component: {fileID: 2024955577509038236}
   m_Layer: 2
   m_Name: ShipContainer
@@ -643,39 +643,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3542940778971740087
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6776586672345207669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2bfa72b8825cbe40ae2877700f6e437, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actual_model: {fileID: 4228889613329319681}
-  weapon_hardpoint_1: {fileID: 1292152705337156208}
-  bullet: {fileID: 100000, guid: 66405a5a840355b489214db60c64d3b5, type: 3}
-  speed: 20
-  afterburner_speed: 40
-  slow_speed: 4
-  thrust_transition_speed: 5
-  turnspeed: 15
-  rollSpeedModifier: 7
-  pitchYaw_strength: 0.5
-  use_banking: 1
-  bank_angle_clamp: 70
-  bank_rotation_speed: 2
-  bank_rotation_multiplier: 1
-  screen_clamp: 500
-  roll: 0
-  yaw: 0
-  pitch: 0
-  afterburner_Active: 0
-  slow_Active: 0
-  PlayerIsBoinkedAbove: 0
 --- !u!114 &5636046190363231256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -694,6 +661,41 @@ MonoBehaviour:
   pickupablesInRange: []
   TractorSpeed: 1
   InteractionRange: 20
+  maxSpeed: 20
+  afterburnerSpeed: 30
+--- !u!114 &9119471313545275962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6776586672345207669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2bfa72b8825cbe40ae2877700f6e437, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actual_model: {fileID: 6776586672345207669}
+  weapon_hardpoint_1: {fileID: 1292152705337156208}
+  bullet: {fileID: 100000, guid: 66405a5a840355b489214db60c64d3b5, type: 3}
+  speed: 0
+  afterburner_speed: 0
+  slow_speed: 4
+  thrust_transition_speed: 0.8
+  braking_transition_speed: 0.4
+  turnspeed: 15
+  rollSpeedModifier: 7
+  pitchYaw_strength: 0.5
+  use_banking: 1
+  bank_angle_clamp: 360
+  bank_rotation_speed: 3
+  bank_rotation_multiplier: 1
+  screen_clamp: 500
+  roll: 0
+  yaw: 0
+  pitch: 0
+  slow_Active: 0
+  PlayerIsBoinkedAbove: 0
 --- !u!135 &2024955577509038236
 SphereCollider:
   m_ObjectHideFlags: 0

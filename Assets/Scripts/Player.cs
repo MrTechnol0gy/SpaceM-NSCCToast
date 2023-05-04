@@ -9,8 +9,11 @@ public class Player : MonoBehaviour
     public List<GameObject> pickupablesInRange;
 
     [Header("Player Stats")]
-    [SerializeField] float TractorSpeed = 1f;       // the speed at which a tractored object will be drawn towards the player
-    [SerializeField] float InteractionRange = 20f;  // the range of the interaction sphere collider
+    [SerializeField] float TractorSpeed = 1f;               // the speed at which a tractored object will be drawn towards the player
+    [SerializeField] float InteractionRange = 20f;          // the range of the interaction sphere collider
+    [SerializeField] public float maxSpeed = 20f;           // gets sent to PlayerFlightControl
+    [SerializeField] public float afterburnerSpeed = 30f;   // gets sent to PlayerFlightControl
+    [SerializeField] public float cloakSpeed = 2f;          // amount to divide player speed by when under cloak
 
     private SphereCollider interactionSphere;
     void Awake()
@@ -58,8 +61,6 @@ public class Player : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
-
-        //Debug.Log("Pickupables in range: " + pickupablesInRange.Count);
     }
 
     private void OnTriggerEnter(Collider other)

@@ -12,10 +12,11 @@ public class PlayerFlightControl : MonoBehaviour
 	public GameObject bullet; //"Projectile GameObject", "Projectile that will be fired from the weapon hardpoint."
 
 	//"Core Movement", "Controls for the various speeds for different operations."
-	public float speed = 20.0f; //"Base Speed", "Primary flight speed, without afterburners or brakes"
-	public float afterburner_speed = 40f; //Afterburner Speed", "Speed when the button for positive thrust is being held down"
+	public float speed; //"Base Speed", "Primary flight speed, without afterburners or brakes"
+	public float afterburner_speed; //Afterburner Speed", "Speed when the button for positive thrust is being held down"
 	public float slow_speed = 4f; //"Brake Speed", "Speed when the button for negative thrust is being held down"
-	public float thrust_transition_speed = 5f; //Thrust Transition Speed", "How quickly afterburners/brakes will reach their maximum effect"
+	public float thrust_transition_speed = 5f; //"Thrust Transition Speed", "How quickly afterburners/brakes will reach their maximum effect"
+	public float braking_transition_speed = 0.4f; //"Brake Transition Speed", "How quickly the ship will reduce speed to zero when thrust isn't active"
 	public float turnspeed = 15.0f; //"Turn/Roll Speed", "How fast turns and rolls will be executed "
 	public float rollSpeedModifier = 7; //"Roll Speed", "Multiplier for roll speed. Base roll is determined by turn speed"
 	public float pitchYaw_strength = 0.5f; //"Pitch/Yaw Multiplier", "Controls the intensity of pitch and yaw inputs"
@@ -29,13 +30,8 @@ public class PlayerFlightControl : MonoBehaviour
 	
 	public float screen_clamp = 500; //"Screen Clamp (Pixels)", "Once the pointer is more than this many pixels from the center, the input in that direction(s) will be treated as the maximum value."
 	
-
-
-
 	[HideInInspector]
-	public float roll, yaw, pitch; //Inputs for roll, yaw, and pitch, taken from Unity's input system.
-	[HideInInspector]
-	public bool afterburner_Active = false; //True if afterburners are on.
+	public float roll, yaw, pitch; //Inputs for roll, yaw, and pitch, taken from Unity's input system.	
 	[HideInInspector]
 	public bool slow_Active = false; //True if brakes are on
 	
@@ -50,6 +46,15 @@ public class PlayerFlightControl : MonoBehaviour
 	bool thrust_exists = true;
 	bool roll_exists = true;
 	public bool PlayerIsBoinkedAbove = false;
+
+	public enum States
+	{
+		normal,			// normal = 0
+		cloaked 		// cloaked = 1
+	}
+	private States _currentState = States.normal;
+	private float TimeStartedState;             // timer to know when we started a state
+	
 	private bool _tractorBeamActive = false;			// Whether the tractor beam is currently in use
 	public bool tractorBeamActive
 	{
@@ -63,15 +68,43 @@ public class PlayerFlightControl : MonoBehaviour
             UIManager.SetTractorBeamActive(_tractorBeamActive);
 		}
 	}
-
+	private bool _cloakActive = false;			// Whether the cloak is currently in use
+	public bool cloakActive
+	{
+		//When getting return the private variable _cloakActive;
+		get => _cloakActive;
+		set
+		{
+			//When setting, set _cloakActive to the new value and then update the UI with the new information
+            _cloakActive = value;
+			Debug.Log("Cloak is " + _cloakActive);
+            //UIManager.SetCloakActive(_cloakActive);
+		}
+	}
+	private bool _afterburnerActive = false;			// Whether the afterburner is currently in use
+	public bool afterburnerActive
+	{
+		//When getting return the private variable _afterburnerActive;
+		get => _afterburnerActive;
+		set
+		{
+			//When setting, set _afterburnerActive to the new value and then update the UI with the new information
+            _afterburnerActive = value;
+			Debug.Log("Afterburner is " + _afterburnerActive);
+            //UIManager.SetAfterburnerActive(_afterburnerActive);
+		}
+	}
 	
 	//---------------------------------------------------------------------------------
 	void Awake()
 	{
-		get = this;		
+		get = this;
 	}
-	void Start() {
-	
+	void Start() 
+	{
+		speed = Player.get.maxSpeed;
+		afterburner_speed = Player.get.afterburnerSpeed;		
+		
 		mousePos = new Vector2(0,0);	
 		DZ = CustomPointer.instance.deadzone_radius;
 		
@@ -92,6 +125,7 @@ public class PlayerFlightControl : MonoBehaviour
 			Debug.LogError("(Flight Controls) Roll input axis not set up! Go to Edit>Project Settings>Input to create a new axis called 'Roll' so the ship can roll.");
 		}
 		
+		OnStartedState(currentState);
 	}
 	
 	void FixedUpdate () {
@@ -122,22 +156,27 @@ public class PlayerFlightControl : MonoBehaviour
 		//If input on the thrust axis is positive, activate afterburners.
 
 		if (thrust_exists) {
-			if (Input.GetAxis("Thrust") > 0) {
-				afterburner_Active = true;
+			if (Input.GetAxis("Thrust") > 0 && _afterburnerActive == false) 
+			{
 				slow_Active = false;
-				currentMag = Mathf.Lerp(currentMag, afterburner_speed, thrust_transition_speed * Time.deltaTime);
-				
-			} else if (Input.GetAxis("Thrust") < 0) { 	//If input on the thrust axis is negatve, activate brakes.
-				slow_Active = true;
-				afterburner_Active = false;
-				currentMag = Mathf.Lerp(currentMag, slow_speed, thrust_transition_speed * Time.deltaTime);
-				
-			} else { //Otherwise, hold normal speed.
+				currentMag = Mathf.Lerp(currentMag, speed, thrust_transition_speed * Time.deltaTime);				
+			} 
+			else if (Input.GetAxis("Thrust") > 0 && _afterburnerActive)
+			{ 
 				slow_Active = false;
-				afterburner_Active = false;
-				currentMag = Mathf.Lerp(currentMag, speed, thrust_transition_speed * Time.deltaTime);
-				
+				currentMag = Mathf.Lerp(currentMag, afterburner_speed, thrust_transition_speed * Time.deltaTime);				
 			}
+			else if (Input.GetAxis("Thrust") < 0) 
+			{ 	//If input on the thrust axis is negatve, activate brakes.
+				slow_Active = true;
+				currentMag = Mathf.Lerp(currentMag, slow_speed, thrust_transition_speed * Time.deltaTime);				
+			} 
+			else
+			{
+				// if the player isn't holding thrust to move, they come to a stop gradually.
+				currentMag = Mathf.Lerp(currentMag, 0, braking_transition_speed * Time.deltaTime);
+			}
+			
 		}
 				
 		//Apply all these values to the rigidbody on the container.
@@ -196,7 +235,6 @@ public class PlayerFlightControl : MonoBehaviour
 
 	}
 
-
 	void updateBanking() {
 
 		//Load rotation information.
@@ -211,10 +249,10 @@ public class PlayerFlightControl : MonoBehaviour
 		actual_model.transform.rotation = Quaternion.Slerp(actual_model.transform.rotation, newRotation, bank_rotation_speed * Time.deltaTime);
 	
 	}
-
 	
 	void Update() 
 	{	
+		OnUpdatedState(currentState);
 		//Please remove this and replace it with a shooting system that works for your game, if you need one.
 		if (Input.GetMouseButtonDown(0)) {
 			fireShot();
@@ -226,6 +264,22 @@ public class PlayerFlightControl : MonoBehaviour
 		{
 			tractorBeamActive = true;
 		}		
+		if (Input.GetKeyDown("left shift") && afterburnerActive == false)
+		{
+			afterburnerActive = true;
+		}
+		else if (Input.GetKeyDown("left shift") && afterburnerActive == true)
+		{
+			afterburnerActive = false;
+		}
+		// if (Input.GetKeyDown(KeyCode.C) && cloakActive == false)
+		// {
+		// 	cloakActive = true;
+		// }
+		// else if (Input.GetKeyDown(KeyCode.C) && cloakActive == true)
+		// {
+		// 	cloakActive = false;
+		// }
 	}
 	
 	
@@ -270,6 +324,71 @@ public class PlayerFlightControl : MonoBehaviour
 		}
 	
 	}
-	
-
+	public States currentState 
+    {
+        get => _currentState;
+        set {
+            if (_currentState != value) 
+            {
+                // Calling ended state for the previous state registered.
+                OnEndedState(_currentState);
+                
+                // Setting the new current state
+                _currentState = value;
+                
+                // Registering here the time we're starting the state
+                TimeStartedState = Time.time;
+                
+                // Call the started state method for the new state.
+                OnStartedState(_currentState);
+            }
+        }
+    }
+	// OnStartedState is for things that should happen when a state first begins
+    public void OnStartedState(States state)
+    {
+        switch (state) 
+        {
+            case States.normal:
+                Debug.Log("I am normal.");
+                break;
+            case States.cloaked:
+                Debug.Log("I am cloaked.");
+				afterburnerActive = false;		// automatically turns the afterburner off
+                break;            
+        }
+    }
+	// OnUpdatedState is for things that occur during the state (main actions)
+    public void OnUpdatedState(States state) 
+    {
+        switch (state) 
+        {
+            case States.normal:
+				if (cloakActive)
+				{
+					currentState = States.cloaked;
+				}
+                break;
+            case States.cloaked:
+				speed = speed / Player.get.cloakSpeed;
+				if (afterburnerActive)
+				{
+					currentState = States.normal;
+				}
+                break;
+        }
+    }
+    // OnEndedState is for things that should end or change when a state ends; for cleanup
+    public void OnEndedState(States state)
+    {
+        switch (state) 
+        {
+            case States.normal:
+                break;
+            case States.cloaked:
+			speed = Player.get.maxSpeed;
+			cloakActive = false;
+                break;
+        }
+    }
 }
