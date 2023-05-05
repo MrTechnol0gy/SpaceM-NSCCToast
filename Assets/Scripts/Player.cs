@@ -19,13 +19,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         get = this;
-    }    
-
-    void Start()
-    {
-
     }
-
     void Update()
     {
         if (PlayerFlightControl.get.tractorBeamActive && pickupablesInRange.Count > 0)

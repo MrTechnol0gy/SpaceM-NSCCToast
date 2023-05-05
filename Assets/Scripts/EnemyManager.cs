@@ -13,6 +13,8 @@ public class EnemyManager : MonoBehaviour
 
     [Header("Enemy Prefabs")]
     [SerializeField] GameObject enemyForceProbe;
+    [SerializeField] float enemyForceHeightFloor = 1f;
+    [SerializeField] float enemyForceHeightCeiling = 5f;
     [SerializeField] GameObject elementalTornado;
 
     // Start is called before the first frame update
@@ -50,6 +52,9 @@ public class EnemyManager : MonoBehaviour
             agent.autoBraking = agentTemplate.autoBraking;
             agent.obstacleAvoidanceType = agentTemplate.obstacleAvoidanceType;
             agent.avoidancePriority = agentTemplate.avoidancePriority;
+
+            // Set the NavMeshAgent component spawn height to the desired range
+            agent.baseOffset = Random.Range(enemyForceHeightFloor, enemyForceHeightCeiling);
 
             // Add the NavMeshAgent to the list of agents
             agents.Add(agent);
@@ -129,6 +134,9 @@ public class EnemyManager : MonoBehaviour
             agent.autoBraking = agentTemplate.autoBraking;
             agent.obstacleAvoidanceType = agentTemplate.obstacleAvoidanceType;
             agent.avoidancePriority = agentTemplate.avoidancePriority;
+
+            // Set the NavMeshAgent component spawn height to the desired range
+            agent.baseOffset = 0;
 
             // Add the NavMeshAgent to the list of agents
             agents.Add(agent);

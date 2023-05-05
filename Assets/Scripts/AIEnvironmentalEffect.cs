@@ -8,7 +8,6 @@ public class AIEnvironmentalEffect : MonoBehaviour
 {
     public NavMeshAgent environmentEffect;
     private GameObject player;
-    private Renderer renderer;
     private Vector3 playerPOS;
     private Vector3 oldPlayerPOS;
     private VisualEffect visualEffect;
@@ -56,20 +55,19 @@ public class AIEnvironmentalEffect : MonoBehaviour
     // OnStartedState is for things that should happen when a state first begins
     public void OnStartedState(States state)
     {
-        if (renderer == null) return;
         switch (state) 
         {
             case States.stopped:
                 Debug.Log("I am stopped.");
                 environmentEffect.isStopped = true;
-                visualEffect.gameObject.SetActive(true);
+                visualEffect.enabled = true;
                 break;
             case States.patrolling:
                 Debug.Log("I am patrolling.");
                 break;
             case States.inactive:
                 Debug.Log("I am inactive.");
-                visualEffect.gameObject.SetActive(false);
+                visualEffect.enabled = false;
                 break;
         }
     }
@@ -111,7 +109,6 @@ public class AIEnvironmentalEffect : MonoBehaviour
                     {
                         MoveTowardsPlayer();
                     }
-                    
                 }
                 break;
             case States.inactive:
@@ -139,7 +136,6 @@ public class AIEnvironmentalEffect : MonoBehaviour
     
     void Start()
     {
-        renderer = GetComponent<Renderer>();
         visualEffect = GetComponent<VisualEffect>();
         durationOfLife = visualEffect.GetFloat("Duration");     // gets the duration of the vfx
         player = PlayerFlightControl.get.gameObject;            //gets the player gameobject
