@@ -272,14 +272,14 @@ public class PlayerFlightControl : MonoBehaviour
 		{
 			afterburnerActive = false;
 		}
-		// if (Input.GetKeyDown(KeyCode.C) && cloakActive == false)
-		// {
-		// 	cloakActive = true;
-		// }
-		// else if (Input.GetKeyDown(KeyCode.C) && cloakActive == true)
-		// {
-		// 	cloakActive = false;
-		// }
+		if (Input.GetKeyDown(KeyCode.C) && cloakActive == false)
+		{
+			cloakActive = true;
+		}
+		else if (Input.GetKeyDown(KeyCode.C) && cloakActive == true)
+		{
+			cloakActive = false;
+		}
 	}
 	
 	
@@ -354,8 +354,12 @@ public class PlayerFlightControl : MonoBehaviour
                 break;
             case States.cloaked:
                 Debug.Log("I am cloaked.");
-				afterburnerActive = false;		// automatically turns the afterburner off
-                break;            
+				if (afterburnerActive)
+				{
+					afterburnerActive = false;		// automatically turns the afterburner off
+				}
+				speed = speed / Player.get.cloakSpeed;
+                break;
         }
     }
 	// OnUpdatedState is for things that occur during the state (main actions)
@@ -370,8 +374,7 @@ public class PlayerFlightControl : MonoBehaviour
 				}
                 break;
             case States.cloaked:
-				speed = speed / Player.get.cloakSpeed;
-				if (afterburnerActive)
+				if (afterburnerActive || !cloakActive)
 				{
 					currentState = States.normal;
 				}
@@ -387,7 +390,10 @@ public class PlayerFlightControl : MonoBehaviour
                 break;
             case States.cloaked:
 			speed = Player.get.maxSpeed;
-			cloakActive = false;
+			if (cloakActive)
+			{
+				cloakActive = false;
+			}
                 break;
         }
     }

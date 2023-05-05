@@ -19,6 +19,7 @@ public class AIEnemyForce : MonoBehaviour
     private float TimeStartedState;             // timer to know when we started a state
     private float lastTimeDidPatrolMove;        // holder for patrol timers
     private float lastTimeDidEnemyCheck;        // holder for search check timers
+    private bool isPlayerCloaked = false;       // holder for player cloak status
     public LayerMask wallLayer;
     [SerializeField] Collider playerCollider;    
 
@@ -244,6 +245,11 @@ public class AIEnemyForce : MonoBehaviour
 
     private bool IsTargetVisible()
     {        
+        // checks if the player is cloaked first, and if so leaves the method and returns false
+        if (PlayerCloakCheck())
+        {
+            return false;
+        }
         Ray ray = new Ray (enemyPOS, playerPOS - enemyPOS);                         //casts a ray from the enemy agent towards the player's position 
         Debug.DrawRay(enemyPOS, (playerPOS - enemyPOS) * 10);                       // visualizes the raycast for debugging
         RaycastHit hitData;
@@ -295,6 +301,18 @@ public class AIEnemyForce : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(player.transform.position - transform.position);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
         
+    }
+    private bool PlayerCloakCheck()
+    {
+        isPlayerCloaked = PlayerFlightControl.get.cloakActive;
+        if (isPlayerCloaked)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     private IEnumerator Shoot()
     {
