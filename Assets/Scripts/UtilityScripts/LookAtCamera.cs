@@ -9,7 +9,7 @@ public class LookAtCamera : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       sceneCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+       sceneCamera = Camera.main;
     }
 
     // Update is called once per frame

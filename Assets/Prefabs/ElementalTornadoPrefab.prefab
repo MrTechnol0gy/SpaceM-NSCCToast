@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7547820338223149982}
   - component: {fileID: 2257891141749831904}
   - component: {fileID: 7976975606259506244}
+  - component: {fileID: 7191830035452985181}
   m_Layer: 7
   m_Name: ElementalTornadoPrefab
   m_TagString: Untagged
@@ -29,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 704145793413857556}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.1698992, y: 0, z: 3.238062}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -325,8 +326,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneCamera: {fileID: 0}
-  lockX: 1
-  lockY: 0
+  lockX: 0
+  lockY: 1
   lockZ: 1
 --- !u!114 &2257891141749831904
 MonoBehaviour:
@@ -346,7 +347,7 @@ MonoBehaviour:
     m_Bits: 1
   playerCollider: {fileID: 0}
   stoppedTime: 5
-  inactiveTime: 15
+  inactiveTime: 2
   patrolDelay: 10
   patrolRadius: 50
   rotationSpeed: 5
@@ -372,3 +373,26 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!136 &7191830035452985181
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704145793413857556}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 6
+  m_Height: 16
+  m_Direction: 1
+  m_Center: {x: 0, y: 5, z: 0}

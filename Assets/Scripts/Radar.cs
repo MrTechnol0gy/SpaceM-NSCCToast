@@ -65,7 +65,6 @@ public class Radar : MonoBehaviour
         playerElement.style.unityBackgroundImageTintColor = new StyleColor(Color.blue);
         //Added it to the radar element.
         radarElement.Add(playerElement);
-
     }
 
     public void CreateTarget(Transform target, bool isPickup) {
