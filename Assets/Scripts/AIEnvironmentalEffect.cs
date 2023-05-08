@@ -15,12 +15,15 @@ public class AIEnvironmentalEffect : MonoBehaviour
     private float durationOfLife;               // var to hold duration of VFX
     private float lastTimeDidPatrolMove;        // holder for patrol timers
     private float lastTimeDidEnemyCheck;        // holder for search check timers
+    private float inactiveTime;                 // holder for time to be inactive based on a random range
     public LayerMask wallLayer;
     [SerializeField] Collider playerCollider;
 
     [Header("Environment Effect Stats")]
+    [SerializeField] int damageDone = 10;           // how much time is taken away on an impact with the player
     [SerializeField] float stoppedTime = 5f;        // how long the AI should remain in a stopped condition   
-    [SerializeField] float inactiveTime = 15f;      // how long the AI should remain in an inactive state
+    [SerializeField] float inactiveTimeFloor = 3f;      // minimum time the AI should remain in an inactive state
+    [SerializeField] float inactiveTimeCeiling = 15f;   // maximum time the AI should remain in an inactive state
     [SerializeField] float patrolDelay = 10f;       // how long the AI will wait before choosing a new patrol path
     [SerializeField] float patrolRadius = 50f;      // how large a sphere the AI will use to select a new patrol point from   
     [SerializeField] float rotationSpeed = 5f;      // how fast the AI can rotate
@@ -112,6 +115,7 @@ public class AIEnvironmentalEffect : MonoBehaviour
                 }
                 break;
             case States.inactive:
+                inactiveTime = Random.Range(inactiveTimeFloor, inactiveTimeCeiling);
                 if (TimeElapsedSince(TimeStartedState, inactiveTime))
                 {
                     currentState = States.stopped;
@@ -165,7 +169,15 @@ public class AIEnvironmentalEffect : MonoBehaviour
     {
         Quaternion targetRotation = Quaternion.LookRotation(player.transform.position - transform.position);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-        
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other == playerCollider)
+        {
+            Debug.Log("Player has been tornadoed");
+            GameTimer.get.DecreaseTime(damageDone);
+        }
     }
     
     // I use Handles.Label to show a label with the current state above the player. Can use it for more debug info as well.

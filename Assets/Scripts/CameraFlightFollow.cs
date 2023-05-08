@@ -23,8 +23,7 @@ public class CameraFlightFollow : MonoBehaviour {
 	
 	void Awake() {
 	
-		instance = this;
-	
+		instance = this;	
 	
 	}
 
@@ -50,7 +49,8 @@ public class CameraFlightFollow : MonoBehaviour {
 		transform.position = Vector3.Lerp (transform.position, newPosition, Time.deltaTime * follow_tightness);
 		
 		Quaternion newRotation;
-		if (control.afterburnerActive && shake_on_afterburn) {
+		if (control.afterburnerActive && shake_on_afterburn && control.GetSpeed() > Player.get.maxSpeed) 
+		{
 			//Shake the camera while looking towards the targeter.
 			newRotation = Quaternion.LookRotation(positionDifference + new Vector3(
 				Random.Range(-afterburner_Shake_Amount, afterburner_Shake_Amount),

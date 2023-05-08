@@ -31,9 +31,6 @@ public class EnemyManager : MonoBehaviour
         float spawnRadius = GameManager.get.spawnRadius;
         int numAgentsToSpawn = GameManager.get.amountOfEnemies;
 
-        // Get NavMeshAgent component once outside the loop
-        NavMeshAgent agentTemplate = enemyForceProbe.GetComponent<NavMeshAgent>();
-
         for (int i = 0; i < numAgentsToSpawn; i++)
         {
             // Instantiate new enemy force probe
@@ -41,17 +38,6 @@ public class EnemyManager : MonoBehaviour
 
             // Get the NavMeshAgent component from the instantiated object
             NavMeshAgent agent = agentObject.GetComponent<NavMeshAgent>();
-
-            // Set the NavMeshAgent component to use the same values as the template
-            agent.radius = agentTemplate.radius;
-            agent.height = agentTemplate.height;
-            agent.speed = agentTemplate.speed;
-            agent.angularSpeed = agentTemplate.angularSpeed;
-            agent.acceleration = agentTemplate.acceleration;
-            agent.stoppingDistance = agentTemplate.stoppingDistance;
-            agent.autoBraking = agentTemplate.autoBraking;
-            agent.obstacleAvoidanceType = agentTemplate.obstacleAvoidanceType;
-            agent.avoidancePriority = agentTemplate.avoidancePriority;
 
             // Set the NavMeshAgent component spawn height to the desired range
             agent.baseOffset = Random.Range(enemyForceHeightFloor, enemyForceHeightCeiling);
@@ -74,9 +60,8 @@ public class EnemyManager : MonoBehaviour
                 // Get a random position on the NavMesh within a certain radius
                 Vector3 randomDirection = Random.insideUnitSphere * spawnRadius;
                 Vector3 randomPosition = transform.position + randomDirection;
-                NavMeshHit hit;
 
-                if (NavMesh.SamplePosition(randomPosition, out hit, spawnRadius, NavMesh.AllAreas))
+                if (NavMesh.SamplePosition(randomPosition, out NavMeshHit hit, spawnRadius, NavMesh.AllAreas))
                 {
                     Debug.Log("Valid position found: " + hit.position);
 
@@ -113,9 +98,6 @@ public class EnemyManager : MonoBehaviour
         float spawnRadius = GameManager.get.spawnRadius;
         int numAgentsToSpawn = GameManager.get.amountOfEnvironmentalDangers;
 
-        // Get NavMeshAgent component once outside the loop
-        NavMeshAgent agentTemplate = elementalTornado.GetComponent<NavMeshAgent>();
-
         for (int i = 0; i < numAgentsToSpawn; i++)
         {
             // Instantiate new enemy force probe
@@ -124,19 +106,8 @@ public class EnemyManager : MonoBehaviour
             // Get the NavMeshAgent component from the instantiated object
             NavMeshAgent agent = agentObject.GetComponent<NavMeshAgent>();
 
-            // Set the NavMeshAgent component to use the same values as the template
-            agent.radius = agentTemplate.radius;
-            agent.height = agentTemplate.height;
-            agent.speed = agentTemplate.speed;
-            agent.angularSpeed = agentTemplate.angularSpeed;
-            agent.acceleration = agentTemplate.acceleration;
-            agent.stoppingDistance = agentTemplate.stoppingDistance;
-            agent.autoBraking = agentTemplate.autoBraking;
-            agent.obstacleAvoidanceType = agentTemplate.obstacleAvoidanceType;
-            agent.avoidancePriority = agentTemplate.avoidancePriority;
-
             // Set the NavMeshAgent component spawn height to the desired range
-            agent.baseOffset = 0;
+            //agent.baseOffset = 0;
 
             // Add the NavMeshAgent to the list of agents
             agents.Add(agent);
@@ -156,9 +127,8 @@ public class EnemyManager : MonoBehaviour
                 // Get a random position on the NavMesh within a certain radius
                 Vector3 randomDirection = Random.insideUnitSphere * spawnRadius;
                 Vector3 randomPosition = transform.position + randomDirection;
-                NavMeshHit hit;
 
-                if (NavMesh.SamplePosition(randomPosition, out hit, spawnRadius, NavMesh.AllAreas))
+                if (NavMesh.SamplePosition(randomPosition, out NavMeshHit hit, spawnRadius, NavMesh.AllAreas))
                 {
                     Debug.Log("Valid position found: " + hit.position);
 
