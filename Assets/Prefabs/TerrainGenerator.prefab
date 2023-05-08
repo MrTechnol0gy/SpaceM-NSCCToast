@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3091633227819538356
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 683639534213418243}
+  - component: {fileID: 8193107824718307090}
+  m_Layer: 0
+  m_Name: TerrainGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &683639534213418243
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3091633227819538356}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8193107824718307090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3091633227819538356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1788905bc262b9b4ca735d267affab2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainRadius: 50
+  prefabList:
+  - prefab: {fileID: 6930907428626145911, guid: e94aa592aa5503e4b90cb6e94bbaa592,
+      type: 3}
+    amount: 400
+  - prefab: {fileID: 5088930038270693170, guid: fcf12b0dc08414844bb78972d0c90301,
+      type: 3}
+    amount: 1000
+  - prefab: {fileID: 219355230839552672, guid: 8fdfb7a5467d6c048aea315575bad0ed, type: 3}
+    amount: 1000
+  - prefab: {fileID: 7485973667676221936, guid: b430c71f61c6d5e42bd304d4bb45aab8,
+      type: 3}
+    amount: 25
+  - prefab: {fileID: 1298088068165176375, guid: 8bbc5b9ba7556304bb750db9f2f0d631,
+      type: 3}
+    amount: 20
+  - prefab: {fileID: 7681102671156247747, guid: ed4a5259814cded45bba97887c6696c1,
+      type: 3}
+    amount: 400
+  minHeight: 0
+  maxHeight: 1
+  minDistance: 1
