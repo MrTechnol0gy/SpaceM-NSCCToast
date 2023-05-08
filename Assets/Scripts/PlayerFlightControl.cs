@@ -50,7 +50,8 @@ public class PlayerFlightControl : MonoBehaviour
 	public enum States
 	{
 		normal,			// normal = 0
-		cloaked 		// cloaked = 1
+		cloaked, 		// cloaked = 1
+		afterburner 	// afterburner = 2
 	}
 	private States _currentState = States.normal;
 	private float TimeStartedState;             // timer to know when we started a state
@@ -101,7 +102,8 @@ public class PlayerFlightControl : MonoBehaviour
 		get = this;
 	}
 	void Start() 
-	{
+	{	
+		// gets relevant stats from the Player script
 		speed = Player.get.maxSpeed;
 		afterburner_speed = Player.get.afterburnerSpeed;		
 		
@@ -360,6 +362,9 @@ public class PlayerFlightControl : MonoBehaviour
 				}
 				speed = speed / Player.get.cloakSpeed;
                 break;
+			case States.afterburner:
+				Debug.Log("I am using the afterburner.");
+				break;
         }
     }
 	// OnUpdatedState is for things that occur during the state (main actions)
@@ -374,11 +379,25 @@ public class PlayerFlightControl : MonoBehaviour
 				}
                 break;
             case States.cloaked:
-				if (afterburnerActive || !cloakActive)
+				if (!cloakActive)
 				{
 					currentState = States.normal;
 				}
+				else if (afterburnerActive)
+				{
+					currentState = States.afterburner;
+				}
                 break;
+			case States.afterburner:
+				if (!afterburnerActive)
+				{
+					currentState = States.normal;
+				}
+				else if (cloakActive)
+				{
+					currentState = States.cloaked;
+				}
+				break;
         }
     }
     // OnEndedState is for things that should end or change when a state ends; for cleanup
@@ -395,6 +414,13 @@ public class PlayerFlightControl : MonoBehaviour
 				cloakActive = false;
 			}
                 break;
+			case States.afterburner:
+				break;
         }
     }
+
+	public float GetSpeed()
+	{
+		return currentMag;
+	}
 }
