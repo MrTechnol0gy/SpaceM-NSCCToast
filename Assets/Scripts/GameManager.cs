@@ -29,6 +29,44 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        StartCoroutine(InitializeLevel());
+    }
+
+    // InitializeLevel ensures certain methods happen in a certain order to prevent issues during load time
+    IEnumerator InitializeLevel()
+    {
+        UIManager.get.ShowLoadScreen();
+        yield return new WaitForEndOfFrame();   // wait for the loading screen to show before starting heavy load items
+        
+        UIManager.SetLoadText("Generating Terrain");
+        yield return new WaitForEndOfFrame();
+        RandomTerrainGenerator.get.GenerateTerrain();
+        yield return new WaitForEndOfFrame(); // wait for terrain generation to complete
+
+        UIManager.SetLoadText("Baking Meshes.");
+        yield return new WaitForEndOfFrame();
+        NavMeshBaker.get.BakeNavMeshes();
+        yield return new WaitForEndOfFrame(); // wait for navmesh baking to complete
+    
+        UIManager.SetLoadText("Dropping Pickups.");
+        yield return new WaitForEndOfFrame();
+        PickUpManager.get.SpawnPickups();
+        yield return new WaitForEndOfFrame();
+        
+        UIManager.SetLoadText("Enemies approaching.");
+        yield return new WaitForEndOfFrame();
+        EnemyManager.get.SpawnAgents();
+        yield return new WaitForEndOfFrame();
+        
+        UIManager.SetLoadText("Throwing in some fire tornados, as a treat.");
+        yield return new WaitForEndOfFrame();
+        EnemyManager.get.SpawnEnvironmentalDangers();
+        yield return new WaitForEndOfFrame(); // wait for spawns to complete
+        
+        UIManager.get.HideLoadScreen();
+        yield return new WaitForEndOfFrame();
+
+        UIManager.get.ShowOverlayScreen();
         UIManager.SetIntelTotalRequired(totalIntelNeeded);
         UIManager.SetIntelCurrentAmount(intelCollected);
     }

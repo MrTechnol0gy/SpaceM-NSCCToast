@@ -22,13 +22,7 @@ public class PickUpManager : MonoBehaviour
         get = this;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        SpawnAgents();
-    }
-
-    void SpawnAgents()
+    public void SpawnPickups()
     {
         float spawnRadius = GameManager.get.spawnRadius;
         int numAgentsToSpawn = GameManager.get.amountOfPickUps;
