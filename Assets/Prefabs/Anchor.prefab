@@ -2651,7 +2651,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7337550575473607648}
   - component: {fileID: 7219739873485462195}
-  - component: {fileID: 8533024601139727343}
+  - component: {fileID: 2006357737862303157}
   m_Layer: 0
   m_Name: Anchor
   m_TagString: Untagged
@@ -2676,7 +2676,7 @@ Transform:
   - {fileID: 306800392928430058}
   - {fileID: 6662761260582028073}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7219739873485462195
 MonoBehaviour:
@@ -2691,7 +2691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateSpeed: -2
---- !u!114 &8533024601139727343
+--- !u!114 &2006357737862303157
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

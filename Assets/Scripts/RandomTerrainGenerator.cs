@@ -12,6 +12,8 @@ public class PrefabAmount
 public class RandomTerrainGenerator : MonoBehaviour
 {
     public static RandomTerrainGenerator get;
+
+    public GameObject anchor;
     public int terrainRadius = 10;
     public List<PrefabAmount> prefabList;
     public float minHeight = 0.0f;
@@ -19,6 +21,9 @@ public class RandomTerrainGenerator : MonoBehaviour
     public float minDistance = 1.0f;
     public float minScale = 10f;
     public float maxScale = 50f;
+
+    private float prefabToSpawnDistance;
+    public float minDistanceFromSpawn = 25f;
 
     private List<GameObject> spawnedPrefabs = new List<GameObject>();
 
@@ -54,7 +59,7 @@ public class RandomTerrainGenerator : MonoBehaviour
 
             // Generate a random position within the radius
             Vector3 position = new Vector3(Random.Range(-terrainRadius, terrainRadius), 0, Random.Range(-terrainRadius, terrainRadius));
-
+                        
             // Check if there are any existing prefabs too close to the new position
             bool tooClose = false;
             foreach (GameObject existingPrefab in spawnedPrefabs)
@@ -66,6 +71,17 @@ public class RandomTerrainGenerator : MonoBehaviour
                     break;
                 }
             }
+            // checks if the new position is too close to player spawn
+            // foreach (GameObject existingPrefab in spawnedPrefabs)
+            // {
+            //     float spawnDistance = Vector3.Distance(position, anchor.transform.position);
+            //     if (spawnDistance < minDistanceFromSpawn)
+            //     {
+            //         tooClose = true;
+            //         break;
+            //     }
+            // }
+
 
             // If the new position is too close to an existing prefab, try again with a new position
             if (tooClose)
