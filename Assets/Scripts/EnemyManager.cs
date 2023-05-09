@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyManager : MonoBehaviour
 {
+    public static EnemyManager get;
     public static List<NavMeshAgent> allEnemies = new List<NavMeshAgent>();
     public static List<NavMeshAgent> allEnvironmentThreats = new List<NavMeshAgent>();
     List<NavMeshAgent> agents = new List<NavMeshAgent>();
@@ -17,16 +18,19 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] float enemyForceHeightCeiling = 5f;
     [SerializeField] GameObject elementalTornado;
 
+    void Awake()
+    {
+        get = this;
+    }
+
     // Start is called before the first frame update
     void Start() 
     {
         allEnemies.Clear();             // clean up code
         allEnvironmentThreats.Clear();  // clean up code
-        SpawnAgents();
-        SpawnEnvironmentalDangers();
     }
 
-    void SpawnAgents()
+    public void SpawnAgents()
     {
         float spawnRadius = GameManager.get.spawnRadius;
         int numAgentsToSpawn = GameManager.get.amountOfEnemies;
@@ -93,7 +97,7 @@ public class EnemyManager : MonoBehaviour
             }
         }
     }
-    void SpawnEnvironmentalDangers()
+    public void SpawnEnvironmentalDangers()
     {
         float spawnRadius = GameManager.get.spawnRadius;
         int numAgentsToSpawn = GameManager.get.amountOfEnvironmentalDangers;

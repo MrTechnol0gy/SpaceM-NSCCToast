@@ -11,8 +11,10 @@ public class UIManager : MonoBehaviour
     private VisualElement root;             // reference to the root visual element
     private VisualElement overlay;          // reference to the overlay screen visual element
     private VisualElement winloseScreen;    // reference to the winlose screen visual element
+    private VisualElement loadingScreen;    // reference to the loading screen visual element
     public Label missionTimerLabel, speedLabel, intelTotalRequiredLabel, intelCurrentAmountLabel; //references the ingame UI Labels from the UIDocument
     public Label winText, loseText;         // references the win/lose UI Labels from the UIDocument
+    public Label loadText;                  // reference the Loading screen text label from the UIDocument
     public Toggle tractorBeamToggle;        // references the Toggles from the UIDocument
     public Button retryButton, quitButton;  // references buttons from the win/lose screen
 
@@ -34,11 +36,8 @@ public class UIManager : MonoBehaviour
         retryButton.clickable = new Clickable(DoRetryStuff);
         quitButton = root.Query<Button>("Quit");
         quitButton.clickable = new Clickable(QuitApplication);
-    }
-
-    void Start()
-    {
-        ShowOverlayScreen();
+        loadingScreen = root.Query<VisualElement>("LoadingScreen");
+        loadText = root.Query<Label>("LoadText");
     }
 
     public bool isShowingMenu() {
@@ -70,15 +69,27 @@ public class UIManager : MonoBehaviour
         Cursor.visible = false;
     }
     [ContextMenu("ShowOverlay")]
-    public void ShowOverlayScreen() {
-        // Cursor.lockState = CursorLockMode.None;
-        // Cursor.visible = false;
+    public void ShowOverlayScreen() 
+    {
         overlay.SetDisplayBasedOnBool(true);
     }
 
     [ContextMenu("HideOverlay")]
     public void HideOverlayScreen() {
         overlay.SetDisplayBasedOnBool(false);
+    }
+
+    [ContextMenu("ShowLoadScreen")]
+    public void ShowLoadScreen() 
+    {
+        loadingScreen.SetDisplayBasedOnBool(true);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    [ContextMenu("HideLoadScreen")]
+    public void HideLoadScreen() {
+        loadingScreen.SetDisplayBasedOnBool(false);
     }
 
     public static void SetSpeed(int speed)
@@ -108,12 +119,17 @@ public class UIManager : MonoBehaviour
     public void DoRetryStuff()
     {
         Debug.Log("Clicked Retry.");
-        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Loading");
     }
 
     public void QuitApplication()
     {
         Debug.Log("Clicked Quit.");
         Application.Quit();
+    }
+
+    public static void SetLoadText(string text)
+    {
+        get.loadText.text = $"{text}";
     }
 }

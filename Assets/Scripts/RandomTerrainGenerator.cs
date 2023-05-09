@@ -11,6 +11,7 @@ public class PrefabAmount
 
 public class RandomTerrainGenerator : MonoBehaviour
 {
+    public static RandomTerrainGenerator get;
     public int terrainRadius = 10;
     public List<PrefabAmount> prefabList;
     public float minHeight = 0.0f;
@@ -21,13 +22,12 @@ public class RandomTerrainGenerator : MonoBehaviour
 
     private List<GameObject> spawnedPrefabs = new List<GameObject>();
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        GenerateTerrain();
+        get = this;
     }
 
-    void GenerateTerrain()
+    public void GenerateTerrain()
     {
         int totalPrefabs = 0;
         foreach (PrefabAmount prefabAmount in prefabList)
