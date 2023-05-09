@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour
     public Label winText, loseText;         // references the win/lose UI Labels from the UIDocument
     public Label loadText;                  // reference the Loading screen text label from the UIDocument
     public Toggle tractorBeamToggle;        // references the Toggles from the UIDocument
-    public Button retryButton, quitButton;  // references buttons from the win/lose screen
+    public Button continueButton, quitButton;  // references buttons from the win/lose screen
 
     void Awake()
     {
@@ -32,8 +32,8 @@ public class UIManager : MonoBehaviour
         intelCurrentAmountLabel = root.Query<Label>("IntelCurrentAmount");
         winText = root.Query<Label>("WinText");
         loseText = root.Query<Label>("LoseText");
-        retryButton = root.Query<Button>("Retry");
-        retryButton.clickable = new Clickable(DoRetryStuff);
+        continueButton = root.Query<Button>("Retry");
+        continueButton.clickable = new Clickable(DoRetryStuff);
         quitButton = root.Query<Button>("Quit");
         quitButton.clickable = new Clickable(QuitApplication);
         loadingScreen = root.Query<VisualElement>("LoadingScreen");
