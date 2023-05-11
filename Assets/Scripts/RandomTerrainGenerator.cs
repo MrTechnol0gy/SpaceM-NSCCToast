@@ -65,25 +65,20 @@ public class RandomTerrainGenerator : MonoBehaviour
             foreach (GameObject existingPrefab in spawnedPrefabs)
             {
                 float distance = Vector3.Distance(existingPrefab.transform.position, position);
+                prefabToSpawnDistance = Vector3.Distance(position, anchor.transform.position);
                 if (distance < minDistance)
                 {
                     tooClose = true;
                     break;
                 }
+                 // checks if the new position is too close to player spawn
+                else if (prefabToSpawnDistance < minDistanceFromSpawn)
+                {
+                    tooClose = true;
+                    break;
+                }
             }
-            // checks if the new position is too close to player spawn
-            // foreach (GameObject existingPrefab in spawnedPrefabs)
-            // {
-            //     float spawnDistance = Vector3.Distance(position, anchor.transform.position);
-            //     if (spawnDistance < minDistanceFromSpawn)
-            //     {
-            //         tooClose = true;
-            //         break;
-            //     }
-            // }
-
-
-            // If the new position is too close to an existing prefab, try again with a new position
+            // If the new position is too close to an existing prefab or the spawn point, try again with a new position
             if (tooClose)
             {
                 i--;

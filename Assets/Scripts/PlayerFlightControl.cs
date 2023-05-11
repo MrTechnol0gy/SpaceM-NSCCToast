@@ -141,7 +141,14 @@ public class PlayerFlightControl : MonoBehaviour
 		updateCursorPosition();
 		
 		//Clamping the pitch and yaw values, and taking in the roll input.
-		pitch = Mathf.Clamp(distFromVertical, -screen_clamp - DZ, screen_clamp  + DZ) * pitchYaw_strength;
+		if (Player.get.allowPitch)
+		{
+			pitch = Mathf.Clamp(distFromVertical, -screen_clamp - DZ, screen_clamp  + DZ) * pitchYaw_strength;
+		}
+		else
+		{
+			pitch = 0;
+		}
 		//If player is boinked above ignore the real pitch and just set pitch to 45 degrees away from boinked object
 		if (PlayerIsBoinkedAbove)
 		{
@@ -186,10 +193,20 @@ public class PlayerFlightControl : MonoBehaviour
 			(pitch * turnspeed * Time.deltaTime),
 			(yaw * turnspeed * Time.deltaTime),
 			(roll * turnspeed *  (rollSpeedModifier / 2) * Time.deltaTime));
-		Vector3 directionalVelocity = transform.forward;
+		// If the Player script allows movement on the Y axis or not, respectively.
+		Vector3 directionalVelocity;
+		if (Player.get.allowPitch)
+		{
+			directionalVelocity = transform.forward;
+		}
+		else
+		{
+			directionalVelocity = new Vector3(transform.forward.x, 0, transform.forward.z);
+		}
+		// If the player is hit on the top of their ship, they will move at an angle away from the object
 		if (PlayerIsBoinkedAbove)
 		{
-   			directionalVelocity = Vector3.Lerp(directionalVelocity, -transform.up, 0.125f).normalized;
+			directionalVelocity = Vector3.Lerp(directionalVelocity, -transform.up, 0.125f).normalized;
 		}
 		GetComponent<Rigidbody>().velocity = directionalVelocity * currentMag; //Apply speed
 		
@@ -197,6 +214,17 @@ public class PlayerFlightControl : MonoBehaviour
 		{
 			updateBanking(); //Calculate banking.
 		}
+		if (transform.rotation.eulerAngles.x > 0f && transform.rotation.eulerAngles.x < 180f)
+		{
+			// Object is rotated downwards, so rotate it upwards towards zero.
+			transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f), Time.deltaTime * bank_rotation_speed);
+		}
+		else if (transform.rotation.eulerAngles.x > 180f && transform.rotation.eulerAngles.x < 360f)
+		{
+			// Object is rotated upwards, so rotate it downwards towards zero.
+			transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f), Time.deltaTime * bank_rotation_speed);
+		}
+
 		UIManager.SetSpeed(Mathf.RoundToInt(currentMag));	//convert speed from float to int to pass to the UIManager for display on the GUI		
 	}		
 		
@@ -237,18 +265,37 @@ public class PlayerFlightControl : MonoBehaviour
 
 	}
 
-	void updateBanking() {
+	void updateBanking() 
+	{
+		if (Player.get.allowPitch)
+		{
+			//Load rotation information.
+			Quaternion newRotation = transform.rotation;
+			Vector3 newEulerAngles = newRotation.eulerAngles;
+			
+			//Basically, we're just making it bank a little in the direction that it's turning.
+			newEulerAngles.z += Mathf.Clamp((-yaw * turnspeed * Time.deltaTime ) * bank_rotation_multiplier, - bank_angle_clamp, bank_angle_clamp);
+			newRotation.eulerAngles = newEulerAngles;
+			
+			//Apply the rotation to the gameobject that contains the model.
+			actual_model.transform.rotation = Quaternion.Slerp(actual_model.transform.rotation, newRotation, bank_rotation_speed * Time.deltaTime);
+		}
+		else
+		{
+			// Load rotation information.
+			Quaternion newRotation = transform.rotation;
+			Vector3 newEulerAngles = newRotation.eulerAngles;
 
-		//Load rotation information.
-		Quaternion newRotation = transform.rotation;
-		Vector3 newEulerAngles = newRotation.eulerAngles;
-		
-		//Basically, we're just making it bank a little in the direction that it's turning.
-		newEulerAngles.z += Mathf.Clamp((-yaw * turnspeed * Time.deltaTime ) * bank_rotation_multiplier, - bank_angle_clamp, bank_angle_clamp);
-		newRotation.eulerAngles = newEulerAngles;
-		
-		//Apply the rotation to the gameobject that contains the model.
-		actual_model.transform.rotation = Quaternion.Slerp(actual_model.transform.rotation, newRotation, bank_rotation_speed * Time.deltaTime);
+			// Prevent rotation on X-axis.
+			newEulerAngles.x = 0f;
+
+			// Apply banking rotation on Z-axis.
+			newEulerAngles.z += Mathf.Clamp((-yaw * turnspeed * Time.deltaTime) * bank_rotation_multiplier, -bank_angle_clamp, bank_angle_clamp);
+			newRotation.eulerAngles = newEulerAngles;
+
+			// Apply the rotation to the gameobject that contains the model.
+			actual_model.transform.rotation = Quaternion.Slerp(actual_model.transform.rotation, newRotation, bank_rotation_speed * Time.deltaTime);
+		}
 	
 	}
 	

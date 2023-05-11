@@ -325,7 +325,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 3, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -465,7 +465,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh31448
+  m_Name: pb_Mesh30010
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -13160,7 +13160,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh31420
+  m_Name: pb_Mesh29982
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -13325,7 +13325,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh31494
+  m_Name: pb_Mesh30056
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -13537,24 +13537,24 @@ MonoBehaviour:
   prefabList:
   - prefab: {fileID: 5088930038270693170, guid: fcf12b0dc08414844bb78972d0c90301,
       type: 3}
-    amount: 75
+    amount: 5
   - prefab: {fileID: 219355230839552672, guid: 8fdfb7a5467d6c048aea315575bad0ed, type: 3}
-    amount: 75
+    amount: 5
   - prefab: {fileID: 6930907428626145911, guid: e94aa592aa5503e4b90cb6e94bbaa592,
       type: 3}
-    amount: 75
+    amount: 5
   - prefab: {fileID: 7681102671156247747, guid: ed4a5259814cded45bba97887c6696c1,
       type: 3}
-    amount: 125
+    amount: 5
   - prefab: {fileID: 1298088068165176375, guid: 8bbc5b9ba7556304bb750db9f2f0d631,
       type: 3}
-    amount: 10
+    amount: 5
   - prefab: {fileID: 7485973667676221936, guid: b430c71f61c6d5e42bd304d4bb45aab8,
       type: 3}
-    amount: 20
+    amount: 5
   minHeight: -10
   maxHeight: 5
-  minDistance: 1
+  minDistance: 10
   minScale: 20
   maxScale: 75
   minDistanceFromSpawn: 100
@@ -13627,7 +13627,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh31406
+  m_Name: pb_Mesh29968
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -14562,7 +14562,7 @@ PrefabInstance:
     - target: {fileID: 2913974629310598003, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2913974629310598003, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
         type: 3}
@@ -14636,6 +14636,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5636046190363231256, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
         type: 3}
+      propertyPath: allowPitch
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636046190363231256, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
+        type: 3}
       propertyPath: InteractionRange
       value: 20
       objectReference: {fileID: 0}
@@ -14643,6 +14648,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ShipContainer
+      objectReference: {fileID: 0}
+    - target: {fileID: 8922971937107967934, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
+        type: 3}
+      propertyPath: m_InitialEventNameOverriden
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8922971937107967934, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Bool.m_Array.Array.data[0].m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9119471313545275962, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
+        type: 3}
+      propertyPath: use_banking
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9119471313545275962, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
+        type: 3}
+      propertyPath: bank_angle_clamp
+      value: 40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager get;                          // singleton reference
-    public LayerMask environmentLayerMask;                  //Layermask that holds the environment for raycasts
+    public LayerMask environmentLayerMask;                  // Layermask that holds the environment for raycasts
 
     [Header("Player Spawn")]
     [SerializeField] public GameObject spawnPoint;
