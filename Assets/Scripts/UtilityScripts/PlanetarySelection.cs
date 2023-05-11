@@ -6,7 +6,7 @@ public class PlanetarySelection : MonoBehaviour
 {
     public static PlanetarySelection get;
     public int rotationAmount = 4;
-    public float rotationDuration = 6f;
+    public float rotationDuration = 2f;
 
     private float anglePerRotation;
 
