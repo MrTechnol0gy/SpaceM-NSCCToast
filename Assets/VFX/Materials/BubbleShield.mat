@@ -110,7 +110,7 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DisplacementStrength: 0.001
-    - _Dissolve: 0.52
+    - _Dissolve: 0.54
     - _DissolveEdgeThickness: 0.05
     - _DissolveEdgeThickness_1: 0.25
     - _Dissolve_1: 0.5
@@ -160,9 +160,9 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DissolveColour: {r: 0, g: 0, b: 0, a: 0}
     - _DissolveColour_1: {r: 0, g: 0, b: 0, a: 0}
-    - _DissolveEdgeColour: {r: 0.019802418, g: 0.8396225, b: 0.8021925, a: 1}
+    - _DissolveEdgeColour: {r: 0.012281928, g: 0.14875641, b: 0.8679245, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FresnelColour: {r: 0.03203982, g: 2.264152, b: 2.22088, a: 0}
+    - _FresnelColour: {r: 0.35498503, g: 0.8269981, b: 0.819466, a: 1}
     - _HitPOS: {r: 0, g: 0, b: 0, a: 0}
     - _MaskSmoothStep: {r: 0.4, g: 4.6, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

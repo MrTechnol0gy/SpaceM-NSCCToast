@@ -298,7 +298,7 @@ public class AIEnemyForce : MonoBehaviour
 
     private void FacePlayer()
     {
-        Quaternion targetRotation = Quaternion.LookRotation(player.transform.position - transform.position);
+        Quaternion targetRotation = Quaternion.LookRotation(player.transform.position - weapon_hardpoint_1.transform.position);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
         
     }
@@ -320,7 +320,7 @@ public class AIEnemyForce : MonoBehaviour
             GameObject bullet = Instantiate(bulletPrefab, weapon_hardpoint_1.transform.position, Quaternion.identity);
 
             // Calculate the direction towards the player
-            Vector3 direction = (player.transform.position - transform.position).normalized;
+            Vector3 direction = (player.transform.position - bullet.transform.position).normalized;
 
             // Set the bullet's velocity
             bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
