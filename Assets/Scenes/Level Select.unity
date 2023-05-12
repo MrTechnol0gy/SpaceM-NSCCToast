@@ -369,7 +369,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e40648fd1bae54a9ee305f48ade0a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationAmount: 4
+  prefabsList:
+  - {fileID: 1690193858730396}
+  - {fileID: 1805756068423874}
+  - {fileID: 1799077694789711}
+  - {fileID: 1040194942356638}
   rotationDuration: 1.75
 --- !u!1 &1678562818
 GameObject:

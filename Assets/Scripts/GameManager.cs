@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,7 +21,10 @@ public class GameManager : MonoBehaviour
 
     // private variables
     private int intelCollected = 0;                                    // the amount of intel pickups collected
+    private int totalIntelCollectedOverTime = 0;                        // the total amount of intel over multiple missions
+    [HideInInspector]
     public bool gameoverVictorious = false;
+    [HideInInspector]
     public bool gameoverDefeat = false;
     void Awake()
     {
@@ -29,7 +33,10 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(InitializeLevel());
+        if (SceneManager.GetActiveScene().name == "Workshop")
+        {
+            StartCoroutine(InitializeLevel());
+        }
     }
 
     // InitializeLevel ensures certain methods happen in a certain order to prevent issues during load time
@@ -105,5 +112,11 @@ public class GameManager : MonoBehaviour
     public void StopTime()
     {
         Time.timeScale = 0f;
+    }
+
+    public void UpdateTotalIntelOverTime()
+    {
+        totalIntelCollectedOverTime =+ intelCollected;
+        intelCollected = 0;
     }
 }
