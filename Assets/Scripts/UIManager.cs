@@ -15,11 +15,11 @@ public class UIManager : MonoBehaviour
     private VisualElement loadingScreen;    // reference to the loading screen visual element
     private VisualElement leaveByChoiceScreen;      // reference to the leave by choice screen visual element
     public Label missionTimerLabel, speedLabel, intelTotalRequiredLabel, intelCurrentAmountLabel; //references the ingame UI Labels from the UIDocument
-    public Label winText, loseText;         // references the win/lose UI Labels from the UIDocument
+    public Label timeoutText;               // references the timeout UI Label from the UIDocument
     public Label loadText;                  // reference the Loading screen text label from the UIDocument
     public Label leaveText;                 // reference to the leave by choice text label from the UIDocument
     public Toggle tractorBeamToggle;        // references the Toggles from the UIDocument
-    public Button continueButton, quitButton;  // references buttons from the win/lose screen
+    public Button levelSelectButton;        // references buttons from the timeout screen
     public Button stayButton, leaveButton;  // references buttons from the leave by choice screen
 
     void Awake()
@@ -33,13 +33,10 @@ public class UIManager : MonoBehaviour
         speedLabel = root.Query<Label>("Speed");
         tractorBeamToggle = root.Query<Toggle>("TractorBeam");
         intelTotalRequiredLabel = root.Query<Label>("IntelTotalAmount");
-        intelCurrentAmountLabel = root.Query<Label>("IntelCurrentAmount");
-        winText = root.Query<Label>("WinText");
-        loseText = root.Query<Label>("LoseText");
-        continueButton = root.Query<Button>("Retry");
-        continueButton.clickable = new Clickable(DoRetryStuff);
-        quitButton = root.Query<Button>("Quit");
-        quitButton.clickable = new Clickable(QuitApplication);
+        intelCurrentAmountLabel = root.Query<Label>("IntelCurrentAmount");        
+        timeoutText = root.Query<Label>("TImeoutText");
+        levelSelectButton = root.Query<Button>("ReturnToLevelSelect");
+        levelSelectButton.clickable = new Clickable(LevelSelect);
         loadingScreen = root.Query<VisualElement>("LoadingScreen");
         loadText = root.Query<Label>("LoadText");
         leaveByChoiceScreen = root.Query<VisualElement>("LeaveScreen");
@@ -57,6 +54,10 @@ public class UIManager : MonoBehaviour
             return false;
         }
         else if (leaveByChoiceScreen.style.display.value == DisplayStyle.None)
+        {
+            return false;
+        }
+        else if (winloseScreen.style.display.value == DisplayStyle.None)
         {
             return false;
         }
@@ -78,16 +79,7 @@ public class UIManager : MonoBehaviour
     {
         UnlockCursor();
         winloseScreen.SetDisplayBasedOnBool(true);
-        if (GameManager.get.gameoverVictorious)
-        {
-            winText.SetDisplayBasedOnBool(true);
-            GameManager.get.StopTime();
-        }
-        else
-        {
-            loseText.SetDisplayBasedOnBool(true);
-            GameManager.get.StopTime();
-        }
+        GameManager.get.StopTime();
     }
 
     [ContextMenu("HideWinLose")]
@@ -159,16 +151,10 @@ public class UIManager : MonoBehaviour
         get.intelCurrentAmountLabel.text = $"Intel: {amount}";
     }
 
-    public void DoRetryStuff()
+    public void LevelSelect()
     {
-        Debug.Log("Clicked Retry.");
-        SceneManager.LoadScene("Loading");
-    }
-
-    public void QuitApplication()
-    {
-        Debug.Log("Clicked Quit.");
-        Application.Quit();
+        GameManager.get.UpdateTotalIntelOverTime();
+        SceneManager.LoadScene("Level Select");
     }
 
     public static void SetLoadText(string text)
@@ -177,6 +163,7 @@ public class UIManager : MonoBehaviour
     }
     public void LeaveByChoice()
     {
+        GameManager.get.UpdateTotalIntelOverTime();
         SceneManager.LoadScene("Level Select");
         HideLeaveByChoiceScreen();
     }

@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour
 
     [Header("Mission Information")]
     [SerializeField] public int totalMissionTime = 20;                 // as minutes
-    [SerializeField] public int totalIntelNeeded = 10;                 // intel to complete mission (placeholder for future expansion)
     [SerializeField] public int amountOfPickUps = 10;                  // number of pickups to be found in the level
     [SerializeField] public int amountOfEnemies = 10;                  // number of enemies to be found in the level
     [SerializeField] public int amountOfEnvironmentalDangers = 10;     // number of elemental dangers to be found in the level
@@ -21,11 +20,7 @@ public class GameManager : MonoBehaviour
 
     // private variables
     private int intelCollected = 0;                                    // the amount of intel pickups collected
-    private int totalIntelCollectedOverTime = 0;                        // the total amount of intel over multiple missions
-    [HideInInspector]
-    public bool gameoverVictorious = false;
-    [HideInInspector]
-    public bool gameoverDefeat = false;
+    private int totalIntelCollectedOverTime = 0;                        // the total amount of intel over multiple missions   
     void Awake()
     {
         get = this;
@@ -36,6 +31,10 @@ public class GameManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "Workshop")
         {
             StartCoroutine(InitializeLevel());
+        }
+        else if (SceneManager.GetActiveScene().name == "Level Select")
+        {
+            UILevelSelect.SetProgressBar(totalIntelCollectedOverTime);
         }
     }
 
@@ -74,7 +73,6 @@ public class GameManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         UIManager.get.ShowOverlayScreen();
-        UIManager.SetIntelTotalRequired(totalIntelNeeded);
         UIManager.SetIntelCurrentAmount(intelCollected);
     }
 
@@ -82,23 +80,11 @@ public class GameManager : MonoBehaviour
     {
         intelCollected++;
         UIManager.SetIntelCurrentAmount(intelCollected);
-        GameOverIntelCheck();
-    }
-
-    public void GameOverIntelCheck()
-    {
-        if (intelCollected == totalIntelNeeded)
-        {
-            gameoverVictorious = true;
-            UIManager.get.HideOverlayScreen();
-            UIManager.get.ShowWinLoseScreen();
-        }
     }
     public void GameOverTimeCheck(int timegiven)
     {
         if (timegiven <= 0)
         {
-            gameoverDefeat = true;
             UIManager.get.HideOverlayScreen();
             UIManager.get.ShowWinLoseScreen();
         }

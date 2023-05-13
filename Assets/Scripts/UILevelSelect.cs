@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Cursor = UnityEngine.Cursor;
 using UnityEngine.SceneManagement;
+using UnityEditor.UIElements;
 
 public class UILevelSelect : MonoBehaviour
 {
@@ -12,7 +13,8 @@ public class UILevelSelect : MonoBehaviour
     private VisualElement root;             // reference to the root visual element
     private VisualElement levelselect;          // reference to the overlay screen visual element
     private Label planetNameLabel;
-    public Button nextButton, selectButton, previousButton;  // references buttons from the main menu screen
+    public Button nextButton, selectButton, previousButton, mainMenu;  // references buttons from the level select screen
+    private ProgressBar intelCollected;     // reference to the level select progress bar for total intel collected
     void Awake()
     {
         get = this;
@@ -26,6 +28,9 @@ public class UILevelSelect : MonoBehaviour
         previousButton.clickable = new Clickable(Previous);
         selectButton = root.Query<Button>("Select");
         selectButton.clickable = new Clickable(Select);
+        mainMenu = root.Query<Button>("MainMenu");
+        mainMenu.clickable = new Clickable(MainMenu);
+        intelCollected = root.Query<ProgressBar>("IntelCollected");
     }
 
     void Start()
@@ -56,6 +61,10 @@ public class UILevelSelect : MonoBehaviour
     {
         get.planetNameLabel.text = $"{name}";      // other scripts can set this using "UIManager.SetPlanetName(name);"
     }
+    public static void SetProgressBar(int amount)
+    {
+        get.intelCollected.SetValueWithoutNotify(amount);      // other scripts can set this using "UIManager.SetProgressBar(amount);"
+    }
     public void Next()
     {
         PlanetarySelection.get.Rotate();
@@ -68,7 +77,11 @@ public class UILevelSelect : MonoBehaviour
 
     public void Select()
     {
-        Debug.Log("Clicked Select.");
         SceneManager.LoadScene("Workshop");
+    }
+    public void MainMenu()
+    {
+        Debug.Log("Clicked MainMenu.");
+        SceneManager.LoadScene("Main Menu");
     }
 }
