@@ -49,10 +49,10 @@ public class GameManager : MonoBehaviour
         RandomTerrainGenerator.get.GenerateTerrain();
         yield return new WaitForEndOfFrame(); // wait for terrain generation to complete
 
-        UIManager.SetLoadText("Baking Meshes.");
-        yield return new WaitForEndOfFrame();
-        NavMeshBaker.get.BakeNavMeshes();
-        yield return new WaitForEndOfFrame(); // wait for navmesh baking to complete
+        // UIManager.SetLoadText("Baking Meshes.");
+        // yield return new WaitForEndOfFrame();
+        // NavMeshBaker.get.BakeNavMeshes();
+        // yield return new WaitForEndOfFrame(); // wait for navmesh baking to complete
     
         UIManager.SetLoadText("Dropping Pickups.");
         yield return new WaitForEndOfFrame();

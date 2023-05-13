@@ -6,16 +6,17 @@ using UnityEngine.VFX;
 
 public class AIEnvironmentalEffect : MonoBehaviour
 {
-    public NavMeshAgent environmentEffect;
+    public GameObject environmentEffect;
     private GameObject player;
     private Vector3 playerPOS;
-    private Vector3 oldPlayerPOS;
     private VisualEffect visualEffect;
     private float TimeStartedState;             // timer to know when we started a state
     private float durationOfLife;               // var to hold duration of VFX
     private float lastTimeDidPatrolMove;        // holder for patrol timers
     private float lastTimeDidEnemyCheck;        // holder for search check timers
     private float inactiveTime;                 // holder for time to be inactive based on a random range
+    private float spawnRadius;                  // level area, will be grabbed from the Game Manager on Start
+    private float elementalTornadoSpawnHeight;  // from the Enemy Manager
     public LayerMask wallLayer;
     [SerializeField] Collider playerCollider;
 
@@ -26,7 +27,8 @@ public class AIEnvironmentalEffect : MonoBehaviour
     [SerializeField] float inactiveTimeCeiling = 15f;   // maximum time the AI should remain in an inactive state
     [SerializeField] float patrolDelay = 10f;       // how long the AI will wait before choosing a new patrol path
     [SerializeField] float patrolRadius = 50f;      // how large a sphere the AI will use to select a new patrol point from   
-    [SerializeField] float rotationSpeed = 5f;      // how fast the AI can rotate
+    [SerializeField] float moveSpeed = 12f;         // movespeed for the enemy
+    [SerializeField] float rotationSpeed = 6f;
     
     public enum States
     {
@@ -62,7 +64,6 @@ public class AIEnvironmentalEffect : MonoBehaviour
         {
             case States.stopped:
                 Debug.Log("I am stopped.");
-                environmentEffect.isStopped = true;
                 visualEffect.enabled = true;
                 break;
             case States.patrolling:
@@ -100,13 +101,10 @@ public class AIEnvironmentalEffect : MonoBehaviour
                     int randomNumber = Random.Range(1, 11);
                     if (randomNumber < 6)
                     {
-                        // Get a random point on the NavMesh
-                        Vector3 randomDirection = Random.insideUnitSphere * patrolRadius;
-                        NavMesh.SamplePosition(transform.position + randomDirection, out NavMeshHit hit, patrolRadius,
-                            NavMesh.AllAreas);
-
-                        // Set the agent's destination to the random point on the NavMesh
-                        environmentEffect.SetDestination(hit.position);
+                        // Get a random point in the level
+                        Vector3 position = new Vector3(Random.Range(-spawnRadius, spawnRadius), elementalTornadoSpawnHeight, Random.Range(-spawnRadius, spawnRadius));
+                        // Set the agent's destination to the random point in the level
+                        transform.position = Vector3.Lerp(transform.position, position, moveSpeed * Time.deltaTime);
                     }
                     else
                     {
@@ -129,7 +127,6 @@ public class AIEnvironmentalEffect : MonoBehaviour
         switch (state) 
         {
             case States.stopped:
-                environmentEffect.isStopped = false;
                 break;
             case States.patrolling:
                 break;
@@ -144,7 +141,8 @@ public class AIEnvironmentalEffect : MonoBehaviour
         durationOfLife = visualEffect.GetFloat("Duration");     // gets the duration of the vfx
         player = PlayerFlightControl.get.gameObject;            //gets the player gameobject
         playerCollider = player.GetComponent<Collider>();       // assigns player collider to agent
-
+        spawnRadius = GameManager.get.spawnRadius;
+        elementalTornadoSpawnHeight = EnemyManager.get.elementalTornadoSpawnHeight;
         OnStartedState(currentState);
     }
 
@@ -160,9 +158,10 @@ public class AIEnvironmentalEffect : MonoBehaviour
     {
         if (lastTimeDidEnemyCheck.IntervalElapsedSince(0.33f))
         {
-            lastTimeDidEnemyCheck = Time.time;            
+            lastTimeDidEnemyCheck = Time.time;
             Debug.Log("Moving towards the player.");
-            environmentEffect.SetDestination(Player.get.transform.position);
+            Vector3 targetPosition = player.transform.position;
+            transform.position = Vector3.Lerp(transform.position, targetPosition, moveSpeed * Time.deltaTime);
         }
     }
     private void FacePlayer()
