@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class Pickup : MonoBehaviour
 {
-    public NavMeshAgent agent;
+    public GameObject agent;
     [Header("Pickup Configuration")]
     [SerializeField] float distanceThreshold = 2f;
     private void OnTriggerStay(Collider other)

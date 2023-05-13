@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7169889501439845149}
   - component: {fileID: 1110422105734322514}
   - component: {fileID: 1720128494340288357}
-  - component: {fileID: -3227355691073865605}
   - component: {fileID: 2204205773599244656}
   - component: {fileID: 7106068761852107659}
   - component: {fileID: 8295177194445447204}
@@ -102,28 +101,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!195 &-3227355691073865605
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4647384076302959159}
-  m_Enabled: 1
-  m_AgentTypeID: -334000983
-  m_Radius: 5
-  m_Speed: 6
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 15
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!2083052967 &2204205773599244656
 VisualEffect:
   m_ObjectHideFlags: 0
@@ -217,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8ce56e46fa1c674bb167ca07bbd2c64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  environmentEffect: {fileID: -3227355691073865605}
+  environmentEffect: {fileID: 0}
   wallLayer:
     serializedVersion: 2
     m_Bits: 1
@@ -228,6 +205,7 @@ MonoBehaviour:
   inactiveTimeCeiling: 15
   patrolDelay: 10
   patrolRadius: 50
+  moveSpeed: 12
   rotationSpeed: 5
 --- !u!136 &8327781341465944301
 CapsuleCollider:

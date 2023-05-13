@@ -7,18 +7,20 @@ using Random = UnityEngine.Random;
 
 public class AIEnemyForce : MonoBehaviour
 {
-    public NavMeshAgent enemy;    
+    public GameObject enemy;    
     private GameObject player;
     private Vector3 playerPOS;
     private Vector3 oldPlayerPOS;
     public Vector3 enemyPOS;
     public Transform weapon_hardpoint_1;        //"Weapon Hardpoint", "Transform for the barrel of the weapon"
-    private float enemyToPlayerDistance;    
+    private float enemyToPlayerDistance;
     private bool wallHit = false;
     private bool canShoot = true;
     private float TimeStartedState;             // timer to know when we started a state
     private float lastTimeDidPatrolMove;        // holder for patrol timers
-    private float lastTimeDidEnemyCheck;        // holder for search check timers
+    private float lastTimeDidEnemyCheck;        // holder for search check timers    
+    private float spawnRadius;                  // level area, will be grabbed from the Game Manager on Start
+    private float enemyForceMinHeight, enemyForceMaxHeight;
     private bool isPlayerCloaked = false;       // holder for player cloak status
     public LayerMask wallLayer;
     [SerializeField] Collider playerCollider;    
@@ -30,6 +32,8 @@ public class AIEnemyForce : MonoBehaviour
     [SerializeField] float patrolRadius = 50f;      // how large a sphere the AI will use to select a new patrol point from
     [SerializeField] float detectionRange = 50f;    // how far the AI can see
     [SerializeField] float attackRange = 25f;       // the range at which the AI can attack
+    [SerializeField] float moveSpeed = 12f;         // movespeed for the enemy
+    [SerializeField] float pursuitSpeed = 18f;      // speed the enemy moves when it detects the player
     [SerializeField] float rotationSpeed = 5f;      // how fast the AI can rotate
     [SerializeField] GameObject bulletPrefab;       // the projectile prefab for the AI
     [SerializeField] float bulletSpeed = 10f;       // the projectile speed
@@ -70,27 +74,25 @@ public class AIEnemyForce : MonoBehaviour
         switch (state) 
         {
             case States.stopped:
-                Debug.Log("I am stopped.");
+                //Debug.Log("I am stopped.");
                 GetComponent<Renderer>().material.color = Color.black;
-                enemy.isStopped = true;
                 break;
             case States.patrolling:
-                Debug.Log("I am patrolling.");
+                //Debug.Log("I am patrolling.");
                 GetComponent<Renderer>().material.color = Color.blue;                
                 break;
             case States.chasing:
-                Debug.Log("I am chasing.");
+                //Debug.Log("I am chasing.");
                 GetComponent<Renderer>().material.color = Color.yellow;
                 break;
             case States.searching:
-                Debug.Log("I am searching.");
+                //Debug.Log("I am searching.");
                 GetComponent<Renderer>().material.color = Color.green;
                 oldPlayerPOS = player.transform.position;
                 break;
             case States.attacking:
-                Debug.Log("I am attacking.");
+                //Debug.Log("I am attacking.");
                 GetComponent<Renderer>().material.color = Color.red;
-                enemy.isStopped = true;
                 break;
         }
     }
@@ -109,13 +111,11 @@ public class AIEnemyForce : MonoBehaviour
                  if (lastTimeDidPatrolMove + patrolDelay < Time.time)
                 {
                     lastTimeDidPatrolMove = Time.time;
-                    // Get a random point on the NavMesh
-                    Vector3 randomDirection = Random.insideUnitSphere * patrolRadius;
-                    NavMesh.SamplePosition(transform.position + randomDirection, out NavMeshHit hit, patrolRadius,
-                        NavMesh.AllAreas);
+                    // Get a random point in the level
+                    Vector3 position = new Vector3(Random.Range(-spawnRadius, spawnRadius), Random.Range(enemyForceMinHeight, enemyForceMaxHeight), Random.Range(-spawnRadius, spawnRadius));
 
-                    // Set the agent's destination to the random point on the NavMesh
-                    enemy.SetDestination(hit.position);
+                    // Set the agent's destination to the random point in the level
+                    transform.position = Vector3.Lerp(transform.position, position, moveSpeed * Time.deltaTime);
                 }
 
                 // If the player is within detection range, start chasing
@@ -131,7 +131,7 @@ public class AIEnemyForce : MonoBehaviour
                 FacePlayer();
                 MoveTowardsPlayer();
                 // If the player is no longer within detection range, start searching
-                if (!PlayerWithinDetectionRange()) 
+                if (!PlayerWithinDetectionRange())
                 {
                     currentState = States.searching;
                 }
@@ -176,7 +176,6 @@ public class AIEnemyForce : MonoBehaviour
         switch (state) 
         {
             case States.stopped:
-                enemy.isStopped = false;
                 break;
             case States.patrolling:
                 break;
@@ -185,7 +184,6 @@ public class AIEnemyForce : MonoBehaviour
             case States.searching:
                 break;
             case States.attacking:
-                enemy.isStopped = false;
                 break;
         }
     }
@@ -195,7 +193,10 @@ public class AIEnemyForce : MonoBehaviour
         enemyPOS = this.transform.position;                    //gets starting position; utilized in setting spawnpoint on initialization
         player = GameObject.FindGameObjectWithTag("Player");   //gets the player gameobject        
         playerCollider = player.GetComponent<Collider>();      // assigns player collider to agent        
-
+        
+        spawnRadius = GameManager.get.spawnRadius;
+        enemyForceMinHeight = EnemyManager.get.enemyForceMinHeight;
+        enemyForceMaxHeight = EnemyManager.get.enemyForceMaxHeight;
         Radar.instance.CreateTarget(transform,false);
         // Add the newly created Agent to the list of All agents
         EnemyManager.allEnemies.Add(enemy);
@@ -286,14 +287,16 @@ public class AIEnemyForce : MonoBehaviour
             if (PlayerWithinDetectionRange() && IsTargetVisible())
             {
                 Debug.Log("Moving towards the player.");
-                enemy.SetDestination(Player.get.transform.position);
+                Vector3 targetPosition = player.transform.position;
+                transform.position = Vector3.Lerp(transform.position, targetPosition, pursuitSpeed * Time.deltaTime);
             }
         }
     }
 
     private void MoveTowardsLastSeenPosition()
     {
-        enemy.SetDestination(oldPlayerPOS);
+        Vector3 targetPosition = oldPlayerPOS;
+        transform.position = Vector3.Lerp(transform.position, targetPosition, pursuitSpeed * Time.deltaTime);
     }
 
     private void FacePlayer()
