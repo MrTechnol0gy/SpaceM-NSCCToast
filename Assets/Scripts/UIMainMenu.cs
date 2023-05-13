@@ -30,28 +30,27 @@ public class UIMainMenu : MonoBehaviour
 
     }
 
-    public bool isShowingMenu() {
+    public bool isShowingMenu() 
+    {
         if (mainmenu.style.display.value == DisplayStyle.None) return false;
         return true;
     }
     [ContextMenu("ShowMainMenu")]
     public void ShowMainMenuScreen() 
     {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        UIManager.get.UnlockCursor();
         mainmenu.SetDisplayBasedOnBool(true);
     }
 
     [ContextMenu("HideMainMenu")]
     public void HideMainMenuScreen() {
         mainmenu.SetDisplayBasedOnBool(false);
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        UIManager.get.LockCursor();
     }
     public void StartGame()
     {
-        Debug.Log("Clicked Start.");
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Workshop");
+        //Debug.Log("Clicked Start.");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Level Select");
     }
 
     public void Continue()
@@ -62,7 +61,7 @@ public class UIMainMenu : MonoBehaviour
 
     public void QuitApplication()
     {
-        Debug.Log("Clicked Quit.");
+        //Debug.Log("Clicked Quit.");
         Application.Quit();
     }
 }

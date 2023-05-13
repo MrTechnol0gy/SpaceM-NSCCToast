@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,7 +13,6 @@ public class GameManager : MonoBehaviour
 
     [Header("Mission Information")]
     [SerializeField] public int totalMissionTime = 20;                 // as minutes
-    [SerializeField] public int totalIntelNeeded = 10;                 // intel to complete mission (placeholder for future expansion)
     [SerializeField] public int amountOfPickUps = 10;                  // number of pickups to be found in the level
     [SerializeField] public int amountOfEnemies = 10;                  // number of enemies to be found in the level
     [SerializeField] public int amountOfEnvironmentalDangers = 10;     // number of elemental dangers to be found in the level
@@ -20,8 +20,7 @@ public class GameManager : MonoBehaviour
 
     // private variables
     private int intelCollected = 0;                                    // the amount of intel pickups collected
-    public bool gameoverVictorious = false;
-    public bool gameoverDefeat = false;
+    private int totalIntelCollectedOverTime = 0;                        // the total amount of intel over multiple missions   
     void Awake()
     {
         get = this;
@@ -29,7 +28,14 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(InitializeLevel());
+        if (SceneManager.GetActiveScene().name == "Workshop")
+        {
+            StartCoroutine(InitializeLevel());
+        }
+        else if (SceneManager.GetActiveScene().name == "Level Select")
+        {
+            UILevelSelect.SetProgressBar(totalIntelCollectedOverTime);
+        }
     }
 
     // InitializeLevel ensures certain methods happen in a certain order to prevent issues during load time
@@ -67,7 +73,6 @@ public class GameManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         UIManager.get.ShowOverlayScreen();
-        UIManager.SetIntelTotalRequired(totalIntelNeeded);
         UIManager.SetIntelCurrentAmount(intelCollected);
     }
 
@@ -75,23 +80,11 @@ public class GameManager : MonoBehaviour
     {
         intelCollected++;
         UIManager.SetIntelCurrentAmount(intelCollected);
-        GameOverIntelCheck();
-    }
-
-    public void GameOverIntelCheck()
-    {
-        if (intelCollected == totalIntelNeeded)
-        {
-            gameoverVictorious = true;
-            UIManager.get.HideOverlayScreen();
-            UIManager.get.ShowWinLoseScreen();
-        }
     }
     public void GameOverTimeCheck(int timegiven)
     {
         if (timegiven <= 0)
         {
-            gameoverDefeat = true;
             UIManager.get.HideOverlayScreen();
             UIManager.get.ShowWinLoseScreen();
         }
@@ -105,5 +98,11 @@ public class GameManager : MonoBehaviour
     public void StopTime()
     {
         Time.timeScale = 0f;
+    }
+
+    public void UpdateTotalIntelOverTime()
+    {
+        totalIntelCollectedOverTime =+ intelCollected;
+        intelCollected = 0;
     }
 }
