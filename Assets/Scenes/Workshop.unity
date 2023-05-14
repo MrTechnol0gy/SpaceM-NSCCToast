@@ -221,6 +221,7 @@ MonoBehaviour:
     type: 3}
   pickupSpawnHeightFloor: 0.25
   pickupSpawnHeightCeiling: 15
+  pickupRadius: 3
 --- !u!4 &74414916
 Transform:
   m_ObjectHideFlags: 0
@@ -12836,7 +12837,9 @@ MonoBehaviour:
     type: 3}
   enemyForceMinHeight: 1
   enemyForceMaxHeight: 5
+  enemyForceRadius: 5
   elementalTornadoSpawnHeight: 0
+  elementalTornadoRadius: 8
 --- !u!1 &1026641551
 GameObject:
   m_ObjectHideFlags: 0
@@ -14112,8 +14115,8 @@ MonoBehaviour:
   spawnPoint: {fileID: 0}
   totalMissionTime: 20
   amountOfPickUps: 20
-  amountOfEnemies: 50
-  amountOfEnvironmentalDangers: 10
+  amountOfEnemies: 20
+  amountOfEnvironmentalDangers: 6
   spawnRadius: 1000
 --- !u!4 &1773982866
 Transform:
