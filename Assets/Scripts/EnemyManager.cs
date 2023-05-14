@@ -18,7 +18,9 @@ public class EnemyManager : MonoBehaviour
     [Header("Spawning Stats")]
     [SerializeField] public float enemyForceMinHeight = 1f;
     [SerializeField] public float enemyForceMaxHeight = 5f;
+    [SerializeField] float enemyForceRadius = 5f;
     [SerializeField] public float elementalTornadoSpawnHeight = 0f;
+    [SerializeField] float elementalTornadoRadius = 8f;
     
     private float spawnRadius;
 
@@ -37,12 +39,36 @@ public class EnemyManager : MonoBehaviour
     public void SpawnAgents()
     {
         int numEnemiesToSpawn = GameManager.get.amountOfEnemies;
+        Vector3 position = Vector3.zero;
+        List<GameObject> spawnedPrefabs = RandomTerrainGenerator.get.GetListOfAllTerrain();
 
         for (int i = 0; i < numEnemiesToSpawn; i++)
         {
-            // Choose a random position within the spawn radius
-            Vector3 position = new Vector3(Random.Range(-spawnRadius, spawnRadius), Random.Range(enemyForceMinHeight, enemyForceMaxHeight), Random.Range(-spawnRadius, spawnRadius));
+            bool positionFound = false;
+            // Try to find a valid spawn position
+            while (!positionFound)
+            {
+                 // Choose a random position within the spawn radius
+                position = new Vector3(Random.Range(-spawnRadius, spawnRadius), Random.Range(enemyForceMinHeight, enemyForceMaxHeight), Random.Range(-spawnRadius, spawnRadius));
 
+                // Check if there are any colliders within the spawn radius
+                Collider[] colliders = Physics.OverlapSphere(position, enemyForceRadius);
+                bool collisionFound = false;
+                foreach (Collider collider in colliders)
+                {
+                    if (spawnedPrefabs.Contains(collider.gameObject))
+                    {
+                        // A spawned object is already at this position
+                        collisionFound = true;
+                        break;
+                    }
+                }
+                // If there are no collisions, we've found a valid spawn position
+                if (!collisionFound)
+                {
+                    positionFound = true;
+                }
+            }
             // Instantiate new enemy force probe
             GameObject agent = Instantiate(enemyForceProbe, position, Quaternion.identity);
 
@@ -56,12 +82,36 @@ public class EnemyManager : MonoBehaviour
     public void SpawnEnvironmentalDangers()
     {
         int numEnemiesToSpawn = GameManager.get.amountOfEnvironmentalDangers;
+        Vector3 position = Vector3.zero;
+        List<GameObject> spawnedPrefabs = RandomTerrainGenerator.get.GetListOfAllTerrain();
 
         for (int i = 0; i < numEnemiesToSpawn; i++)
         {
-            // Choose a random position within the spawn radius
-            Vector3 position = new Vector3(Random.Range(-spawnRadius, spawnRadius), elementalTornadoSpawnHeight, Random.Range(-spawnRadius, spawnRadius));
+            bool positionFound = false;
+            // Try to find a valid spawn position
+            while (!positionFound)
+            {
+                 // Choose a random position within the spawn radius
+                position = new Vector3(Random.Range(-spawnRadius, spawnRadius), elementalTornadoSpawnHeight, Random.Range(-spawnRadius, spawnRadius));
 
+                // Check if there are any colliders within the spawn radius
+                Collider[] colliders = Physics.OverlapSphere(position, elementalTornadoRadius);
+                bool collisionFound = false;
+                foreach (Collider collider in colliders)
+                {
+                    if (spawnedPrefabs.Contains(collider.gameObject))
+                    {
+                        // A spawned object is already at this position
+                        collisionFound = true;
+                        break;
+                    }
+                }
+                // If there are no collisions, we've found a valid spawn position
+                if (!collisionFound)
+                {
+                    positionFound = true;
+                }
+            }
             // Instantiate new elemental tornado
             GameObject agent = Instantiate(elementalTornado, position, Quaternion.identity);
 

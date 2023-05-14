@@ -105,4 +105,8 @@ public class RandomTerrainGenerator : MonoBehaviour
             spawnedPrefabs.Add(newPrefab);
         }
     }
+    public List<GameObject> GetListOfAllTerrain()
+    {
+        return spawnedPrefabs;
+    }
 }

@@ -15,7 +15,9 @@ public class PickUpManager : MonoBehaviour
     [SerializeField] GameObject pickupPrefab;
     [SerializeField] float pickupSpawnHeightFloor = 0.5f;
     [SerializeField] float pickupSpawnHeightCeiling = 25f;
+    [SerializeField] float pickupRadius = 3f;
     private float spawnRadius;
+
 
     void Awake()
     {
@@ -31,12 +33,36 @@ public class PickUpManager : MonoBehaviour
     public void SpawnPickups()
     {
         int numAgentsToSpawn = GameManager.get.amountOfPickUps;
+        Vector3 position = Vector3.zero;
+        List<GameObject> spawnedPrefabs = RandomTerrainGenerator.get.GetListOfAllTerrain();
 
         for (int i = 0; i < numAgentsToSpawn; i++)
         {
-            // Choose a random position within the spawn radius
-            Vector3 position = new Vector3(Random.Range(-spawnRadius, spawnRadius), Random.Range(pickupSpawnHeightFloor, pickupSpawnHeightCeiling), Random.Range(-spawnRadius, spawnRadius));
+            bool positionFound = false;
+            // Try to find a valid spawn position
+            while (!positionFound)
+            {
+                // Choose a random position within the spawn radius
+                position = new Vector3(Random.Range(-spawnRadius, spawnRadius), Random.Range(pickupSpawnHeightFloor, pickupSpawnHeightCeiling), Random.Range(-spawnRadius, spawnRadius));
 
+                // Check if there are any colliders within the spawn radius
+                Collider[] colliders = Physics.OverlapSphere(position, pickupRadius);
+                bool collisionFound = false;
+                foreach (Collider collider in colliders)
+                {
+                    if (spawnedPrefabs.Contains(collider.gameObject))
+                    {
+                        // A spawned object is already at this position
+                        collisionFound = true;
+                        break;
+                    }
+                }
+                // If there are no collisions, we've found a valid spawn position
+                if (!collisionFound)
+                {
+                    positionFound = true;
+                }
+            }
             // Instantiate new enemy force probe
             GameObject agent = Instantiate(pickupPrefab, position, Quaternion.identity);
 
