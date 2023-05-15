@@ -41,7 +41,7 @@ public class PlayerFlightControl : MonoBehaviour
 	Vector2 mousePos = new Vector2(0,0); //Pointer position from CustomPointer
 	
 	float DZ = 0; //Deadzone, taken from CustomPointer.
-	float currentMag = 0f; //Current speed/magnitude
+	public float currentMag = 0f; //Current speed/magnitude
 	
 	bool thrust_exists = true;
 	bool roll_exists = true;

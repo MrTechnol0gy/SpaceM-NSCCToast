@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 public class AIEnemyForce : MonoBehaviour
 {
+    public static AIEnemyForce get;
     public CharacterController moveController;
     public GameObject enemy;    
     private GameObject player;
@@ -23,7 +24,9 @@ public class AIEnemyForce : MonoBehaviour
     private float lastTimeDidEnemyCheck;        // holder for search check timers    
     private float spawnRadius;                  // level area, will be grabbed from the Game Manager on Start
     private float enemyForceMinHeight, enemyForceMaxHeight;
+    private float baseDetectionRange;
     private bool isPlayerCloaked = false;       // holder for player cloak status
+    public bool isPlayerInVisionCone = false;
     public LayerMask wallLayer;
     [SerializeField] Collider playerCollider;    
 
@@ -32,7 +35,8 @@ public class AIEnemyForce : MonoBehaviour
     [SerializeField] float searchTime = 10f;         // how long the AI should search for the player
     [SerializeField] float patrolDelay = 10f;       // how long the AI will wait before choosing a new patrol path
     [SerializeField] float patrolRadius = 50f;      // how large a sphere the AI will use to select a new patrol point from
-    [SerializeField] float detectionRange = 50f;    // how far the AI can see
+    [SerializeField] public float detectionRange = 50f;    // how far the AI can see
+    [SerializeField] public float detectionRangeUpdateSpeed = 1f; // how fast the AI updates their detection range
     [SerializeField] float attackRange = 25f;       // the range at which the AI can attack
     [SerializeField] float moveSpeed = 12f;         // movespeed for the enemy
     [SerializeField] float pursuitSpeed = 18f;      // speed the enemy moves when it detects the player
@@ -76,13 +80,12 @@ public class AIEnemyForce : MonoBehaviour
         switch (state) 
         {
             case States.stopped:
-                Debug.Log("I am stopped.");
+                //Debug.Log("I am stopped.");
                 GetComponent<Renderer>().material.color = Color.black;
                 enemyStoppedPOS = position;
-                //transform.position = enemyStoppedPOS;
                 break;
             case States.patrolling:
-                Debug.Log("I am patrolling.");
+                //Debug.Log("I am patrolling.");
                 GetComponent<Renderer>().material.color = Color.blue;
                 // Get a random point in the level
                 patrolDestination = new Vector3(Random.Range(-spawnRadius, spawnRadius), Random.Range(enemyForceMinHeight, enemyForceMaxHeight), Random.Range(-spawnRadius, spawnRadius));                
@@ -90,16 +93,13 @@ public class AIEnemyForce : MonoBehaviour
             case States.chasing:
                 Debug.Log("I am chasing.");
                 GetComponent<Renderer>().material.color = Color.yellow;
-                //FacePlayer();
-                //MoveTowardsPlayer();
                 break;
             case States.searching:
-                Debug.Log("I am searching.");
+                //Debug.Log("I am searching.");
                 GetComponent<Renderer>().material.color = Color.green;
-                //MoveTowardsLastSeenPosition();
                 break;
             case States.attacking:
-                Debug.Log("I am attacking.");
+                //Debug.Log("I am attacking.");
                 GetComponent<Renderer>().material.color = Color.red;
                 break;
         }
@@ -121,30 +121,29 @@ public class AIEnemyForce : MonoBehaviour
                     lastTimeDidPatrolMove = Time.time;
                 }
                 //If the player is within detection range, start chasing
-                if (PlayerWithinDetectionRange())  {
-                    if (IsTargetVisible()) {
-                        currentState = States.chasing;
-                    }
+                if (IsTargetVisible()) 
+                {
+                    Debug.Log("I am patrolling and the player is visible");
+                    currentState = States.chasing;
                 }
                 else
                 {
                     // Gradually move towards the random position
-                    Debug.Log("Current location is " + transform.position + " destination is " + patrolDestination + " and movespeed is " + moveSpeed + ".");
-                    //transform.position = Vector3.Lerp(transform.position, patrolDestination, moveSpeed * Time.deltaTime);
+                    //Debug.Log("Current location is " + transform.position + " destination is " + patrolDestination + " and movespeed is " + moveSpeed + ".");
                     Vector3 directionOfMove = (patrolDestination - transform.position).normalized;
                     moveController.Move(directionOfMove * moveSpeed * Time.deltaTime);
                     transform.forward = Vector3.Lerp(transform.forward, directionOfMove, Time.deltaTime * rotationSpeed);
                 }
                 break;
             case States.chasing:
-                // If the player is no longer within detection range, start searching
-                if (player != null) {
+                if (IsTargetVisible())
+                {
                     Vector3 directionOfPlayer = (player.transform.position - transform.position).normalized;
-                    moveController.Move(directionOfPlayer * moveSpeed * Time.deltaTime);
+                    moveController.Move(directionOfPlayer * pursuitSpeed * Time.deltaTime);
                     transform.forward = Vector3.Lerp(transform.forward, directionOfPlayer, Time.deltaTime * rotationSpeed);
                 }
-
-                if (!PlayerWithinDetectionRange())
+                // If the player is no longer within detection range, start searching
+                if (!IsTargetVisible())
                 {
                     currentState = States.searching;
                 }
@@ -157,11 +156,10 @@ public class AIEnemyForce : MonoBehaviour
             case States.searching:
                 Vector3 directionOflastKnown = (lastKnownPosition - transform.position).normalized;
                 moveController.Move(directionOflastKnown * moveSpeed * Time.deltaTime);
-                transform.forward = Vector3.Lerp(transform.forward, directionOflastKnown, Time.deltaTime * rotationSpeed);
-                if (PlayerWithinDetectionRange()) {
-                    if (IsTargetVisible()) {
-                        currentState = States.chasing;
-                    }
+                transform.forward = Vector3.Lerp(transform.forward, directionOflastKnown, Time.deltaTime * rotationSpeed);                
+                if (IsTargetVisible()) 
+                {
+                    currentState = States.chasing;
                 }
                 else if (TimeElapsedSince(TimeStartedState, stoppedTime))
                 {
@@ -189,16 +187,26 @@ public class AIEnemyForce : MonoBehaviour
         switch (state) 
         {
             case States.stopped:
+                DetectionRangeChange();
                 break;
             case States.patrolling:
+                DetectionRangeChange();
                 break;
             case States.chasing:
+                DetectionRangeChange();
                 break;
             case States.searching:
+                DetectionRangeChange();
                 break;
             case States.attacking:
+                DetectionRangeChange();
                 break;
         }
+    }
+
+    void Awake()
+    {
+        get = this;
     }
     
     void Start()
@@ -206,7 +214,7 @@ public class AIEnemyForce : MonoBehaviour
         enemyPOS = this.transform.position;                    //gets starting position; utilized in setting spawnpoint on initialization
         player = GameObject.FindGameObjectWithTag("Player");   //gets the player gameobject        
         playerCollider = player.GetComponent<Collider>();      // assigns player collider to agent        
-        
+        baseDetectionRange = detectionRange;
         spawnRadius = GameManager.get.spawnRadius;
         enemyForceMinHeight = EnemyManager.get.enemyForceMinHeight;
         enemyForceMaxHeight = EnemyManager.get.enemyForceMaxHeight;
@@ -229,17 +237,6 @@ public class AIEnemyForce : MonoBehaviour
     // This method can be used to test if a certain time has elapsed since we registered an event time. 
     public bool TimeElapsedSince(float timeEventHappened, float testingTimeElapsed) => !(timeEventHappened + testingTimeElapsed > Time.time);
 
-    // method to check if the player is within detection range
-    private bool PlayerWithinDetectionRange()
-    {
-        float distance = Vector3.Distance(transform.position, player.transform.position);
-        if (distance <= detectionRange) {
-            lastKnownPosition = player.transform.position;
-            return true;
-        }
-        return false;
-    }
-
     private Vector3 lastKnownPosition;
 
     // method to check if the player is within attack range
@@ -250,6 +247,8 @@ public class AIEnemyForce : MonoBehaviour
         {
             return true;
         }
+        Debug.Log("my position is " + transform.position + " player pos is " + player.transform.position);
+        Debug.Log("Player is not within attack range." + attackRange + " distance " + distance);
         return false;
     }
     private void GetEnemyToPlayerDistance()
@@ -264,34 +263,17 @@ public class AIEnemyForce : MonoBehaviour
         // checks if the player is cloaked first, and if so leaves the method and returns false
         if (PlayerCloakCheck())
         {
+            //Debug.Log("Player is cloaked.");
             return false;
         }
-        Ray ray = new Ray (enemyPOS, playerPOS - enemyPOS);                         //casts a ray from the enemy agent towards the player's position 
-        Debug.DrawRay(enemyPOS, (playerPOS - enemyPOS) * 10);                       // visualizes the raycast for debugging
-        RaycastHit hitData;
-        wallHit = false;
-        GetEnemyToPlayerDistance();
-        if (Physics.Raycast(ray, out hitData, enemyToPlayerDistance, wallLayer))    //checks for walls between the player and the enemy
+        // checks if the player has entered the vision cone, and if not leaves the method and returns false
+        else if (!isPlayerInVisionCone)
         {
-            wallHit = true;
-            //Debug.Log("Wall has been hit.");
             return false;
-        }        
+        }
         else
         {
-            wallHit = false;
-            //Debug.Log("wall has not been hit.");
-
-            if (playerCollider.Raycast(ray, out hitData, detectionRange))         // checks for the player's visibility within "sight" range
-            {
-                return true;
-                //Debug.Log("Player is visible.");
-            }
-            else
-            {
-                return false;
-                //Debug.Log("Player is not visible.");
-            }
+            return true;
         }
     }
     
@@ -309,6 +291,25 @@ public class AIEnemyForce : MonoBehaviour
         else
         {
             return false;
+        }
+    }
+    private void DetectionRangeChange()
+    {
+        float playerSpeed = PlayerFlightControl.get.GetSpeed();
+        if (playerSpeed <= Player.get.maxSpeed/2)
+        {
+            detectionRange = baseDetectionRange/2;
+            Debug.Log("My detection range is " + detectionRange);
+        }
+        else if (playerSpeed > Player.get.maxSpeed)
+        {
+            detectionRange = baseDetectionRange*2;
+            Debug.Log("My detection range is " + detectionRange);
+        }
+        else
+        {
+            detectionRange = baseDetectionRange;
+            Debug.Log("My detection range is " + detectionRange);
         }
     }
     private IEnumerator Shoot()
