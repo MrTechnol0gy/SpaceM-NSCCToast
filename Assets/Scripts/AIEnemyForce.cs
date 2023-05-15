@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 public class AIEnemyForce : MonoBehaviour
 {
+    public CharacterController moveController;
     public GameObject enemy;    
     private GameObject player;
     private Vector3 playerPOS;
@@ -78,7 +79,7 @@ public class AIEnemyForce : MonoBehaviour
                 Debug.Log("I am stopped.");
                 GetComponent<Renderer>().material.color = Color.black;
                 enemyStoppedPOS = position;
-                transform.position = enemyStoppedPOS;
+                //transform.position = enemyStoppedPOS;
                 break;
             case States.patrolling:
                 Debug.Log("I am patrolling.");
@@ -115,27 +116,34 @@ public class AIEnemyForce : MonoBehaviour
                 }
                 break;
             case States.patrolling:
-                // if (lastTimeDidPatrolMove + patrolDelay < Time.time)
-                // {
-                //     lastTimeDidPatrolMove = Time.time;
-                // }
-                // If the player is within detection range, start chasing
-                // if (PlayerWithinDetectionRange()) 
-                // {
-                //     if (IsTargetVisible())
-                //     {
-                //         currentState = States.chasing;
-                //     }
-                // }
-                // else
-                // {
-                // Gradually move towards the random position
-                Debug.Log("Current location is " + transform.position + " destination is " + patrolDestination + " and movespeed is " + moveSpeed + ".");
-                transform.position = Vector3.Lerp(transform.position, patrolDestination, moveSpeed * Time.deltaTime);
-                //}
+                if (lastTimeDidPatrolMove + patrolDelay < Time.time)
+                {
+                    lastTimeDidPatrolMove = Time.time;
+                }
+                //If the player is within detection range, start chasing
+                if (PlayerWithinDetectionRange())  {
+                    if (IsTargetVisible()) {
+                        currentState = States.chasing;
+                    }
+                }
+                else
+                {
+                    // Gradually move towards the random position
+                    Debug.Log("Current location is " + transform.position + " destination is " + patrolDestination + " and movespeed is " + moveSpeed + ".");
+                    //transform.position = Vector3.Lerp(transform.position, patrolDestination, moveSpeed * Time.deltaTime);
+                    Vector3 directionOfMove = (patrolDestination - transform.position).normalized;
+                    moveController.Move(directionOfMove * moveSpeed * Time.deltaTime);
+                    transform.forward = Vector3.Lerp(transform.forward, directionOfMove, Time.deltaTime * rotationSpeed);
+                }
                 break;
             case States.chasing:
                 // If the player is no longer within detection range, start searching
+                if (player != null) {
+                    Vector3 directionOfPlayer = (player.transform.position - transform.position).normalized;
+                    moveController.Move(directionOfPlayer * moveSpeed * Time.deltaTime);
+                    transform.forward = Vector3.Lerp(transform.forward, directionOfPlayer, Time.deltaTime * rotationSpeed);
+                }
+
                 if (!PlayerWithinDetectionRange())
                 {
                     currentState = States.searching;
@@ -147,10 +155,11 @@ public class AIEnemyForce : MonoBehaviour
                 }
                 break;
             case States.searching:
-                if (PlayerWithinDetectionRange())
-                {
-                    if (IsTargetVisible())
-                    {
+                Vector3 directionOflastKnown = (lastKnownPosition - transform.position).normalized;
+                moveController.Move(directionOflastKnown * moveSpeed * Time.deltaTime);
+                transform.forward = Vector3.Lerp(transform.forward, directionOflastKnown, Time.deltaTime * rotationSpeed);
+                if (PlayerWithinDetectionRange()) {
+                    if (IsTargetVisible()) {
                         currentState = States.chasing;
                     }
                 }
@@ -224,12 +233,14 @@ public class AIEnemyForce : MonoBehaviour
     private bool PlayerWithinDetectionRange()
     {
         float distance = Vector3.Distance(transform.position, player.transform.position);
-        if (distance <= detectionRange)
-        {
+        if (distance <= detectionRange) {
+            lastKnownPosition = player.transform.position;
             return true;
         }
         return false;
     }
+
+    private Vector3 lastKnownPosition;
 
     // method to check if the player is within attack range
     private bool PlayerWithinAttackRange()
@@ -283,31 +294,10 @@ public class AIEnemyForce : MonoBehaviour
             }
         }
     }
-    private void MoveTowardsPlayer()
-    {
-        if (lastTimeDidEnemyCheck.IntervalElapsedSince(0.33f))
-        {
-            lastTimeDidEnemyCheck = Time.time;
-            if (PlayerWithinDetectionRange() && IsTargetVisible())
-            {
-                Debug.Log("Moving towards the player.");
-                Vector3 targetPosition = player.transform.position;
-                transform.position = Vector3.Lerp(transform.position, targetPosition, pursuitSpeed * Time.deltaTime);
-            }
-        }
-    }
-
-    private void MoveTowardsLastSeenPosition()
-    {
-        Vector3 targetPosition = oldPlayerPOS;
-        transform.position = Vector3.Lerp(transform.position, targetPosition, pursuitSpeed * Time.deltaTime);
-    }
-
-    private void FacePlayer()
-    {
+    
+    private void FacePlayer() {
         Quaternion targetRotation = Quaternion.LookRotation(player.transform.position - weapon_hardpoint_1.transform.position);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-        
     }
     private bool PlayerCloakCheck()
     {
