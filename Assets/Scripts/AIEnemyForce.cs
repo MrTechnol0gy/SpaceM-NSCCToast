@@ -12,6 +12,7 @@ public class AIEnemyForce : MonoBehaviour
     private Vector3 playerPOS;
     private Vector3 oldPlayerPOS;
     public Vector3 enemyPOS;
+    private Vector3 enemyStoppedPOS, position, patrolDestination;
     public Transform weapon_hardpoint_1;        //"Weapon Hardpoint", "Transform for the barrel of the weapon"
     private float enemyToPlayerDistance;
     private bool wallHit = false;
@@ -74,24 +75,30 @@ public class AIEnemyForce : MonoBehaviour
         switch (state) 
         {
             case States.stopped:
-                //Debug.Log("I am stopped.");
+                Debug.Log("I am stopped.");
                 GetComponent<Renderer>().material.color = Color.black;
+                enemyStoppedPOS = position;
+                transform.position = enemyStoppedPOS;
                 break;
             case States.patrolling:
-                //Debug.Log("I am patrolling.");
-                GetComponent<Renderer>().material.color = Color.blue;                
+                Debug.Log("I am patrolling.");
+                GetComponent<Renderer>().material.color = Color.blue;
+                // Get a random point in the level
+                patrolDestination = new Vector3(Random.Range(-spawnRadius, spawnRadius), Random.Range(enemyForceMinHeight, enemyForceMaxHeight), Random.Range(-spawnRadius, spawnRadius));                
                 break;
             case States.chasing:
-                //Debug.Log("I am chasing.");
+                Debug.Log("I am chasing.");
                 GetComponent<Renderer>().material.color = Color.yellow;
+                //FacePlayer();
+                //MoveTowardsPlayer();
                 break;
             case States.searching:
-                //Debug.Log("I am searching.");
+                Debug.Log("I am searching.");
                 GetComponent<Renderer>().material.color = Color.green;
-                oldPlayerPOS = player.transform.position;
+                //MoveTowardsLastSeenPosition();
                 break;
             case States.attacking:
-                //Debug.Log("I am attacking.");
+                Debug.Log("I am attacking.");
                 GetComponent<Renderer>().material.color = Color.red;
                 break;
         }
@@ -108,28 +115,26 @@ public class AIEnemyForce : MonoBehaviour
                 }
                 break;
             case States.patrolling:
-                 if (lastTimeDidPatrolMove + patrolDelay < Time.time)
-                {
-                    lastTimeDidPatrolMove = Time.time;
-                    // Get a random point in the level
-                    Vector3 position = new Vector3(Random.Range(-spawnRadius, spawnRadius), Random.Range(enemyForceMinHeight, enemyForceMaxHeight), Random.Range(-spawnRadius, spawnRadius));
-
-                    // Set the agent's destination to the random point in the level
-                    transform.position = Vector3.Lerp(transform.position, position, moveSpeed * Time.deltaTime);
-                }
-
+                // if (lastTimeDidPatrolMove + patrolDelay < Time.time)
+                // {
+                //     lastTimeDidPatrolMove = Time.time;
+                // }
                 // If the player is within detection range, start chasing
-                if (PlayerWithinDetectionRange()) 
-                {
-                    if (IsTargetVisible())
-                    {
-                        currentState = States.chasing;
-                    }
-                }
+                // if (PlayerWithinDetectionRange()) 
+                // {
+                //     if (IsTargetVisible())
+                //     {
+                //         currentState = States.chasing;
+                //     }
+                // }
+                // else
+                // {
+                // Gradually move towards the random position
+                Debug.Log("Current location is " + transform.position + " destination is " + patrolDestination + " and movespeed is " + moveSpeed + ".");
+                transform.position = Vector3.Lerp(transform.position, patrolDestination, moveSpeed * Time.deltaTime);
+                //}
                 break;
             case States.chasing:
-                FacePlayer();
-                MoveTowardsPlayer();
                 // If the player is no longer within detection range, start searching
                 if (!PlayerWithinDetectionRange())
                 {
@@ -142,8 +147,7 @@ public class AIEnemyForce : MonoBehaviour
                 }
                 break;
             case States.searching:
-                MoveTowardsLastSeenPosition();
-                if (PlayerWithinDetectionRange()) 
+                if (PlayerWithinDetectionRange())
                 {
                     if (IsTargetVisible())
                     {
