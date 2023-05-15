@@ -14114,10 +14114,10 @@ MonoBehaviour:
     m_Bits: 1
   spawnPoint: {fileID: 0}
   totalMissionTime: 20
-  amountOfPickUps: 20
-  amountOfEnemies: 20
-  amountOfEnvironmentalDangers: 6
-  spawnRadius: 1000
+  amountOfPickUps: 0
+  amountOfEnemies: 50
+  amountOfEnvironmentalDangers: 0
+  spawnRadius: 950
 --- !u!4 &1773982866
 Transform:
   m_ObjectHideFlags: 0
