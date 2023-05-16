@@ -7,7 +7,6 @@ using Random = UnityEngine.Random;
 
 public class AIEnemyForce : MonoBehaviour
 {
-    public static AIEnemyForce get;
     public CharacterController moveController;
     public GameObject enemy;    
     private GameObject player;
@@ -19,7 +18,9 @@ public class AIEnemyForce : MonoBehaviour
     private float enemyToPlayerDistance;
     private bool wallHit = false;
     private bool canShoot = true;
+    private Coroutine closeDistanceCoroutine;
     private float TimeStartedState;             // timer to know when we started a state
+    private float TimeStartedDetectionUpdate;   // time to know when we started a detection range update
     private float lastTimeDidPatrolMove;        // holder for patrol timers
     private float lastTimeDidEnemyCheck;        // holder for search check timers    
     private float spawnRadius;                  // level area, will be grabbed from the Game Manager on Start
@@ -37,6 +38,7 @@ public class AIEnemyForce : MonoBehaviour
     [SerializeField] float patrolRadius = 50f;      // how large a sphere the AI will use to select a new patrol point from
     [SerializeField] public float detectionRange = 50f;    // how far the AI can see
     [SerializeField] public float detectionRangeUpdateSpeed = 1f; // how fast the AI updates their detection range
+    [SerializeField] float detectionRangeUpdateFrequency = 3f; // how often the probe updates their detection range
     [SerializeField] float attackRange = 25f;       // the range at which the AI can attack
     [SerializeField] float moveSpeed = 12f;         // movespeed for the enemy
     [SerializeField] float pursuitSpeed = 18f;      // speed the enemy moves when it detects the player
@@ -91,7 +93,7 @@ public class AIEnemyForce : MonoBehaviour
                 patrolDestination = new Vector3(Random.Range(-spawnRadius, spawnRadius), Random.Range(enemyForceMinHeight, enemyForceMaxHeight), Random.Range(-spawnRadius, spawnRadius));                
                 break;
             case States.chasing:
-                Debug.Log("I am chasing.");
+                //Debug.Log("I am chasing.");
                 GetComponent<Renderer>().material.color = Color.yellow;
                 break;
             case States.searching:
@@ -129,7 +131,7 @@ public class AIEnemyForce : MonoBehaviour
                 else
                 {
                     // Gradually move towards the random position
-                    //Debug.Log("Current location is " + transform.position + " destination is " + patrolDestination + " and movespeed is " + moveSpeed + ".");
+                    // Debug.Log("Current location is " + transform.position + " destination is " + patrolDestination + " and movespeed is " + moveSpeed + ".");
                     Vector3 directionOfMove = (patrolDestination - transform.position).normalized;
                     moveController.Move(directionOfMove * moveSpeed * Time.deltaTime);
                     transform.forward = Vector3.Lerp(transform.forward, directionOfMove, Time.deltaTime * rotationSpeed);
@@ -167,7 +169,7 @@ public class AIEnemyForce : MonoBehaviour
                 }
                 break;
             case States.attacking:
-                FacePlayer();
+                FacePlayer();                
                 // If the player is no longer within attack range, start chasing
                 if (!PlayerWithinAttackRange()) 
                 {
@@ -175,8 +177,13 @@ public class AIEnemyForce : MonoBehaviour
                 }
                 else if (canShoot)
                 {
+                    StopCloseDistanceCoroutine();
                     StartCoroutine(Shoot());
                     canShoot = false;
+                }
+                else if (!canShoot)
+                {
+                    StartCloseDistanceCoroutine();
                 }
                 break;
         }
@@ -187,26 +194,16 @@ public class AIEnemyForce : MonoBehaviour
         switch (state) 
         {
             case States.stopped:
-                DetectionRangeChange();
                 break;
             case States.patrolling:
-                DetectionRangeChange();
                 break;
             case States.chasing:
-                DetectionRangeChange();
                 break;
             case States.searching:
-                DetectionRangeChange();
                 break;
             case States.attacking:
-                DetectionRangeChange();
                 break;
         }
-    }
-
-    void Awake()
-    {
-        get = this;
     }
     
     void Start()
@@ -232,6 +229,11 @@ public class AIEnemyForce : MonoBehaviour
     void Update()
     {
         OnUpdatedState(currentState);
+        if (TimeElapsedSince(TimeStartedDetectionUpdate, detectionRangeUpdateFrequency))
+        {
+            TimeStartedDetectionUpdate = Time.time;
+            DetectionRangeChange();
+        }
     }
     
     // This method can be used to test if a certain time has elapsed since we registered an event time. 
@@ -247,8 +249,8 @@ public class AIEnemyForce : MonoBehaviour
         {
             return true;
         }
-        Debug.Log("my position is " + transform.position + " player pos is " + player.transform.position);
-        Debug.Log("Player is not within attack range." + attackRange + " distance " + distance);
+        //Debug.Log("my position is " + transform.position + " player pos is " + player.transform.position);
+        //Debug.Log("Player is not within attack range." + attackRange + " distance " + distance);
         return false;
     }
     private void GetEnemyToPlayerDistance()
@@ -256,6 +258,13 @@ public class AIEnemyForce : MonoBehaviour
         playerPOS = player.transform.position;                          //gets player's pos as a vector 3
         enemyPOS = this.transform.position;                             //gets the enemy's pos as a vector 3
         enemyToPlayerDistance = Vector3.Distance(enemyPOS, playerPOS);  //compares the difference between the enemy position and the player position
+    }
+    private float GetEnemyToPlayerDistanceForClosing()
+    {
+        playerPOS = player.transform.position;                          //gets player's pos as a vector 3
+        enemyPOS = this.transform.position;                             //gets the enemy's pos as a vector 3
+        enemyToPlayerDistance = Vector3.Distance(enemyPOS, playerPOS);  //compares the difference between the enemy position and the player position
+        return enemyToPlayerDistance;
     }
 
     private bool IsTargetVisible()
@@ -280,6 +289,32 @@ public class AIEnemyForce : MonoBehaviour
     private void FacePlayer() {
         Quaternion targetRotation = Quaternion.LookRotation(player.transform.position - weapon_hardpoint_1.transform.position);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+    }
+    private IEnumerator CloseDistance()
+{
+    float elapsedTime = 0;
+
+    if (GetEnemyToPlayerDistanceForClosing() > 20f && elapsedTime < shootingInterval)
+    {
+        Vector3 directionOfPlayer = (player.transform.position - transform.position).normalized;
+        moveController.Move(directionOfPlayer * moveSpeed * Time.deltaTime);
+        transform.forward = Vector3.Lerp(transform.forward, directionOfPlayer, Time.deltaTime * rotationSpeed);
+
+        elapsedTime += Time.deltaTime;
+        yield return null;
+    }
+}
+    private void StartCloseDistanceCoroutine()
+    {
+        closeDistanceCoroutine = StartCoroutine(CloseDistance());
+    }
+    private void StopCloseDistanceCoroutine()
+    {
+        if (closeDistanceCoroutine != null)
+        {
+            StopCoroutine(closeDistanceCoroutine);
+            closeDistanceCoroutine = null;
+        }
     }
     private bool PlayerCloakCheck()
     {
@@ -312,22 +347,37 @@ public class AIEnemyForce : MonoBehaviour
             Debug.Log("My detection range is " + detectionRange);
         }
     }
+
+    public float ProbeDetectionRange()
+    {
+        return detectionRange;
+    }
+    public float ProbeDetectionRangeUpdateSpeed()
+    {
+        return detectionRangeUpdateSpeed;
+    }
+
     private IEnumerator Shoot()
     {
-            // Create a new bullet
-            GameObject bullet = Instantiate(bulletPrefab, weapon_hardpoint_1.transform.position, Quaternion.identity);
+    // Create a new bullet
+    GameObject bullet = Instantiate(bulletPrefab, weapon_hardpoint_1.transform.position, Quaternion.identity);
 
-            // Calculate the direction towards the player
-            Vector3 direction = (player.transform.position - bullet.transform.position).normalized;
+    // Calculate the direction towards the predicted position of the player
+    Vector3 playerPosition = player.transform.position;
+    Vector3 playerVelocity = player.GetComponent<Rigidbody>().velocity;
+    float timeToReachPlayer = Vector3.Distance(bullet.transform.position, playerPosition) / bulletSpeed;
+    Vector3 predictedPosition = playerPosition + playerVelocity * timeToReachPlayer;
+    Vector3 direction = (predictedPosition - bullet.transform.position).normalized;
 
-            // Set the bullet's velocity
-            bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
+    // Set the bullet's velocity
+    bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
 
-            // Wait for the specified shooting interval before being able to shoot again
-            yield return new WaitForSeconds(shootingInterval);
+    // Wait for the specified shooting interval before being able to shoot again
+    yield return new WaitForSeconds(shootingInterval);
 
-            canShoot = true;
+    canShoot = true;
     }
+
     // I use Handles.Label to show a label with the current state above the player. Can use it for more debug info as well.
     // I wrap it around a #if UNITY_EDITOR to make sure it doesn't make its way into the build, unity doesn't like using UnityEditor methods in builds.
     #if UNITY_EDITOR

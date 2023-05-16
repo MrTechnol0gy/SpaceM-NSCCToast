@@ -8,13 +8,16 @@ public class FieldOfViewScale : MonoBehaviour
     private float detectionRange, detectionRangeUpdateSpeed;
     private float lerpTime = 0.0f;
     private Transform objectTransform;
+    private GameObject enemy;
+    AIEnemyForce aIEnemyForce;
 
     // Start is called before the first frame update
     void Start()
-    {
+    { 
         objectTransform = transform;
-        detectionRange = AIEnemyForce.get.detectionRange;
-        detectionRangeUpdateSpeed = AIEnemyForce.get.detectionRangeUpdateSpeed;
+        aIEnemyForce = GetComponentInParent<AIEnemyForce>();
+        detectionRange = aIEnemyForce.ProbeDetectionRange();
+        detectionRangeUpdateSpeed = aIEnemyForce.ProbeDetectionRangeUpdateSpeed();
         baseScale = objectTransform.localScale;
         UpdateEndScale();
     }
@@ -22,9 +25,9 @@ public class FieldOfViewScale : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (detectionRange != AIEnemyForce.get.detectionRange)
+        if (detectionRange != aIEnemyForce.ProbeDetectionRange())
         {
-            detectionRange = AIEnemyForce.get.detectionRange;
+            detectionRange = aIEnemyForce.ProbeDetectionRange();
             UpdateEndScale();
         }
 
@@ -38,18 +41,9 @@ public class FieldOfViewScale : MonoBehaviour
 
     private void VisualizeDetectionRange()
     {
-        lerpTime += Time.deltaTime;
-        lerpTime = Mathf.Clamp(lerpTime, 0.0f, detectionRangeUpdateSpeed); // Clamp the lerp to prevent overshooting
-        float t = lerpTime / detectionRangeUpdateSpeed; // Calculate the interpolation time
-        newScale = Vector3.Lerp(baseScale, endScale, t);
-        // Apply the new scale to the object's transform
-        objectTransform.localScale = newScale;
-
-        // Check if the lerp is complete
-        if (lerpTime >= detectionRangeUpdateSpeed)
+        if (Vector3.Distance(endScale, transform.localScale) > 0.05f)
         {
-            lerpTime = 0.0f;
-            baseScale = newScale;
+            transform.localScale = Vector3.Lerp(transform.localScale, endScale, Time.deltaTime * detectionRangeUpdateSpeed);
         }
     }
 }

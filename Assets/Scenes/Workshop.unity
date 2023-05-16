@@ -465,13 +465,13 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 60.000004
   orthographic: 0
-  orthographic size: 5
-  m_Depth: -1
+  orthographic size: 10
+  m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 247
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -491,7 +491,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -521,7 +521,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 1
+  m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -12836,7 +12836,7 @@ MonoBehaviour:
   elementalTornado: {fileID: 4647384076302959159, guid: 8a9ef20f43c191840bffe03a8002ff46,
     type: 3}
   enemyForceMinHeight: 1
-  enemyForceMaxHeight: 5
+  enemyForceMaxHeight: 10
   enemyForceRadius: 5
   elementalTornadoSpawnHeight: 0
   elementalTornadoRadius: 8
@@ -14114,9 +14114,9 @@ MonoBehaviour:
     m_Bits: 1
   spawnPoint: {fileID: 0}
   totalMissionTime: 20
-  amountOfPickUps: 0
+  amountOfPickUps: 30
   amountOfEnemies: 50
-  amountOfEnvironmentalDangers: 0
+  amountOfEnvironmentalDangers: 6
   spawnRadius: 950
 --- !u!4 &1773982866
 Transform:
@@ -14422,6 +14422,11 @@ PrefabInstance:
       propertyPath: thrust_transition_speed
       value: 1.2
       objectReference: {fileID: 0}
+    - target: {fileID: 3792662295286045696, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5636046190363231256, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
         type: 3}
       propertyPath: maxSpeed
@@ -14441,6 +14446,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ShipContainer
+      objectReference: {fileID: 0}
+    - target: {fileID: 7195636263993141244, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7195636263993141244, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7195636263993141244, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.99875855
+      objectReference: {fileID: 0}
+    - target: {fileID: 7195636263993141244, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.049813695
       objectReference: {fileID: 0}
     - target: {fileID: 8922971937107967934, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
         type: 3}
