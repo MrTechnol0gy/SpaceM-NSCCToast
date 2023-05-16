@@ -93,9 +93,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveController: {fileID: 3564418828251710009}
+  obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 1
   enemy: {fileID: 2687501931358593831}
   enemyPOS: {x: 0, y: 0, z: 0}
   weapon_hardpoint_1: {fileID: 1133343838630512257}
+  isPlayerInVisionCone: 0
   wallLayer:
     serializedVersion: 2
     m_Bits: 1
@@ -106,6 +110,7 @@ MonoBehaviour:
   patrolRadius: 300
   detectionRange: 40
   detectionRangeUpdateSpeed: 1
+  detectionRangeUpdateFrequency: 3
   attackRange: 50
   moveSpeed: 12
   pursuitSpeed: 18

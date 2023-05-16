@@ -31,12 +31,12 @@ public class PursuitCamera : MonoBehaviour
 
         if (isPursuing)
         {
-            Debug.Log("Pursuit camera is enabled.");
+            //Debug.Log("Pursuit camera is enabled.");
             virtualCamera.enabled = true;
         }
         else
         {
-            Debug.Log("Pursuit camera is disabled.");
+            //Debug.Log("Pursuit camera is disabled.");
             virtualCamera.enabled = false;
         }
     }

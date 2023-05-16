@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 public class AIEnemyForce : MonoBehaviour
 {
     public CharacterController moveController;
+    public LayerMask obstacleLayers;
     public GameObject enemy;    
     private GameObject player;
     private Vector3 playerPOS;
@@ -133,15 +134,23 @@ public class AIEnemyForce : MonoBehaviour
                     // Gradually move towards the random position
                     // Debug.Log("Current location is " + transform.position + " destination is " + patrolDestination + " and movespeed is " + moveSpeed + ".");
                     Vector3 directionOfMove = (patrolDestination - transform.position).normalized;
+                    lastDesiredPositionGoing = patrolDestination;
                     moveController.Move(directionOfMove * moveSpeed * Time.deltaTime);
+                    if (directionOfMove == Vector3.zero) directionOfMove = Vector3.forward;
                     transform.forward = Vector3.Lerp(transform.forward, directionOfMove, Time.deltaTime * rotationSpeed);
+
+                    if (Physics.CheckSphere(transform.position + (transform.forward * 2), 0.4f,obstacleLayers, QueryTriggerInteraction.Ignore)) {
+                        OnStartedState(States.patrolling);
+                    }
                 }
                 break;
             case States.chasing:
                 if (IsTargetVisible())
                 {
                     Vector3 directionOfPlayer = (player.transform.position - transform.position).normalized;
+                    lastDesiredPositionGoing = player.transform.position;
                     moveController.Move(directionOfPlayer * pursuitSpeed * Time.deltaTime);
+                    if (directionOfPlayer == Vector3.zero) directionOfPlayer = Vector3.forward;
                     transform.forward = Vector3.Lerp(transform.forward, directionOfPlayer, Time.deltaTime * rotationSpeed);
                 }
                 // If the player is no longer within detection range, start searching
@@ -157,7 +166,9 @@ public class AIEnemyForce : MonoBehaviour
                 break;
             case States.searching:
                 Vector3 directionOflastKnown = (lastKnownPosition - transform.position).normalized;
+                lastDesiredPositionGoing = lastKnownPosition;
                 moveController.Move(directionOflastKnown * moveSpeed * Time.deltaTime);
+                if (directionOflastKnown == Vector3.zero) directionOflastKnown = Vector3.forward;
                 transform.forward = Vector3.Lerp(transform.forward, directionOflastKnown, Time.deltaTime * rotationSpeed);                
                 if (IsTargetVisible()) 
                 {
@@ -188,6 +199,8 @@ public class AIEnemyForce : MonoBehaviour
                 break;
         }
     }
+
+    private Vector3 lastDesiredPositionGoing;
     // OnEndedState is for things that should end or change when a state ends; for cleanup
     public void OnEndedState(States state) 
     {
@@ -334,17 +347,17 @@ public class AIEnemyForce : MonoBehaviour
         if (playerSpeed <= Player.get.maxSpeed/2)
         {
             detectionRange = baseDetectionRange/2;
-            Debug.Log("My detection range is " + detectionRange);
+            //Debug.Log("My detection range is " + detectionRange);
         }
         else if (playerSpeed > Player.get.maxSpeed)
         {
             detectionRange = baseDetectionRange*2;
-            Debug.Log("My detection range is " + detectionRange);
+            //Debug.Log("My detection range is " + detectionRange);
         }
         else
         {
             detectionRange = baseDetectionRange;
-            Debug.Log("My detection range is " + detectionRange);
+            //Debug.Log("My detection range is " + detectionRange);
         }
     }
 
@@ -397,6 +410,13 @@ public class AIEnemyForce : MonoBehaviour
         if (currentState == States.patrolling) {
             UnityEditor.Handles.Label(debugPos,$"{patrolDelay - (Time.time - lastTimeDidPatrolMove)} till patrolling to a new location.");
         }
+    }
+    
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(transform.position,lastDesiredPositionGoing);
+        Gizmos.DrawSphere(lastDesiredPositionGoing, 5);
     }
     #endif
 }
