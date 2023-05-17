@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     [SerializeField] public float maxSpeed = 20f;           // gets sent to PlayerFlightControl
     [SerializeField] public float afterburnerSpeed = 30f;   // gets sent to PlayerFlightControl
     [SerializeField] public float cloakSpeed = 2f;          // amount to divide player speed by when under cloak
+    [SerializeField] public float probeDuration = 8f;       // duration of distraction probes launched by the player
 
     public bool allowPitch = false;                         // toggle to allow movement on the Y axis to the player
 

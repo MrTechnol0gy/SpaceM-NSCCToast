@@ -10,9 +10,11 @@ public class AIEnemyForce : MonoBehaviour
     public CharacterController moveController;
     public LayerMask obstacleLayers;
     public GameObject enemy;    
-    private GameObject player;
+    private GameObject player, distractionProbe;
     private Vector3 playerPOS;
     private Vector3 oldPlayerPOS;
+    private Vector3 lastDesiredPositionGoing;
+    private Vector3 intendedDestination;
     public Vector3 enemyPOS;
     private Vector3 enemyStoppedPOS, position, patrolDestination;
     public Transform weapon_hardpoint_1;        //"Weapon Hardpoint", "Transform for the barrel of the weapon"
@@ -27,6 +29,8 @@ public class AIEnemyForce : MonoBehaviour
     private float spawnRadius;                  // level area, will be grabbed from the Game Manager on Start
     private float enemyForceMinHeight, enemyForceMaxHeight;
     private float baseDetectionRange;
+    private float distractedDuration;           // how long the enemy will remain distracted, as determined by the Distraction Probe
+    private bool isDistracted = false;
     private bool isPlayerCloaked = false;       // holder for player cloak status
     public bool isPlayerInVisionCone = false;
     public LayerMask wallLayer;
@@ -55,6 +59,7 @@ public class AIEnemyForce : MonoBehaviour
         chasing,        // chasing = 2
         searching,      // searching = 3
         attacking,      // attacking = 4
+        distracted      // distracted = 5
     }
     private States _currentState = States.stopped;       //sets the starting enemy state    
     public States currentState 
@@ -105,6 +110,10 @@ public class AIEnemyForce : MonoBehaviour
                 //Debug.Log("I am attacking.");
                 GetComponent<Renderer>().material.color = Color.red;
                 break;
+            case States.distracted:
+                Debug.Log("I am distracted");
+                GetComponent<Renderer>().material.color = Color.white;
+                break;
         }
     }
     // OnUpdatedState is for things that occur during the state (main actions)
@@ -117,6 +126,10 @@ public class AIEnemyForce : MonoBehaviour
                 {
                     currentState = States.patrolling;
                 }
+                else if (isDistracted)
+                {
+                    currentState = States.distracted;
+                }
                 break;
             case States.patrolling:
                 if (lastTimeDidPatrolMove + patrolDelay < Time.time)
@@ -128,6 +141,10 @@ public class AIEnemyForce : MonoBehaviour
                 {
                     Debug.Log("I am patrolling and the player is visible");
                     currentState = States.chasing;
+                }
+                else if (isDistracted)
+                {
+                    currentState = States.distracted;
                 }
                 else
                 {
@@ -197,10 +214,34 @@ public class AIEnemyForce : MonoBehaviour
                     StartCloseDistanceCoroutine();
                 }
                 break;
+            case States.distracted:
+                if (distractedDuration > 0)
+                {
+                    distractedDuration -= Time.deltaTime;
+                    if (distractionProbe != null)
+                    {
+                        intendedDestination = distractionProbe.transform.position;
+                        FaceProbe();
+                        Vector3 directionOfMove = (distractionProbe.transform.position - transform.position).normalized;
+                        moveController.Move(directionOfMove * moveSpeed * Time.deltaTime);
+                    }
+                    else 
+                    {
+                        FaceProbe();
+                        Vector3 directionOfMove = (intendedDestination - transform.position).normalized;
+                        moveController.Move(directionOfMove * moveSpeed * Time.deltaTime);
+                    }
+                }
+                else if (distractedDuration <= 0)
+                {
+                    distractedDuration = 0;
+                    currentState = States.stopped;
+                }
+                break;
         }
     }
 
-    private Vector3 lastDesiredPositionGoing;
+    
     // OnEndedState is for things that should end or change when a state ends; for cleanup
     public void OnEndedState(States state) 
     {
@@ -215,6 +256,9 @@ public class AIEnemyForce : MonoBehaviour
             case States.searching:
                 break;
             case States.attacking:
+                break;
+            case States.distracted:
+                isDistracted = false;
                 break;
         }
     }
@@ -298,9 +342,20 @@ public class AIEnemyForce : MonoBehaviour
             return true;
         }
     }
-    
+    // SetDistracted takes in the distracted duration and a reference to the distractionProbe for use in the state machine
+    public void SetDistracted(float duration, GameObject distractionObject)
+    {
+        distractedDuration = duration;
+        distractionProbe = distractionObject;
+        isDistracted = true;
+    }
     private void FacePlayer() {
         Quaternion targetRotation = Quaternion.LookRotation(player.transform.position - weapon_hardpoint_1.transform.position);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+    }
+    private void FaceProbe()
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(intendedDestination - weapon_hardpoint_1.transform.position);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
     }
     private IEnumerator CloseDistance()
