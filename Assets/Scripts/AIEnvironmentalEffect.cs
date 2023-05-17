@@ -26,7 +26,7 @@ public class AIEnvironmentalEffect : MonoBehaviour
     [SerializeField] float inactiveTimeFloor = 3f;      // minimum time the AI should remain in an inactive state
     [SerializeField] float inactiveTimeCeiling = 15f;   // maximum time the AI should remain in an inactive state
     [SerializeField] float patrolDelay = 10f;       // how long the AI will wait before choosing a new patrol path
-    [SerializeField] float patrolRadius = 50f;      // how large a sphere the AI will use to select a new patrol point from   
+    //[SerializeField] float patrolRadius = 50f;      // how large a sphere the AI will use to select a new patrol point from   
     [SerializeField] float moveSpeed = 12f;         // movespeed for the enemy
     [SerializeField] float rotationSpeed = 6f;
     

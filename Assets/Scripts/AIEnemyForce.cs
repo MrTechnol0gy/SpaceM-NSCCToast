@@ -19,7 +19,6 @@ public class AIEnemyForce : MonoBehaviour
     private Vector3 enemyStoppedPOS, position, patrolDestination;
     public Transform weapon_hardpoint_1;        //"Weapon Hardpoint", "Transform for the barrel of the weapon"
     private float enemyToPlayerDistance;
-    private bool wallHit = false;
     private bool canShoot = true;
     private Coroutine closeDistanceCoroutine;
     private float TimeStartedState;             // timer to know when we started a state
@@ -40,7 +39,7 @@ public class AIEnemyForce : MonoBehaviour
     [SerializeField] float stoppedTime = 5f;        // how long the AI should remain in a stopped condition
     [SerializeField] float searchTime = 10f;         // how long the AI should search for the player
     [SerializeField] float patrolDelay = 10f;       // how long the AI will wait before choosing a new patrol path
-    [SerializeField] float patrolRadius = 50f;      // how large a sphere the AI will use to select a new patrol point from
+    //[SerializeField] float patrolRadius = 50f;      // how large a sphere the AI will use to select a new patrol point from
     [SerializeField] public float detectionRange = 50f;    // how far the AI can see
     [SerializeField] public float detectionRangeUpdateSpeed = 1f; // how fast the AI updates their detection range
     [SerializeField] float detectionRangeUpdateFrequency = 3f; // how often the probe updates their detection range
@@ -191,7 +190,7 @@ public class AIEnemyForce : MonoBehaviour
                 {
                     currentState = States.chasing;
                 }
-                else if (TimeElapsedSince(TimeStartedState, stoppedTime))
+                else if (TimeElapsedSince(TimeStartedState, searchTime))
                 {
                     currentState = States.stopped;
                 }
