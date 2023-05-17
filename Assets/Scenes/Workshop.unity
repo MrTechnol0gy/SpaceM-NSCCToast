@@ -14487,7 +14487,9 @@ PrefabInstance:
       propertyPath: bank_angle_clamp
       value: 40
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6083927566798117728, guid: eb9ffeec6cfb0b240be01b66ec4170c6, type: 3}
+    - {fileID: 8717173479230668201, guid: eb9ffeec6cfb0b240be01b66ec4170c6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

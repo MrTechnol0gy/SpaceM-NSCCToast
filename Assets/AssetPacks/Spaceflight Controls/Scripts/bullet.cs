@@ -24,7 +24,7 @@ public class bullet : MonoBehaviour {
 		if (col.gameObject.tag == "Player") 
 		{
 			GameTimer.get.DecreaseTime(5);
-			Debug.Log("Bullet hit the player!");
+			//Debug.Log("Bullet hit the player!");
 		} 
 		else 
 		{
