@@ -168,22 +168,26 @@ public class PlayerFlightControl : MonoBehaviour
 			if (Input.GetAxis("Thrust") > 0 && _afterburnerActive == false) 
 			{
 				slow_Active = false;
-				currentMag = Mathf.Lerp(currentMag, speed, thrust_transition_speed * Time.deltaTime);				
+				currentMag = Mathf.Lerp(currentMag, speed, thrust_transition_speed * Time.deltaTime);
+				Thruster.get.StartThrust();
 			} 
 			else if (Input.GetAxis("Thrust") > 0 && _afterburnerActive)
 			{ 
 				slow_Active = false;
-				currentMag = Mathf.Lerp(currentMag, afterburner_speed, thrust_transition_speed * Time.deltaTime);				
+				currentMag = Mathf.Lerp(currentMag, afterburner_speed, thrust_transition_speed * Time.deltaTime);
+				Thruster.get.StartThrust();
 			}
 			else if (Input.GetAxis("Thrust") < 0) 
 			{ 	//If input on the thrust axis is negatve, activate brakes.
 				slow_Active = true;
-				currentMag = Mathf.Lerp(currentMag, slow_speed, thrust_transition_speed * Time.deltaTime);				
+				currentMag = Mathf.Lerp(currentMag, slow_speed, thrust_transition_speed * Time.deltaTime);
+				Thruster.get.StopThrust();
 			} 
 			else
 			{
 				// if the player isn't holding thrust to move, they come to a stop gradually.
 				currentMag = Mathf.Lerp(currentMag, 0, braking_transition_speed * Time.deltaTime);
+				Thruster.get.StopThrust();
 			}
 			
 		}

@@ -243,7 +243,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh30068
+  m_Name: pb_Mesh31558
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -13144,7 +13144,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh30042
+  m_Name: pb_Mesh31532
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -13309,7 +13309,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh30102
+  m_Name: pb_Mesh31592
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -13517,38 +13517,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anchor: {fileID: 2111037906}
-  terrainRadius: 1000
+  terrainRadius: 990
   prefabList:
-  - prefab: {fileID: 5088930038270693170, guid: fcf12b0dc08414844bb78972d0c90301,
-      type: 3}
-    amount: 200
-  - prefab: {fileID: 219355230839552672, guid: 8fdfb7a5467d6c048aea315575bad0ed, type: 3}
-    amount: 200
-  - prefab: {fileID: 6930907428626145911, guid: e94aa592aa5503e4b90cb6e94bbaa592,
-      type: 3}
-    amount: 200
-  - prefab: {fileID: 7681102671156247747, guid: ed4a5259814cded45bba97887c6696c1,
-      type: 3}
-    amount: 200
-  - prefab: {fileID: 1298088068165176375, guid: 8bbc5b9ba7556304bb750db9f2f0d631,
-      type: 3}
-    amount: 20
+  - prefab: {fileID: 1970654216634722, guid: 46bc40ce41fc6534095bfc55962cdc66, type: 3}
+    amount: 150
+  - prefab: {fileID: 1208621162027886, guid: 402606451055b12458755e02756f9628, type: 3}
+    amount: 150
+  - prefab: {fileID: 1585696041401260, guid: ba4e7c63c2a6f0f43a37e69b48e0d305, type: 3}
+    amount: 150
+  - prefab: {fileID: 1759782451745068, guid: 77110119d456d714fa278d78bf91f891, type: 3}
+    amount: 150
+  - prefab: {fileID: 1023786555705752, guid: 94735789a5f1c4f46b1edeaf219b4aca, type: 3}
+    amount: 150
+  - prefab: {fileID: 1857193490896124, guid: cd51e4259f8a229468e5ce81fabc3d09, type: 3}
+    amount: 10
   - prefab: {fileID: 7485973667676221936, guid: b430c71f61c6d5e42bd304d4bb45aab8,
       type: 3}
+    amount: 10
+  - prefab: {fileID: 1298088068165176375, guid: 8bbc5b9ba7556304bb750db9f2f0d631,
+      type: 3}
+    amount: 10
+  - prefab: {fileID: 1611288572433490, guid: dbc54a30216015448821b6c5fa8bbc35, type: 3}
+    amount: 10
+  - prefab: {fileID: 1434215796535848, guid: 739469561738b0e47889e4553e4b4dc5, type: 3}
+    amount: 10
+  - prefab: {fileID: 1706147309837960, guid: 59fc760bfa545c84a818d65ce1cf5a18, type: 3}
+    amount: 10
+  - prefab: {fileID: 1418810523693724, guid: 05e0c7055617e7640a895edfda317e91, type: 3}
     amount: 10
   minHeight: -10
   maxHeight: 5
   minDistance: 10
-  minScale: 20
-  maxScale: 75
-  minDistanceFromSpawn: 100
+  minScale: 10
+  maxScale: 40
+  minDistanceFromSpawn: 150
 --- !u!43 &1527283110
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh30028
+  m_Name: pb_Mesh31518
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -13855,7 +13864,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d380cacadb838dc41ab71813ea2bd0a6, type: 2}
+  - {fileID: 2100000, guid: 25984c7e68ef1214993380beb7da2a46, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -14115,7 +14124,7 @@ MonoBehaviour:
   spawnPoint: {fileID: 0}
   totalMissionTime: 20
   amountOfPickUps: 30
-  amountOfEnemies: 50
+  amountOfEnemies: 25
   amountOfEnvironmentalDangers: 6
   spawnRadius: 950
 --- !u!4 &1773982866

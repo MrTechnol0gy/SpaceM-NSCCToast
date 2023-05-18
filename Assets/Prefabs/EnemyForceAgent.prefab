@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 2687501931358593831}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1133343838630512257}
@@ -58,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 82f6bb94d899fa44f8375dffe8fa9a76, type: 2}
+  - {fileID: 2100000, guid: 892697251e128914eaddfe3e93e641d4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -107,7 +107,6 @@ MonoBehaviour:
   stoppedTime: 3
   searchTime: 10
   patrolDelay: 3
-  patrolRadius: 300
   detectionRange: 40
   detectionRangeUpdateSpeed: 1
   detectionRangeUpdateFrequency: 3
@@ -209,7 +208,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6879733376576156548}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.055, z: 0.157}
+  m_LocalPosition: {x: 0, y: 0.055, z: 0.229}
   m_LocalScale: {x: 1, y: 0.45752, z: 0.81132}
   m_ConstrainProportionsScale: 0
   m_Children: []

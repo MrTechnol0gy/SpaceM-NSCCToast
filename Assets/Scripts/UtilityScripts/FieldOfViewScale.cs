@@ -6,7 +6,6 @@ public class FieldOfViewScale : MonoBehaviour
 {
     private Vector3 baseScale, endScale, newScale;
     private float detectionRange, detectionRangeUpdateSpeed;
-    private float lerpTime = 0.0f;
     private Transform objectTransform;
     private GameObject enemy;
     AIEnemyForce aIEnemyForce;
