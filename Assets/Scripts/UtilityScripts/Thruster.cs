@@ -15,6 +15,7 @@ public class Thruster : MonoBehaviour
     {
         if (thruster != null)
         {
+            //Debug.Log("Thruster is on.");
             thruster.Play();
         }
     }
