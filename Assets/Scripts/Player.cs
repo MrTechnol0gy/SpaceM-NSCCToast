@@ -15,8 +15,10 @@ public class Player : MonoBehaviour
     [SerializeField] public float afterburnerSpeed = 30f;   // gets sent to PlayerFlightControl
     [SerializeField] public float cloakSpeed = 2f;          // amount to divide player speed by when under cloak
     [SerializeField] public float probeDuration = 8f;       // duration of distraction probes launched by the player
+    [SerializeField] float shieldDelay = 10f;               // time it takes for shield to regen
 
     public bool allowPitch = false;                         // toggle to allow movement on the Y axis to the player
+    public bool shieldActive = true;
 
     private SphereCollider interactionSphere;
     void Awake()
@@ -58,6 +60,10 @@ public class Player : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
+        if (!shieldActive)
+        {
+            StartCoroutine(RestartShield());
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -76,5 +82,15 @@ public class Player : MonoBehaviour
         // If the code got to that point we can do the stuff we want to do to our pickupable
         // Here I'll remove it from the list if the list contain it.
         if (pickupablesInRange.Contains(other.gameObject)) pickupablesInRange.Remove(other.gameObject);
+    }
+    public bool IsShieldActive()
+    {
+        return shieldActive;
+    }
+    private IEnumerator RestartShield()
+    {
+        yield return new WaitForSeconds(shieldDelay);
+        shieldActive = true;
+        //Debug.Log("Shield is reactivated.");
     }
 }
