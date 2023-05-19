@@ -15,13 +15,21 @@ public class Player : MonoBehaviour
     [SerializeField] public float afterburnerSpeed = 30f;   // gets sent to PlayerFlightControl
     [SerializeField] public float cloakSpeed = 2f;          // amount to divide player speed by when under cloak
     [SerializeField] public float probeDuration = 8f;       // duration of distraction probes launched by the player
+    [SerializeField] float shieldDelay = 10f;               // time it takes for shield to regen
 
     public bool allowPitch = false;                         // toggle to allow movement on the Y axis to the player
+    public bool shieldActive = true;
 
     private SphereCollider interactionSphere;
+    public Material shieldMaterial;
+    private float activeDissolveAmount = 0.75f, inactiveDissolveAmount = 1.2f, lerpDuration = 0.2f;
     void Awake()
     {
         get = this;
+    }
+    void Start()
+    {
+        shieldMaterial.SetFloat("_DissolveAmount", activeDissolveAmount);
     }
     void Update()
     {
@@ -58,6 +66,15 @@ public class Player : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
+        if (!shieldActive)
+        {
+            ShieldDown();
+            StartCoroutine(RestartShield());
+        }
+        else if (shieldActive)
+        {
+            ShieldUp();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -76,5 +93,39 @@ public class Player : MonoBehaviour
         // If the code got to that point we can do the stuff we want to do to our pickupable
         // Here I'll remove it from the list if the list contain it.
         if (pickupablesInRange.Contains(other.gameObject)) pickupablesInRange.Remove(other.gameObject);
+    }
+    public bool IsShieldActive()
+    {
+        return shieldActive;
+    }
+    private IEnumerator RestartShield()
+    {
+        yield return new WaitForSeconds(shieldDelay);
+        shieldActive = true;
+        Debug.Log("Shield is reactivated.");
+    }
+    private void ShieldUp()
+    {
+        if (shieldMaterial.GetFloat("_DissolveAmount") > 0.8f)
+        {
+            float t = Mathf.Clamp01(Time.deltaTime / lerpDuration);
+            shieldMaterial.SetFloat("_DissolveAmount", Mathf.Lerp(activeDissolveAmount, inactiveDissolveAmount, t));
+        }
+        else
+        {
+            shieldMaterial.SetFloat("_DissolveAmount", activeDissolveAmount);
+        }
+    }
+    private void ShieldDown()
+    {
+        if (shieldMaterial.GetFloat("_DissolveAmount") < 1.15f)
+        {
+            float t = Mathf.Clamp01(Time.deltaTime / lerpDuration);
+            shieldMaterial.SetFloat("_DissolveAmount", Mathf.Lerp(inactiveDissolveAmount, activeDissolveAmount, t));
+        }
+        else
+        {
+            shieldMaterial.SetFloat("_DissolveAmount", inactiveDissolveAmount);
+        }
     }
 }

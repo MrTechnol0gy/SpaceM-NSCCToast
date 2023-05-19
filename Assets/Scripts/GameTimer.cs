@@ -41,7 +41,16 @@ public class GameTimer : MonoBehaviour
 
     public void DecreaseTime(int amount)
     {
-        currentGameTime -= amount;
+        if (Player.get.IsShieldActive())
+        {
+            Player.get.shieldActive = false;
+            //Debug.Log("Shield is inactive.");
+            return;
+        }
+        else
+        {
+            currentGameTime -= amount;
+        }
     }
 
 // This method can be used to test if a certain time has elapsed since we registered an event time. 

@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickups: []
-  pickupPrefab: {fileID: 8969632844163338009, guid: ff2f6f82b2a862f4ba095c49e859af5c,
+  pickupPrefab: {fileID: 1033159535267228, guid: cd5b093643334694780b086c4bb0d62f,
     type: 3}
   pickupSpawnHeightFloor: 0.25
   pickupSpawnHeightCeiling: 15
@@ -243,7 +243,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh31558
+  m_Name: pb_Mesh37000
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -829,7 +829,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2abca40168a646f45844544887849d2b, type: 2}
+  - {fileID: 2100000, guid: 44de01ce1efa658409ede7b1eca2e318, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13144,7 +13144,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh31532
+  m_Name: pb_Mesh36974
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -13309,7 +13309,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh31592
+  m_Name: pb_Mesh37034
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -13557,7 +13557,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh31518
+  m_Name: pb_Mesh36960
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
