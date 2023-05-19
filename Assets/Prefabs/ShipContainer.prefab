@@ -773,8 +773,10 @@ MonoBehaviour:
   afterburnerSpeed: 30
   cloakSpeed: 2
   probeDuration: 8
+  shieldDelay: 10
   allowPitch: 0
   shieldActive: 1
+  shieldMaterial: {fileID: 2100000, guid: 44de01ce1efa658409ede7b1eca2e318, type: 2}
 --- !u!114 &9119471313545275962
 MonoBehaviour:
   m_ObjectHideFlags: 0

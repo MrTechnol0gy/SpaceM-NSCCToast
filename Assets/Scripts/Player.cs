@@ -21,9 +21,15 @@ public class Player : MonoBehaviour
     public bool shieldActive = true;
 
     private SphereCollider interactionSphere;
+    public Material shieldMaterial;
+    private float activeDissolveAmount = 0.75f, inactiveDissolveAmount = 1.2f, lerpDuration = 0.2f;
     void Awake()
     {
         get = this;
+    }
+    void Start()
+    {
+        shieldMaterial.SetFloat("_DissolveAmount", activeDissolveAmount);
     }
     void Update()
     {
@@ -62,7 +68,12 @@ public class Player : MonoBehaviour
         }
         if (!shieldActive)
         {
+            ShieldDown();
             StartCoroutine(RestartShield());
+        }
+        else if (shieldActive)
+        {
+            ShieldUp();
         }
     }
 
@@ -91,6 +102,30 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(shieldDelay);
         shieldActive = true;
-        //Debug.Log("Shield is reactivated.");
+        Debug.Log("Shield is reactivated.");
+    }
+    private void ShieldUp()
+    {
+        if (shieldMaterial.GetFloat("_DissolveAmount") > 0.8f)
+        {
+            float t = Mathf.Clamp01(Time.deltaTime / lerpDuration);
+            shieldMaterial.SetFloat("_DissolveAmount", Mathf.Lerp(activeDissolveAmount, inactiveDissolveAmount, t));
+        }
+        else
+        {
+            shieldMaterial.SetFloat("_DissolveAmount", activeDissolveAmount);
+        }
+    }
+    private void ShieldDown()
+    {
+        if (shieldMaterial.GetFloat("_DissolveAmount") < 1.15f)
+        {
+            float t = Mathf.Clamp01(Time.deltaTime / lerpDuration);
+            shieldMaterial.SetFloat("_DissolveAmount", Mathf.Lerp(inactiveDissolveAmount, activeDissolveAmount, t));
+        }
+        else
+        {
+            shieldMaterial.SetFloat("_DissolveAmount", inactiveDissolveAmount);
+        }
     }
 }
