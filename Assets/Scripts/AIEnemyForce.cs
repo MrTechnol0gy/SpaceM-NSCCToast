@@ -110,7 +110,7 @@ public class AIEnemyForce : MonoBehaviour
                 GetComponent<Renderer>().material.color = Color.red;
                 break;
             case States.distracted:
-                Debug.Log("I am distracted");
+                //Debug.Log("I am distracted");
                 GetComponent<Renderer>().material.color = Color.white;
                 break;
         }
@@ -138,7 +138,7 @@ public class AIEnemyForce : MonoBehaviour
                 //If the player is within detection range, start chasing
                 if (IsTargetVisible()) 
                 {
-                    Debug.Log("I am patrolling and the player is visible");
+                    //Debug.Log("I am patrolling and the player is visible");
                     currentState = States.chasing;
                 }
                 else if (isDistracted)

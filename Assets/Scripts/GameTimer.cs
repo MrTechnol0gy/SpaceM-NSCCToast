@@ -49,8 +49,10 @@ public class GameTimer : MonoBehaviour
         }
         else
         {
+            PlayerFlightControl.get.cloakActive = false;
             currentGameTime -= amount;
-        }
+            Debug.Log("Player has lost " + amount + " of time.");
+        } 
     }
 
 // This method can be used to test if a certain time has elapsed since we registered an event time. 

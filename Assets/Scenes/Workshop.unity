@@ -13144,7 +13144,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh36974
+  m_Name: pb_Mesh31538
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -13309,7 +13309,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh37034
+  m_Name: pb_Mesh31598
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -13791,7 +13791,8 @@ GameObject:
   - component: {fileID: 1688105267}
   - component: {fileID: 1688105266}
   - component: {fileID: 1688105265}
-  - component: {fileID: 1688105264}
+  - component: {fileID: 1688105269}
+  - component: {fileID: 1688105270}
   m_Layer: 0
   m_Name: EnvironmentLiquid
   m_TagString: Untagged
@@ -13814,28 +13815,6 @@ Transform:
   m_Father: {fileID: 1431680750}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &1688105264
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1688105262}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 1128684533}
 --- !u!33 &1688105265
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -14076,6 +14055,41 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!114 &1688105269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688105262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa5e8ea1af2e12e44abe0460856ccaed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lavaDamage: 20
+  damageInterval: 1
+--- !u!65 &1688105270
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688105262}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2000, y: 5, z: 2000}
+  m_Center: {x: 0, y: -2.5, z: 0}
 --- !u!1 &1773982863
 GameObject:
   m_ObjectHideFlags: 0
@@ -14436,6 +14450,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4228889613329319681, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 5636046190363231256, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
         type: 3}
       propertyPath: maxSpeed
@@ -14455,6 +14474,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ShipContainer
+      objectReference: {fileID: 0}
+    - target: {fileID: 6776586672345207669, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 7195636263993141244, guid: eb9ffeec6cfb0b240be01b66ec4170c6,
         type: 3}

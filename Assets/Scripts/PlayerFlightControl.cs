@@ -47,6 +47,8 @@ public class PlayerFlightControl : MonoBehaviour
 	bool thrust_exists = true;
 	bool roll_exists = true;
 	public bool PlayerIsBoinkedAbove = false;
+	private float shootingInterval;
+	private bool canShoot = true;
 
 	public enum States
 	{
@@ -106,7 +108,8 @@ public class PlayerFlightControl : MonoBehaviour
 	{	
 		// gets relevant stats from the Player script
 		speed = Player.get.maxSpeed;
-		afterburner_speed = Player.get.afterburnerSpeed;		
+		afterburner_speed = Player.get.afterburnerSpeed;	
+		shootingInterval = Player.get.probeDelayBetweenShots;
 		
 		mousePos = new Vector2(0,0);	
 		DZ = CustomPointer.instance.deadzone_radius;
@@ -308,8 +311,9 @@ public class PlayerFlightControl : MonoBehaviour
 	{	
 		OnUpdatedState(currentState);
 		//Please remove this and replace it with a shooting system that works for your game, if you need one.
-		if (Input.GetMouseButtonDown(0)) {
-			fireShot();
+		if (Input.GetMouseButtonDown(0) && canShoot) {
+			StartCoroutine(fireShot());
+			canShoot = false;
 		}
 		//Checks if the player has collided with anything 'above' the ship and moves it away to prevent sticking
 		PlayerIsBoinkedAbove = (Physics.Raycast(transform.position, transform.up, 1.5f, GameManager.get.environmentLayerMask, QueryTriggerInteraction.Ignore));
@@ -337,22 +341,22 @@ public class PlayerFlightControl : MonoBehaviour
 	}
 	
 	
-	public void fireShot() {
-	
+	public IEnumerator fireShot() 
+	{
 		if (weapon_hardpoint_1 == null) {
 			Debug.LogError("(FlightControls) Trying to fire weapon, but no hardpoint set up!");
-			return;
+			yield return null;
 		}
 		
 		if (bullet == null) {
 			Debug.LogError("(FlightControls) Bullet GameObject is null!");
-			return;
+			yield return null;
 		}
 		
 		//Shoots it in the direction that the pointer is pointing. Might want to take note of this line for when you upgrade the shooting system.
 		if (Camera.main == null) {
 			Debug.LogError("(FlightControls) Main camera is null! Make sure the flight camera has the tag of MainCamera!");
-			return;
+			yield return null;
 		}
 		
 		GameObject shot1 = (GameObject) GameObject.Instantiate(bullet, weapon_hardpoint_1.position, Quaternion.identity);
@@ -376,7 +380,8 @@ public class PlayerFlightControl : MonoBehaviour
 		} else {
 			shot1.GetComponent<Rigidbody>().AddForce((vRay.direction) * 9000f);
 		}
-	
+		yield return new WaitForSeconds(shootingInterval);
+		canShoot = true;
 	}
 	public States currentState 
     {
@@ -404,10 +409,10 @@ public class PlayerFlightControl : MonoBehaviour
         switch (state) 
         {
             case States.normal:
-                Debug.Log("I am normal.");
+                //Debug.Log("I am normal.");
                 break;
             case States.cloaked:
-                Debug.Log("I am cloaked.");
+                //Debug.Log("I am cloaked.");
 				if (afterburnerActive)
 				{
 					afterburnerActive = false;		// automatically turns the afterburner off
@@ -415,7 +420,7 @@ public class PlayerFlightControl : MonoBehaviour
 				speed = speed / Player.get.cloakSpeed;
                 break;
 			case States.afterburner:
-				Debug.Log("I am using the afterburner.");
+				//Debug.Log("I am using the afterburner.");
 				break;
         }
     }
