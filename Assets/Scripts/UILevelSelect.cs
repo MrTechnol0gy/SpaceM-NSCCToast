@@ -64,6 +64,12 @@ public class UILevelSelect : MonoBehaviour
     public static void SetProgressBar(int amount)
     {
         get.intelCollected.SetValueWithoutNotify(amount);      // other scripts can set this using "UIManager.SetProgressBar(amount);"
+        Debug.Log("Setting progress bar value to " + amount);
+    }
+    public static void SetProgressBarHeight(int amount)
+    {
+        get.intelCollected.highValue = amount;
+        //Debug.Log("High value is " + amount);
     }
     public void Next()
     {
@@ -81,7 +87,7 @@ public class UILevelSelect : MonoBehaviour
     }
     public void MainMenu()
     {
-        Debug.Log("Clicked MainMenu.");
+        //Debug.Log("Clicked MainMenu.");
         SceneManager.LoadScene("Main Menu");
     }
 }

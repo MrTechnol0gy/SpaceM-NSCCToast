@@ -23,6 +23,8 @@ public class Player : MonoBehaviour
     private SphereCollider interactionSphere;
     public Material shieldMaterial;
     private float activeDissolveAmount = 0.75f, inactiveDissolveAmount = 1.2f, lerpDuration = 0.2f;
+    private ParticleSystem particleSystem;
+    private ParticleSystem.Particle[] particles;
     void Awake()
     {
         get = this;
@@ -30,6 +32,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         shieldMaterial.SetFloat("_DissolveAmount", activeDissolveAmount);
+        particleSystem = GetComponent<ParticleSystem>();
+        particles = new ParticleSystem.Particle[particleSystem.main.maxParticles];
     }
     void Update()
     {
@@ -48,6 +52,20 @@ public class Player : MonoBehaviour
                     closestDistance = distance;
                     closestIndex = i;
                 }
+            }
+
+            if (pickupablesInRange[closestIndex] != null)
+            {
+                Debug.Log("Tractor beam particles are active.");
+                int numParticlesAlive = particleSystem.GetParticles(particles);
+
+                for (int i = 0; i < numParticlesAlive; i++)
+                {
+                    Vector3 directionToTarget = pickupablesInRange[closestIndex].transform.position - particles[i].position;
+                    particles[i].velocity = directionToTarget.normalized * particleSystem.main.startSpeedMultiplier;
+                }
+
+                particleSystem.SetParticles(particles, numParticlesAlive);
             }
 
             // Lerp only the closest pickupable towards the player

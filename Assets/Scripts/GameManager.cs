@@ -18,6 +18,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] public int amountOfEnvironmentalDangers = 10;     // number of elemental dangers to be found in the level
     [SerializeField] public float spawnRadius = 100f;                  // spawn radius (should be replaced to match level radius)
 
+    [Header("Game Information")]
+    [SerializeField] public int totalIntelToCollect = 20;                // total intel needed to win the game/unlock the final Planet (if/when ready)
+
     // private variables
     private int intelCollected = 0;                                    // the amount of intel pickups collected
     private int totalIntelCollectedOverTime = 0;                        // the total amount of intel over multiple missions   
@@ -34,7 +37,9 @@ public class GameManager : MonoBehaviour
         }
         else if (SceneManager.GetActiveScene().name == "Level Select")
         {
+            Debug.Log("On Start Total intel over time is " + totalIntelCollectedOverTime);
             UILevelSelect.SetProgressBar(totalIntelCollectedOverTime);
+            UILevelSelect.SetProgressBarHeight(totalIntelToCollect);
         }
     }
 
@@ -102,7 +107,9 @@ public class GameManager : MonoBehaviour
 
     public void UpdateTotalIntelOverTime()
     {
-        totalIntelCollectedOverTime =+ intelCollected;
+        //Debug.Log("Intel collected is " + intelCollected);
+        totalIntelCollectedOverTime += intelCollected;
+        //Debug.Log("Total Intel Collected Over Time is " + totalIntelCollectedOverTime);
         intelCollected = 0;
     }
 }
