@@ -20,7 +20,7 @@ public class LavaHot : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !other.isTrigger)
         {
             if (isPlayerInside)
             {

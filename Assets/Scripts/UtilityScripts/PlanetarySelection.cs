@@ -10,6 +10,7 @@ public class PlanetarySelection : MonoBehaviour
     private int rotationAmount;
     private float anglePerRotation;
     private int currentSelection = 0;
+    private bool isRotating = false;
 
     private void Awake()
     {
@@ -44,20 +45,28 @@ public class PlanetarySelection : MonoBehaviour
 
     public void Rotate()
     {
-        Quaternion targetRotation = Quaternion.Euler(0, anglePerRotation, 0) * transform.rotation;
-        StartCoroutine(RotateCoroutine(targetRotation, rotationDuration));
-        ModifyCurrentSelectionUp();
+        if (!isRotating)
+        {
+            Quaternion targetRotation = Quaternion.Euler(0, anglePerRotation, 0) * transform.rotation;
+            StartCoroutine(RotateCoroutine(targetRotation, rotationDuration));
+            ModifyCurrentSelectionUp();
+        }
     }
 
     public void ReverseRotate()
     {
-        Quaternion targetRotation = Quaternion.Euler(0, -anglePerRotation, 0) * transform.rotation;
-        StartCoroutine(RotateCoroutine(targetRotation, rotationDuration));
-        ModifyCurrentSelectionDown();
+        if (!isRotating)
+        {
+            Quaternion targetRotation = Quaternion.Euler(0, -anglePerRotation, 0) * transform.rotation;
+            StartCoroutine(RotateCoroutine(targetRotation, rotationDuration));
+            ModifyCurrentSelectionDown();
+        }
     }
 
     private IEnumerator RotateCoroutine(Quaternion targetRotation, float duration)
     {
+        isRotating = true;
+
         float timeElapsed = 0f;
         Quaternion initialRotation = transform.rotation;
 
@@ -69,5 +78,7 @@ public class PlanetarySelection : MonoBehaviour
         }
 
         transform.rotation = targetRotation;
+
+        isRotating = false;
     }
 }
