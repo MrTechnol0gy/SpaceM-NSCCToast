@@ -15,8 +15,8 @@ public class Player : MonoBehaviour
     [SerializeField] public float afterburnerSpeed = 30f;   // gets sent to PlayerFlightControl
     [SerializeField] public float cloakSpeed = 2f;          // amount to divide player speed by when under cloak
     [SerializeField] public float probeDuration = 8f;       // duration of distraction probes launched by the player
+    [SerializeField] public float probeDelayBetweenShots = 15f; // cooldown for probes
     [SerializeField] float shieldDelay = 10f;               // time it takes for shield to regen
-
     public bool allowPitch = false;                         // toggle to allow movement on the Y axis to the player
     public bool shieldActive = true;
 
@@ -102,7 +102,7 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(shieldDelay);
         shieldActive = true;
-        Debug.Log("Shield is reactivated.");
+        //Debug.Log("Shield is reactivated.");
     }
     private void ShieldUp()
     {
