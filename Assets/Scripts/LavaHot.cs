@@ -4,42 +4,34 @@ using UnityEngine;
 
 public class LavaHot : MonoBehaviour
 {
-    [SerializeField] int lavaDamage = 20;
-    [SerializeField] float damageInterval = 1f;
-    private float elapsedTime = 0f;
-    private bool isPlayerInside = false;
+    [SerializeField] int lavaDamage = 20;    
+    [SerializeField] float comparisonInterval = 3f;   // Comparison interval in seconds
+    [SerializeField] float comparisonRange = 2f;         // distance above or below the lava the player will take damage from
+    private float timer = 0f;
+    private GameObject player;
 
-    private void OnTriggerEnter(Collider other)
+    private void Start()
     {
-        if (other.CompareTag("Player"))
-        {
-            isPlayerInside = true;
-            elapsedTime = 0f;
-        }
+        player = GameObject.FindWithTag("Player");
     }
-
-    private void OnTriggerStay(Collider other)
+    private void Update()
     {
-        if (other.CompareTag("Player") && !other.isTrigger)
+        timer += Time.deltaTime;
+
+        // Check if the comparison interval has elapsed
+        if (timer >= comparisonInterval)
         {
-            if (isPlayerInside)
+            timer = 0f; // Reset the timer
+
+            // Compare the Y positions
+            float y1 = transform.position.y;
+            float y2 = player.transform.position.y;
+
+            if (Mathf.Abs(y1 - y2) <= comparisonRange)
             {
-                elapsedTime += Time.deltaTime;
-                if (elapsedTime >= damageInterval)
-                {
-                    GameTimer.get.DecreaseTime(lavaDamage);
-                    elapsedTime = 0f;
-                }
+                //Debug.Log("Y positions are approximately equal.");
+                GameTimer.get.DecreaseTime(lavaDamage);
             }
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            isPlayerInside = false;
-            elapsedTime = 0f;
         }
     }
 }

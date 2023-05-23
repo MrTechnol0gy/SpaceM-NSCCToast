@@ -13310,7 +13310,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh31598
+  m_Name: pb_Mesh31610
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -14069,7 +14069,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lavaDamage: 20
-  damageInterval: 1
+  comparisonInterval: 3
+  comparisonRange: 2
 --- !u!65 &1688105270
 BoxCollider:
   m_ObjectHideFlags: 0

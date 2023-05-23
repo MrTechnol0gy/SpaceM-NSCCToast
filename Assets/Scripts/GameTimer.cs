@@ -51,7 +51,7 @@ public class GameTimer : MonoBehaviour
         {
             PlayerFlightControl.get.cloakActive = false;
             currentGameTime -= amount;
-            Debug.Log("Player has lost " + amount + " of time.");
+            //Debug.Log("Player has lost " + amount + " of time.");
         } 
     }
 
