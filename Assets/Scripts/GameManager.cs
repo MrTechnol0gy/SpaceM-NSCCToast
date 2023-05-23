@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager get;                          // singleton reference
     public LayerMask environmentLayerMask;                  // Layermask that holds the environment for raycasts
-
+    private const string SaveKey = "IntelCollected";        // Key used to identify the saved value
     [Header("Player Spawn")]
     [SerializeField] public GameObject spawnPoint;
 
@@ -23,7 +23,12 @@ public class GameManager : MonoBehaviour
 
     // private variables
     private int intelCollected = 0;                                    // the amount of intel pickups collected
-    private int totalIntelCollectedOverTime = 0;                        // the total amount of intel over multiple missions   
+    private static int totalIntelCollectedOverTime = 0;                        // the total amount of intel over multiple missions
+    public static int TotalIntelCollectedOverTime
+    {
+        get {return totalIntelCollectedOverTime; }
+        set { totalIntelCollectedOverTime = value; }
+    }
     void Awake()
     {
         get = this;
@@ -31,13 +36,17 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        if (SceneManager.GetActiveScene().name == "Main Menu")
+        {
+            LoadInteger(); // Load the saved integer when the game starts
+        }
         if (SceneManager.GetActiveScene().name == "Workshop")
         {
             StartCoroutine(InitializeLevel());
         }
         else if (SceneManager.GetActiveScene().name == "Level Select")
         {
-            Debug.Log("On Start Total intel over time is " + totalIntelCollectedOverTime);
+            Debug.Log("On Start Total intel over time is " + TotalIntelCollectedOverTime);
             UILevelSelect.SetProgressBar(totalIntelCollectedOverTime);
             UILevelSelect.SetProgressBarHeight(totalIntelToCollect);
         }
@@ -111,5 +120,26 @@ public class GameManager : MonoBehaviour
         totalIntelCollectedOverTime += intelCollected;
         //Debug.Log("Total Intel Collected Over Time is " + totalIntelCollectedOverTime);
         intelCollected = 0;
+    }
+    private void SaveInteger()
+    {
+        PlayerPrefs.SetInt(SaveKey, totalIntelCollectedOverTime);
+        PlayerPrefs.Save(); // Save the value to disk
+    }
+    private void LoadInteger()
+    {
+        if (PlayerPrefs.HasKey(SaveKey))
+        {
+            totalIntelCollectedOverTime = PlayerPrefs.GetInt(SaveKey);
+        }
+        else
+        {
+            totalIntelCollectedOverTime = 0; // Set a default value if no saved value exists
+        }
+    }
+
+    private void OnDestroy()
+    {
+        SaveInteger(); // Save the integer when the game object is destroyed or the game quits
     }
 }
