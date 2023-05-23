@@ -56,7 +56,8 @@ public class Player : MonoBehaviour
 
             if (pickupablesInRange[closestIndex] != null)
             {
-                Debug.Log("Tractor beam particles are active.");
+                //Debug.Log("Tractor beam particles are active.");
+                particleSystem.Play();
                 int numParticlesAlive = particleSystem.GetParticles(particles);
 
                 for (int i = 0; i < numParticlesAlive; i++)
@@ -76,6 +77,7 @@ public class Player : MonoBehaviour
             if (closestDistance < 5f)
             {
                 PlayerFlightControl.get.tractorBeamActive = false;
+                particleSystem.Stop();
             }
         }
 

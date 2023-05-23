@@ -33,7 +33,7 @@ public class UIManager : MonoBehaviour
         speedLabel = root.Query<Label>("Speed");
         tractorBeamToggle = root.Query<Toggle>("TractorBeam");
         intelTotalRequiredLabel = root.Query<Label>("IntelTotalAmount");
-        intelCurrentAmountLabel = root.Query<Label>("IntelCurrentAmount");        
+        intelCurrentAmountLabel = root.Query<Label>("IntelCurrentAmount");
         timeoutText = root.Query<Label>("TImeoutText");
         levelSelectButton = root.Query<Button>("ReturnToLevelSelect");
         levelSelectButton.clickable = new Clickable(LevelSelect);
