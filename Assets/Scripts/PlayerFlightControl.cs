@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 
 [System.Serializable]
 public class PlayerFlightControl : MonoBehaviour
 {
 	public static PlayerFlightControl get; // Can also be used to set ;)
 
+	[Header("References")]
+	[Tooltip("Ship Renderer Tooltip!")]
+	public Renderer shipRenderer;
 	//"Objects", "For the main ship Game Object and weapons"));
 	public GameObject actual_model; //"Ship GameObject", "Point this to the Game Object that actually contains the mesh for the ship. Generally, this is the first child of the empty container object this controller is placed in."
 	public Transform weapon_hardpoint_1; //"Weapon Hardpoint", "Transform for the barrel of the weapon"
@@ -80,9 +84,14 @@ public class PlayerFlightControl : MonoBehaviour
 		set
 		{
 			//When setting, set _cloakActive to the new value and then update the UI with the new information
-            _cloakActive = value;
-			Debug.Log("Cloak is " + _cloakActive);
-            //UIManager.SetCloakActive(_cloakActive);
+			if (_cloakActive != value) {
+				_cloakActive = value;
+				shipRenderer.DOKill();
+				shipRenderer.material.DOColor(_cloakActive ? new Color(0.3f, 0.3f, 0.3f, 0.4f) : Color.white, 1)
+					.SetEase(Ease.InOutQuad);
+				Debug.Log("Cloak is " + _cloakActive);
+			}
+			//UIManager.SetCloakActive(_cloakActive);
 		}
 	}
 	private bool _afterburnerActive = false;			// Whether the afterburner is currently in use

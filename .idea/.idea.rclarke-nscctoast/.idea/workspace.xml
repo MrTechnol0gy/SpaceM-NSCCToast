@@ -3,17 +3,57 @@
   <component name="ChangeListManager">
     <list default="true" id="828318c6-943e-4ee8-b5ff-098b0e6ccc90" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.rclarke-nscctoast/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.rclarke-nscctoast/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/AmplifyShaderEditor/Examples/Built-In Samples.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/AmplifyShaderEditor/Examples/HDRP Samples 10x.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/AmplifyShaderEditor/Examples/HDRP Samples 12x.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/AmplifyShaderEditor/Examples/HDRP Samples 14x.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/AmplifyShaderEditor/Examples/HDRP Samples.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/AmplifyShaderEditor/Examples/Sample Resources.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/AmplifyShaderEditor/Examples/URP Samples 10x.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/AmplifyShaderEditor/Examples/URP Samples 12x.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/AmplifyShaderEditor/Examples/URP Samples 14x.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/AmplifyShaderEditor/Examples/URP Samples.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/AmplifyShaderEditor/Plugins/EditorResources/Templates/HDRP 10x.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/AmplifyShaderEditor/Plugins/EditorResources/Templates/HDRP 12x.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/AmplifyShaderEditor/Plugins/EditorResources/Templates/HDRP 14x.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/AmplifyShaderEditor/Plugins/EditorResources/Templates/URP 10x.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/AmplifyShaderEditor/Plugins/EditorResources/Templates/URP 12x.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/AmplifyShaderEditor/Plugins/EditorResources/Templates/URP 14x.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/Planets/Materials/Clouds/Clouds_03.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AssetPacks/Planets/Materials/Clouds/Clouds_03.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/Planets/Materials/Clouds/Clouds_04.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AssetPacks/Planets/Materials/Clouds/Clouds_04.mat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/Planets/SRP/HDRP_Upgrade.unitypackage.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/Planets/SRP/URP_Materials.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/SpaceStationsCreator/Materials/Crates/Crates2/Crates2_Blue.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AssetPacks/SpaceStationsCreator/Materials/Crates/Crates2/Crates2_Blue.mat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/SpaceStationsCreator/SRP/HDRP_Upgrade.unitypackage.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/SpaceStationsCreator/SRP/URP_Materials.unitypackage.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/SpaceStationsCreator/SubstancePainter/SpaceStationsIIMain.spp.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/SpaceStationsCreator/SubstancePainter/SpaceStationsIIParts.spp.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/Spaceflight Controls/Editor/FlightSysEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AssetPacks/Spaceflight Controls/Editor/FlightSysEditor.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/UltimateSpaceshipsCreator/SRP/HDRP_Upgrade.unitypackage.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/AssetPacks/UltimateSpaceshipsCreator/SRP/URP_Materials.unitypackage.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/EnemyForceAgent.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/EnemyForceAgent.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/PickUpCrate.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/PickUpCrate.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Main Menu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Main Menu.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Main Menu/MainMenu.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Main Menu/MainMenu.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Workshop.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Workshop.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Workshop/LavaPlanet.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Workshop/LavaPlanet.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/AIEnemyForce.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AIEnemyForce.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameTimer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameTimer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Pickup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Pickup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerFlightControl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerFlightControl.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Radar.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Radar.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UIManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UtilityScripts/FieldOfViewScale.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UtilityScripts/FieldOfViewScale.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UtilityScripts/Thruster.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UtilityScripts/Thruster.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Support_Assets/Standard Assets/ParticleSystems/Materials/ParticleFirecloud.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Support_Assets/Standard Assets/ParticleSystems/Materials/ParticleFirecloud.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VFX/Materials/FieldOfView.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VFX/Materials/FieldOfView.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VFX/Materials/Lava.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VFX/Materials/Lava.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VFX/Materials/Shield.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VFX/Materials/Shield.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VFX/ParticleFX/Thruster.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VFX/Shaders/Liquid.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VFX/Shaders/Liquid.shader" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VFX/Shaders/Shield.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VFX/Shaders/Shield.shader" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,6 +86,14 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+    <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/Build\UntitledSpaceSim.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="C:\UnityProjects\rclarke-nscctoast\Build" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <method v="2" />
+    </configuration>
     <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
@@ -76,6 +124,7 @@
       <option name="presentableId" value="Default" />
       <updated>1684158696586</updated>
       <workItem from="1684158701030" duration="1030000" />
+      <workItem from="1684946959452" duration="7298000" />
     </task>
     <servers />
   </component>

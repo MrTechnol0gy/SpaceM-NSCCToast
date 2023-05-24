@@ -151,9 +151,10 @@ public class AIEnemyForce : MonoBehaviour
                     // Debug.Log("Current location is " + transform.position + " destination is " + patrolDestination + " and movespeed is " + moveSpeed + ".");
                     Vector3 directionOfMove = (patrolDestination - transform.position).normalized;
                     lastDesiredPositionGoing = patrolDestination;
-                    moveController.Move(directionOfMove * moveSpeed * Time.deltaTime);
-                    if (directionOfMove == Vector3.zero) directionOfMove = Vector3.forward;
-                    transform.forward = Vector3.Lerp(transform.forward, directionOfMove, Time.deltaTime * rotationSpeed);
+                    desiredDirectionOfMove = Vector3.Lerp(desiredDirectionOfMove, directionOfMove, Time.deltaTime * 6);
+                    moveController.Move(desiredDirectionOfMove * moveSpeed * Time.deltaTime);
+                    if (desiredDirectionOfMove == Vector3.zero) desiredDirectionOfMove = Vector3.forward;
+                    transform.forward = Vector3.Lerp(transform.forward, desiredDirectionOfMove, Time.deltaTime * rotationSpeed);
 
                     if (Physics.CheckSphere(transform.position + (transform.forward * 2), 0.4f,obstacleLayers, QueryTriggerInteraction.Ignore)) {
                         OnStartedState(States.patrolling);
@@ -165,9 +166,10 @@ public class AIEnemyForce : MonoBehaviour
                 {
                     Vector3 directionOfPlayer = (player.transform.position - transform.position).normalized;
                     lastDesiredPositionGoing = player.transform.position;
-                    moveController.Move(directionOfPlayer * pursuitSpeed * Time.deltaTime);
-                    if (directionOfPlayer == Vector3.zero) directionOfPlayer = Vector3.forward;
-                    transform.forward = Vector3.Lerp(transform.forward, directionOfPlayer, Time.deltaTime * rotationSpeed);
+                    desiredDirectionOfMove = Vector3.Lerp(desiredDirectionOfMove, directionOfPlayer, Time.deltaTime * 6);
+                    moveController.Move(desiredDirectionOfMove * pursuitSpeed * Time.deltaTime);
+                    if (desiredDirectionOfMove == Vector3.zero) desiredDirectionOfMove = Vector3.forward;
+                    transform.forward = Vector3.Lerp(transform.forward, desiredDirectionOfMove, Time.deltaTime * rotationSpeed);
                 }
                 // If the player is no longer within detection range, start searching
                 if (!IsTargetVisible())
@@ -183,9 +185,10 @@ public class AIEnemyForce : MonoBehaviour
             case States.searching:
                 Vector3 directionOflastKnown = (lastKnownPosition - transform.position).normalized;
                 lastDesiredPositionGoing = lastKnownPosition;
-                moveController.Move(directionOflastKnown * moveSpeed * Time.deltaTime);
-                if (directionOflastKnown == Vector3.zero) directionOflastKnown = Vector3.forward;
-                transform.forward = Vector3.Lerp(transform.forward, directionOflastKnown, Time.deltaTime * rotationSpeed);                
+                desiredDirectionOfMove = Vector3.Lerp(desiredDirectionOfMove, directionOflastKnown, Time.deltaTime * 6);
+                moveController.Move(desiredDirectionOfMove * moveSpeed * Time.deltaTime);
+                if (desiredDirectionOfMove == Vector3.zero) desiredDirectionOfMove = Vector3.forward;
+                transform.forward = Vector3.Lerp(transform.forward, desiredDirectionOfMove, Time.deltaTime * rotationSpeed);                
                 if (IsTargetVisible()) 
                 {
                     currentState = States.chasing;
@@ -222,13 +225,15 @@ public class AIEnemyForce : MonoBehaviour
                         intendedDestination = distractionProbe.transform.position;
                         FaceProbe();
                         Vector3 directionOfMove = (distractionProbe.transform.position - transform.position).normalized;
-                        moveController.Move(directionOfMove * moveSpeed * Time.deltaTime);
+                        desiredDirectionOfMove = Vector3.Lerp(desiredDirectionOfMove, directionOfMove, Time.deltaTime * 6);
+                        moveController.Move(desiredDirectionOfMove * moveSpeed * Time.deltaTime);
                     }
                     else 
                     {
                         FaceProbe();
                         Vector3 directionOfMove = (intendedDestination - transform.position).normalized;
-                        moveController.Move(directionOfMove * moveSpeed * Time.deltaTime);
+                        desiredDirectionOfMove = Vector3.Lerp(desiredDirectionOfMove, directionOfMove, Time.deltaTime * 6);
+                        moveController.Move(desiredDirectionOfMove * moveSpeed * Time.deltaTime);
                     }
                 }
                 else if (distractedDuration <= 0)
@@ -240,7 +245,8 @@ public class AIEnemyForce : MonoBehaviour
         }
     }
 
-    
+
+    private Vector3 desiredDirectionOfMove;
     // OnEndedState is for things that should end or change when a state ends; for cleanup
     public void OnEndedState(States state) 
     {

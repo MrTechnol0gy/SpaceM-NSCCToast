@@ -8,7 +8,8 @@ public class FlightControllerEditor : Editor
 {
 	public override void OnInspectorGUI()
 	{
-
+		base.OnInspectorGUI();
+		
 		PlayerFlightControl flightCC = (PlayerFlightControl)target;
 		
 		EditorGUILayout.Separator();

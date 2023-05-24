@@ -64,6 +64,12 @@ public class UIManager : MonoBehaviour
         else
         return true;
     }
+
+    [ContextMenu("DebugCursor")]
+    public void DebugCursor()
+    {
+        Debug.Log($"Lockstate {Cursor.lockState} visible {Cursor.visible}");
+    }
     public void LockCursor()
     {
         Cursor.lockState = CursorLockMode.Locked;

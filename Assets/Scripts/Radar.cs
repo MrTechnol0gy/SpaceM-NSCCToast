@@ -26,10 +26,12 @@ public class Radar : MonoBehaviour
         //This is a 100% screen container I have that I normally use for screen alerts and such, I just placed it under it.
         manager = root.Query("RadarContainer");
         
+        manager.pickingMode=  PickingMode.Ignore;
         //Creating the radar element.
         radarElement = new VisualElement();
         //I want the position to be absolute for it, and I'll place it in the bottom corner
         radarElement.style.position = new StyleEnum<Position>(Position.Absolute);
+        radarElement.pickingMode = PickingMode.Ignore;
         //Setting the size to be 360x360
         radarElement.style.minHeight = new StyleLength(size);
         radarElement.style.minWidth= radarElement.style.minHeight;

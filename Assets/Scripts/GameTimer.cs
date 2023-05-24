@@ -43,7 +43,7 @@ public class GameTimer : MonoBehaviour
     {
         if (Player.get.IsShieldActive())
         {
-            Player.get.shieldActive = false;
+            Player.get.DeactivateTheshield();
             //Debug.Log("Shield is inactive.");
             return;
         }

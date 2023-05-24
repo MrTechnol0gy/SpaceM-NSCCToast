@@ -10,20 +10,25 @@ public class Thruster : MonoBehaviour
     void Awake()
     {
         get = this;
+        thruster.Play();
     }
     public void StartThrust()
     {
         if (thruster != null)
         {
             //Debug.Log("Thruster is on.");
-            thruster.Play();
+            var em = thruster.emission;
+            em.enabled = true;
+           // thruster.Play();
         }
     }
     public void StopThrust()
     {
         if (thruster != null)
         {
-            thruster.Stop();
+            var em = thruster.emission;
+            em.enabled = false;
+            //thruster.Stop();
         }
     }
 }

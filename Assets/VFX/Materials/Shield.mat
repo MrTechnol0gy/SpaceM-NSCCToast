@@ -29,7 +29,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3001
+  m_CustomRenderQueue: 3003
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -107,6 +107,8 @@ Material:
     - _AlphaToMask: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
+    - _BobAmplitude: 0.033
+    - _BobSpeed: 2
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -124,7 +126,7 @@ Material:
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _QueueControl: 0
+    - _QueueControl: 1
     - _QueueOffset: 1
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
@@ -140,9 +142,9 @@ Material:
     - __dirty: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color0: {r: 0.38688147, g: 0.39290538, b: 0.509434, a: 0.40392157}
-    - _Color1: {r: 0, g: 1, b: 0.990005, a: 0.6745098}
+    - _Color: {r: 0, g: 0.45282984, b: 0.44750255, a: 1}
+    - _Color0: {r: 0.38688123, g: 0.39290512, b: 0.509434, a: 0.40392157}
+    - _Color1: {r: 0, g: 0.45283014, b: 0.44750267, a: 0.019607844}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
