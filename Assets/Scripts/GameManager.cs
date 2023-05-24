@@ -40,15 +40,22 @@ public class GameManager : MonoBehaviour
         {
             LoadInteger(); // Load the saved integer when the game starts
         }
-        if (SceneManager.GetActiveScene().name == "Workshop")
+        else if (SceneManager.GetActiveScene().name == "Workshop")
         {
             StartCoroutine(InitializeLevel());
         }
         else if (SceneManager.GetActiveScene().name == "Level Select")
         {
-            Debug.Log("On Start Total intel over time is " + TotalIntelCollectedOverTime);
-            UILevelSelect.SetProgressBar(totalIntelCollectedOverTime);
-            UILevelSelect.SetProgressBarHeight(totalIntelToCollect);
+            if (totalIntelCollectedOverTime < totalIntelToCollect)
+            {
+                Debug.Log("On Start Total intel over time is " + TotalIntelCollectedOverTime);
+                UILevelSelect.SetProgressBar(totalIntelCollectedOverTime);
+                UILevelSelect.SetProgressBarHeight(totalIntelToCollect);
+            }
+            else if (totalIntelCollectedOverTime >= totalIntelToCollect)
+            {
+                LoadVictoryScene();
+            }
         }
     }
 
@@ -141,5 +148,9 @@ public class GameManager : MonoBehaviour
     private void OnDestroy()
     {
         SaveInteger(); // Save the integer when the game object is destroyed or the game quits
+    }
+    public void LoadVictoryScene()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Victory");
     }
 }

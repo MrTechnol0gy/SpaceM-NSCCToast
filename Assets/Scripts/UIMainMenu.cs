@@ -10,7 +10,9 @@ public class UIMainMenu : MonoBehaviour
     UIDocument uiDocument;                  // reference to the UIDocument
     private VisualElement root;             // reference to the root visual element
     private VisualElement mainmenu;          // reference to the overlay screen visual element
-    public Button startButton, continueButton, quitButton;  // references buttons from the main menu screen
+    private VisualElement credits;
+    public Button startButton, resetButton, quitButton, creditsButton;  // references buttons from the main menu screen
+    private bool isCreditsActive = false;
     void Awake()
     {
         get = this;
@@ -19,10 +21,13 @@ public class UIMainMenu : MonoBehaviour
         mainmenu = root.Query<VisualElement>("ButtonMenu");
         startButton = root.Query<Button>("Start");
         startButton.clickable = new Clickable(StartGame);
-        continueButton = root.Query<Button>("Continue");
-        continueButton.clickable = new Clickable(Continue);
+        resetButton = root.Query<Button>("Reset");
+        resetButton.clickable = new Clickable(Reset);
         quitButton = root.Query<Button>("Quit");
         quitButton.clickable = new Clickable(QuitApplication);
+        creditsButton = root.Query<Button>("CreditsButton");
+        creditsButton.clickable = new Clickable(ShowCredits);
+        credits = root.Query<VisualElement>("Credits");
     }
 
     void Start()
@@ -33,35 +38,72 @@ public class UIMainMenu : MonoBehaviour
     public bool isShowingMenu() 
     {
         if (mainmenu.style.display.value == DisplayStyle.None) return false;
+        else if (credits.style.display.value == DisplayStyle.None) return false;
         return true;
     }
     [ContextMenu("ShowMainMenu")]
     public void ShowMainMenuScreen() 
     {
-        UIManager.get.UnlockCursor();
+        UIMainMenu.get.UnlockCursor();
         mainmenu.SetDisplayBasedOnBool(true);
     }
 
     [ContextMenu("HideMainMenu")]
     public void HideMainMenuScreen() {
         mainmenu.SetDisplayBasedOnBool(false);
-        UIManager.get.LockCursor();
+        UIMainMenu.get.LockCursor();
+    }
+    [ContextMenu("ShowCredits")]
+    public void ShowCreditsScreen() 
+    {
+        UIMainMenu.get.UnlockCursor();
+        credits.SetDisplayBasedOnBool(true);
+    }
+
+    [ContextMenu("HideCredits")]
+    public void HideCreditsScreen() {
+        credits.SetDisplayBasedOnBool(false);
+        UIMainMenu.get.LockCursor();
     }
     public void StartGame()
     {
-        //Debug.Log("Clicked Start.");
         UnityEngine.SceneManagement.SceneManager.LoadScene("Level Select");
     }
 
-    public void Continue()
+    public void Reset()
     {
-        Debug.Log("Clicked Continue.");
-        //UnityEngine.SceneManagement.SceneManager.LoadScene("Loading");
+        Debug.Log("Clicked Reset.");
+        GameManager.TotalIntelCollectedOverTime = 0;
     }
 
     public void QuitApplication()
     {
         //Debug.Log("Clicked Quit.");
         Application.Quit();
+    }
+    public void ShowCredits()
+    {
+        if (!isCreditsActive)
+        {
+            isCreditsActive = true;
+            HideMainMenuScreen();
+            ShowCreditsScreen();
+        }
+        else
+        {
+            isCreditsActive = false;
+            HideCreditsScreen();
+            ShowMainMenuScreen();
+        }
+    }
+    public void LockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+    public void UnlockCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }
