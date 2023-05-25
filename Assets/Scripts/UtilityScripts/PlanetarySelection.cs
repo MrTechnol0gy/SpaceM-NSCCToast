@@ -11,6 +11,7 @@ public class PlanetarySelection : MonoBehaviour
     private float anglePerRotation;
     private int currentSelection = 0;
     private bool isRotating = false;
+    private float localTotalIntelCollected;
 
     private void Awake()
     {
@@ -22,7 +23,19 @@ public class PlanetarySelection : MonoBehaviour
 
     private void SetPlanetName()
     {
-        UILevelSelect.SetPlanetName(prefabsList[currentSelection].name);
+        if (prefabsList[currentSelection].name == "Larus")
+        {
+            UILevelSelect.SetPlanetName(prefabsList[currentSelection].name);
+        }
+        else
+        {
+            UILevelSelect.SetPlanetName("Unavailable");
+        }
+    }
+    private float GetTotalIntel()
+    {
+        float amount = GameManager.TotalIntelCollectedOverTime;
+        return amount;
     }
     private void ModifyCurrentSelectionUp()
     {

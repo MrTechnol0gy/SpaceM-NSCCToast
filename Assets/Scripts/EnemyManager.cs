@@ -10,7 +10,8 @@ public class EnemyManager : MonoBehaviour
     public static List<GameObject> allEnvironmentThreats = new List<GameObject>();
     List<GameObject> agents = new List<GameObject>();
     List<GameObject> unplacedAgents = new List<GameObject>();
-
+    public GameObject anchor;
+    public float minDistanceFromSpawn = 25f;
 
     [Header("Enemy Prefabs")]
     [SerializeField] GameObject enemyForceProbe;
@@ -56,9 +57,16 @@ public class EnemyManager : MonoBehaviour
                 bool collisionFound = false;
                 foreach (Collider collider in colliders)
                 {
+                    float prefabToSpawnDistance = Vector3.Distance(position, anchor.transform.position);
+                    Debug.Log("distance to spawn is " + prefabToSpawnDistance);
                     if (spawnedPrefabs.Contains(collider.gameObject))
                     {
                         // A spawned object is already at this position
+                        collisionFound = true;
+                        break;
+                    }
+                    else if (prefabToSpawnDistance < minDistanceFromSpawn)
+                    {
                         collisionFound = true;
                         break;
                     }
