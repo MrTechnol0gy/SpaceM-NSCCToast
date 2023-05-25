@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.4137942, g: 0.30250534, b: 0.01733357, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -222,6 +222,8 @@ MonoBehaviour:
   pickupSpawnHeightFloor: 0.25
   pickupSpawnHeightCeiling: 15
   pickupRadius: 3
+  anchor: {fileID: 2111037906}
+  minDistanceFromSpawn: 100
 --- !u!4 &74414916
 Transform:
   m_ObjectHideFlags: 0
@@ -12838,6 +12840,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c73c23d3f3caf04ca584ff055987f67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anchor: {fileID: 2111037906}
+  minDistanceFromSpawn: 250
   enemyForceProbe: {fileID: 2687501931358593831, guid: 05a56353c030a10498776ec6faa34b2d,
     type: 3}
   elementalTornado: {fileID: 4647384076302959159, guid: 8a9ef20f43c191840bffe03a8002ff46,

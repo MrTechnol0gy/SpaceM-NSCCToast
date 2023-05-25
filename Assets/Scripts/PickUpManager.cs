@@ -17,7 +17,9 @@ public class PickUpManager : MonoBehaviour
     [SerializeField] float pickupSpawnHeightCeiling = 25f;
     [SerializeField] float pickupRadius = 3f;
     private float spawnRadius;
-
+    public GameObject anchor;
+    private float prefabToSpawnDistance;
+    public float minDistanceFromSpawn = 50f;
 
     void Awake()
     {
@@ -53,6 +55,13 @@ public class PickUpManager : MonoBehaviour
                     if (spawnedPrefabs.Contains(collider.gameObject))
                     {
                         // A spawned object is already at this position
+                        collisionFound = true;
+                        break;
+                    }
+                    prefabToSpawnDistance = Vector3.Distance(position, anchor.transform.position);
+                    //Debug.Log("Position is " + position);
+                    if (prefabToSpawnDistance < minDistanceFromSpawn)
+                    {
                         collisionFound = true;
                         break;
                     }

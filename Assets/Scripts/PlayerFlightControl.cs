@@ -72,8 +72,6 @@ public class PlayerFlightControl : MonoBehaviour
 		{
 			//When setting, set _tractorBeamActive to the new value and then update the UI with the new information
             _tractorBeamActive = value;
-			Debug.Log("Tractor beam is " + _tractorBeamActive);
-            UIManager.SetTractorBeamActive(_tractorBeamActive);
 		}
 	}
 	private bool _cloakActive = false;			// Whether the cloak is currently in use

@@ -18,7 +18,6 @@ public class UIManager : MonoBehaviour
     public Label timeoutText;               // references the timeout UI Label from the UIDocument
     public Label loadText;                  // reference the Loading screen text label from the UIDocument
     public Label leaveText;                 // reference to the leave by choice text label from the UIDocument
-    public Toggle tractorBeamToggle;        // references the Toggles from the UIDocument
     public Button levelSelectButton;        // references buttons from the timeout screen
     public Button stayButton, leaveButton;  // references buttons from the leave by choice screen
 
@@ -31,7 +30,6 @@ public class UIManager : MonoBehaviour
         winloseScreen = root.Query<VisualElement>("WinLoseScreen");
         missionTimerLabel = root.Query<Label>("MissionTimer");
         speedLabel = root.Query<Label>("Speed");
-        tractorBeamToggle = root.Query<Toggle>("TractorBeam");
         intelTotalRequiredLabel = root.Query<Label>("IntelTotalAmount");
         intelCurrentAmountLabel = root.Query<Label>("IntelCurrentAmount");
         timeoutText = root.Query<Label>("TImeoutText");
@@ -141,11 +139,6 @@ public class UIManager : MonoBehaviour
     public static void SetTime(string time)
     {
         get.missionTimerLabel.text = $"{time}";      // other scripts can set this using "UIManager.SetTime(time);"
-    }
-
-    public static void SetTractorBeamActive(bool active)
-    {
-        get.tractorBeamToggle.value = active;       // other scripts can set this using "UIManager.SetTractorBeamActive(bool);"
     }
 
     public static void SetIntelTotalRequired(int amount)
