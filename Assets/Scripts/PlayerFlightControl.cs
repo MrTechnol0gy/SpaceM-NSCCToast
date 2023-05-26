@@ -72,6 +72,7 @@ public class PlayerFlightControl : MonoBehaviour
 		{
 			//When setting, set _tractorBeamActive to the new value and then update the UI with the new information
             _tractorBeamActive = value;
+			AudioManager.get.PlayTractorBeam();
 		}
 	}
 	private bool _cloakActive = false;			// Whether the cloak is currently in use
@@ -84,10 +85,11 @@ public class PlayerFlightControl : MonoBehaviour
 			//When setting, set _cloakActive to the new value and then update the UI with the new information
 			if (_cloakActive != value) {
 				_cloakActive = value;
+				AudioManager.get.PlayCloakActive();
 				shipRenderer.DOKill();
 				shipRenderer.material.DOColor(_cloakActive ? new Color(0.3f, 0.3f, 0.3f, 0.4f) : Color.white, 1)
 					.SetEase(Ease.InOutQuad);
-				Debug.Log("Cloak is " + _cloakActive);
+				//Debug.Log("Cloak is " + _cloakActive);
 			}
 			//UIManager.SetCloakActive(_cloakActive);
 		}
@@ -321,6 +323,7 @@ public class PlayerFlightControl : MonoBehaviour
 		if (Input.GetMouseButtonDown(0) && canShoot) {
 			StartCoroutine(fireShot());
 			canShoot = false;
+			AudioManager.get.PlayDistractionProbe();
 		}
 		//Checks if the player has collided with anything 'above' the ship and moves it away to prevent sticking
 		PlayerIsBoinkedAbove = (Physics.Raycast(transform.position, transform.up, 1.5f, GameManager.get.environmentLayerMask, QueryTriggerInteraction.Ignore));

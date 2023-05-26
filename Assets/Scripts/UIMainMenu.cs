@@ -72,17 +72,20 @@ public class UIMainMenu : MonoBehaviour
 
     public void Reset()
     {
-        Debug.Log("Clicked Reset.");
+        //Debug.Log("Clicked Reset.");
+        AudioManager.get.PlayClick();
         GameManager.TotalIntelCollectedOverTime = 0;
     }
 
     public void QuitApplication()
     {
         //Debug.Log("Clicked Quit.");
+        AudioManager.get.PlayClick();
         Application.Quit();
     }
     public void ShowCredits()
     {
+        AudioManager.get.PlayClick();
         if (!isCreditsActive)
         {
             isCreditsActive = true;

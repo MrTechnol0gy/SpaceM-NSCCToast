@@ -162,12 +162,14 @@ public class UIManager : MonoBehaviour
     }
     public void LeaveByChoice()
     {
+        AudioManager.get.PlayClick();
         GameManager.get.UpdateTotalIntelOverTime();
         SceneManager.LoadScene("Level Select");
         HideLeaveByChoiceScreen();
     }
     public void StayAsChoice()
     {
+        AudioManager.get.PlayClick();
         LockCursor();
         HideLeaveByChoiceScreen();
     }
