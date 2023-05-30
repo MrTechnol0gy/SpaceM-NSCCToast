@@ -185,6 +185,79 @@ MonoBehaviour:
   sourceAsset: {fileID: 9197481963319205126, guid: 2bc08770c8b2dc447a3bce1523a8ad5d,
     type: 3}
   m_SortingOrder: 0
+--- !u!1001 &797028821
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4359002283823767380, guid: 15ba16f81f943ff48949db94144a6c0d,
+        type: 3}
+      propertyPath: m_Name
+      value: AudioManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746852362472318008, guid: 15ba16f81f943ff48949db94144a6c0d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746852362472318008, guid: 15ba16f81f943ff48949db94144a6c0d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746852362472318008, guid: 15ba16f81f943ff48949db94144a6c0d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746852362472318008, guid: 15ba16f81f943ff48949db94144a6c0d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746852362472318008, guid: 15ba16f81f943ff48949db94144a6c0d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746852362472318008, guid: 15ba16f81f943ff48949db94144a6c0d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746852362472318008, guid: 15ba16f81f943ff48949db94144a6c0d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746852362472318008, guid: 15ba16f81f943ff48949db94144a6c0d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746852362472318008, guid: 15ba16f81f943ff48949db94144a6c0d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746852362472318008, guid: 15ba16f81f943ff48949db94144a6c0d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746852362472318008, guid: 15ba16f81f943ff48949db94144a6c0d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 15ba16f81f943ff48949db94144a6c0d, type: 3}
 --- !u!1 &1008152965
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,6 +654,7 @@ MonoBehaviour:
   amountOfEnemies: 10
   amountOfEnvironmentalDangers: 10
   spawnRadius: 100
+  totalIntelToCollect: 20
 --- !u!4 &1946149741
 Transform:
   m_ObjectHideFlags: 0

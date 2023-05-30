@@ -73,21 +73,25 @@ public class UILevelSelect : MonoBehaviour
     }
     public void Next()
     {
+        AudioManager.get.PlayClick();
         PlanetarySelection.get.Rotate();
     }
 
     public void Previous()
     {
+        AudioManager.get.PlayClick();
         PlanetarySelection.get.ReverseRotate();
     }
 
     public void Select()
     {
+        AudioManager.get.PlayClick();
         SceneManager.LoadScene("Workshop");
     }
     public void MainMenu()
     {
         //Debug.Log("Clicked MainMenu.");
+        AudioManager.get.PlayClick();
         SceneManager.LoadScene("Main Menu");
     }
 }
